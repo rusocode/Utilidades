@@ -1,0 +1,32 @@
+; Aunque los archivos ini estan en desuso actualmente, es bueno saber como funcionan para tener una base de los origenes en 
+; la programacion de Argentum y asi poder tener una cierta "agilidad" para resolver problemas actuales. Hoy en dia se utilizan 
+; los archivos JSON para este tipo de datos (reemplacen :D).
+; 
+; Esto es un archivo ini (.dat en este caso) de prueba que contiene secciones (tambien denominadas claves), claves y valores.
+; Para evitar posibles errores en la lectura/escritura de los .dat y tener una mejor legibilidad, se deben cumplir ciertas reglas:
+; - Las secciones se declaran con todas sus letras en mayuscula y entre corchetes. *Esta situacion es solucionada automaticamente por la clase IniFile!
+; - La primera letra de la clave tiene que ser en mayuscula.
+; - La primera letra del valor tiene que ser en mayuscula.
+; 	
+;	Ejemplo:
+; 
+; 	[SECCION]
+; 	Clave=Valor
+;
+; Ordenar de manera ascendente las secciones para una mejor legibilidad del archivo, dejandole el camino facil a la coleccion HashMap :)
+;
+; IMPORTANTE: Las colecciones de tipo Map PROHIBEN claves duplicadas y cada una de dichas claves, solo puede tener asociado un valor como maximo.
+; Otra cosa... Si hay una seccion duplicada, la coleccion va a agregar la ultima que se creo e eliminar la duplicada anterior.
+
+[OBJ1]
+Name=Manzana roja
+Valor=10
+
+[OBJ2]
+Name=Espada
+MinHIT=1
+MaxHIT=8
+
+[OBJ3]
+Name=Cartel
+Mensaje=Bienvenidos a las tierras de Argentum.
