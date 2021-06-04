@@ -15,7 +15,10 @@ import java.util.Date;
 public class StringBuffer_ {
 
 	public static void main(String[] args) {
+		delete();
+	}
 
+	static void prueba() {
 		// Crea un buffer de cadena sin caracteres con una capacidad inicial de 1000 caracteres
 		StringBuffer sb = new StringBuffer(1000); // Por defecto se crean con una capacidad inicial de 16 caracteres
 
@@ -25,7 +28,7 @@ public class StringBuffer_ {
 		sb.append("estas");
 		sb.append("re");
 		sb.append("quemado");
-		
+
 		System.out.println(sb.hashCode());
 
 		// Aacepta objetos y tipos primitivos
@@ -33,7 +36,7 @@ public class StringBuffer_ {
 		sb.append(234 + "\n");
 		sb.append(new Date());
 		sb.append(false);
-		
+
 		System.out.println(sb.hashCode()); // El hashCode sigue siendo el mismo!
 
 		// Mas rapida
@@ -45,7 +48,23 @@ public class StringBuffer_ {
 
 		// Muestra la cadena completa
 		// System.out.println(sb.toString());
+	}
 
+	static void delete() {
+		StringBuffer sb = new StringBuffer();
+
+		sb.append("rulo");
+		sb.append("quemado");
+
+		/* Elimina los caracteres de una subcadena de esta secuencia. La subcadena comienza en el inicio especificado y se
+		 * extiende hasta el caracter al final del indice - 1 o al final de la secuencia si no existe tal caracter. Si el inicio
+		 * es igual al final, no se realizan cambios.
+		 * 
+		 * start - El indice inicial, incluido.
+		 * end - El indice final, exclusivo. */
+		sb.delete(4, sb.length());
+
+		System.out.println(sb.toString());
 	}
 
 }
