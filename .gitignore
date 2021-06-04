@@ -1,6 +1,6 @@
 # Eclipse
 .metadata
-# .settings/
+.settings/
 target/
 bin/
 .classpath
