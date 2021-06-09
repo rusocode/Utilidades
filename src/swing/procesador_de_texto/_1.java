@@ -138,14 +138,14 @@ class Lamina extends JPanel {
 
 				String fuente = area.getFont().getFontName();
 				int estilo = determinarEstilo(e, area.getFont().getStyle());
-				int tamaño = area.getFont().getSize();
+				int tamano = area.getFont().getSize();
 
-				if (rotulo == "Arial") area.setFont(new Font("Arial", estilo, tamaño));
-				if (rotulo == "Courier") area.setFont(new Font("Courier", estilo, tamaño));
-				if (rotulo == "Verdana") area.setFont(new Font("Verdana", estilo, tamaño));
+				if (rotulo == "Arial") area.setFont(new Font("Arial", estilo, tamano));
+				if (rotulo == "Courier") area.setFont(new Font("Courier", estilo, tamano));
+				if (rotulo == "Verdana") area.setFont(new Font("Verdana", estilo, tamano));
 
-				if (rotulo == "Negrita") area.setFont(new Font(fuente, estilo, tamaño));
-				if (rotulo == "Cursiva") area.setFont(new Font(fuente, estilo, tamaño));
+				if (rotulo == "Negrita") area.setFont(new Font(fuente, estilo, tamano));
+				if (rotulo == "Cursiva") area.setFont(new Font(fuente, estilo, tamano));
 
 				if (rotulo == "12") area.setFont(new Font(fuente, estilo, 12));
 				if (rotulo == "16") area.setFont(new Font(fuente, estilo, 16));
@@ -163,7 +163,7 @@ class Lamina extends JPanel {
 
 	private void configurarMenu2() {
 
-		String[] textoMenu = { "Fuente", "Estilo", "Tamaño" };
+		String[] textoMenu = { "Fuente", "Estilo", "Tamaï¿½o" };
 		JMenu[] menu = new JMenu[textoMenu.length];
 
 		String[][] textoItem = { { "Arial", "Courier", "Verdana" }, { "Negrita", "Cursiva" }, { "12", "16", "18", "20" } };
@@ -198,16 +198,16 @@ class Lamina extends JPanel {
 						String fuente = area.getFont().getFontName();
 						// Almacena el tipo de estilo que devuelve el metodo.
 						int estilo = determinarEstilo(e, area.getFont().getStyle());
-						int tamaño = area.getFont().getSize();
+						int tamano = area.getFont().getSize();
 
-						if (e.getSource() == item[0][0]) area.setFont(new Font("Arial", estilo, tamaño)); // Con getSource() se comparun objeto de
+						if (e.getSource() == item[0][0]) area.setFont(new Font("Arial", estilo, tamano)); // Con getSource() se comparun objeto de
 																											// tipo JMenuItem en la posicion [0][0]
 																											// ("Arial").
-						if (e.getActionCommand() == "Courier") area.setFont(new Font("Courier", estilo, tamaño));
-						if (e.getActionCommand() == "Verdana") area.setFont(new Font("Verdana", estilo, tamaño));
+						if (e.getActionCommand() == "Courier") area.setFont(new Font("Courier", estilo, tamano));
+						if (e.getActionCommand() == "Verdana") area.setFont(new Font("Verdana", estilo, tamano));
 
-						if (e.getActionCommand() == "Negrita") area.setFont(new Font(fuente, estilo, tamaño));
-						if (e.getActionCommand() == "Cursiva") area.setFont(new Font(fuente, estilo, tamaño));
+						if (e.getActionCommand() == "Negrita") area.setFont(new Font(fuente, estilo, tamano));
+						if (e.getActionCommand() == "Cursiva") area.setFont(new Font(fuente, estilo, tamano));
 
 						if (e.getActionCommand() == "12") area.setFont(new Font(fuente, estilo, 12));
 						if (e.getActionCommand() == "16") area.setFont(new Font(fuente, estilo, 16));
@@ -231,14 +231,14 @@ class Lamina extends JPanel {
 
 	private void configurarMenu3() {
 
-		JMenu fuente, estilo, tamaño;
+		JMenu fuente, estilo, tamano;
 		JMenuItem arial, courier, verdana, negrita, cursiva;
 
 		// Permite seleccionar varios checks a la vez.
 		JCheckBoxMenuItem negrita_check, cursiva_check;
 		// Solo se puede seleccionar un radio.
 		JRadioButtonMenuItem _12, _16, _18, _20;
-		ButtonGroup grupo_tamaño = new ButtonGroup();
+		ButtonGroup grupo_tamano = new ButtonGroup();
 
 		// Crea un menu emergente.
 		menu_emergente = new JPopupMenu();
@@ -257,15 +257,15 @@ class Lamina extends JPanel {
 		negrita.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
 		cursiva.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK));
 
-		tamaño = new JMenu("TamaÃ±o");
+		tamano = new JMenu("TamaÃ±o");
 		_12 = new JRadioButtonMenuItem("12");
 		_16 = new JRadioButtonMenuItem("16");
 		_18 = new JRadioButtonMenuItem("19");
 		_20 = new JRadioButtonMenuItem("20");
-		tamaño.add(_12);
-		tamaño.add(_16);
-		tamaño.add(_18);
-		tamaño.add(_20);
+		tamano.add(_12);
+		tamano.add(_16);
+		tamano.add(_18);
+		tamano.add(_20);
 
 		// AGREGA LOS OYENTES.
 		fuente.add(arial).addActionListener(new StyledEditorKit.FontFamilyAction("Fuente", "Arial"));
@@ -281,11 +281,11 @@ class Lamina extends JPanel {
 		menu_emergente.add(new JMenuItem("Negrita")).addActionListener(new StyledEditorKit.BoldAction());
 		menu_emergente.add(new JMenuItem("Cursiva")).addActionListener(new StyledEditorKit.ItalicAction());
 
-		tamaño.add(_12).addActionListener(new StyledEditorKit.FontSizeAction("TamaÃ±o", 12));
-		tamaño.add(_16).addActionListener(new StyledEditorKit.FontSizeAction("TamaÃ±o", 16));
-		tamaño.add(_18).addActionListener(new StyledEditorKit.FontSizeAction("TamaÃ±o", 18));
-		tamaño.add(_20).addActionListener(new StyledEditorKit.FontSizeAction("TamaÃ±o", 20));
-		barra_menu.add(tamaño);
+		tamano.add(_12).addActionListener(new StyledEditorKit.FontSizeAction("TamaÃ±o", 12));
+		tamano.add(_16).addActionListener(new StyledEditorKit.FontSizeAction("TamaÃ±o", 16));
+		tamano.add(_18).addActionListener(new StyledEditorKit.FontSizeAction("TamaÃ±o", 18));
+		tamano.add(_20).addActionListener(new StyledEditorKit.FontSizeAction("TamaÃ±o", 20));
+		barra_menu.add(tamano);
 
 	}
 

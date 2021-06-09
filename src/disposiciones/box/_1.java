@@ -18,8 +18,8 @@ public class _1 {
 
 class Marco extends JFrame {
 
-	private JLabel lblNombre, lblContraseña;
-	private JTextField txtNombre, txtContraseña;
+	private JLabel lblNombre, lblContrasena;
+	private JTextField txtNombre, txtContrasena;
 	private JButton btnOk, btnCancelar;
 
 	public Marco() {
@@ -57,12 +57,12 @@ class Marco extends JFrame {
 		cajaH1.add(Box.createHorizontalStrut(10)); // Crea una separacion con 10 pixeles de ancho entre los dos componentes.
 		cajaH1.add(txtNombre);
 
-		lblContraseña = new JLabel("ContraseÃ±a");
-		txtContraseña = new JTextField(10);
-		txtContraseña.setMaximumSize(txtContraseña.getPreferredSize());
-		cajaH2.add(lblContraseña);
+		lblContrasena = new JLabel("ContraseÃ±a");
+		txtContrasena = new JTextField(10);
+		txtContrasena.setMaximumSize(txtContrasena.getPreferredSize());
+		cajaH2.add(lblContrasena);
 		cajaH2.add(Box.createHorizontalStrut(10));
-		cajaH2.add(txtContraseña);
+		cajaH2.add(txtContrasena);
 
 		btnOk = new JButton("Ok");
 		btnCancelar = new JButton("Cancelar");

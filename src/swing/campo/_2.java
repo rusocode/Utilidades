@@ -45,12 +45,12 @@ class Marco2 extends JFrame {
 class Lamina2 extends JPanel {
 
 	private JLabel lblUsuario;
-	private JLabel lblConstraseña;
+	private JLabel lblConstrasena;
 	private JTextField txtUsuario;
-	private JPasswordField txtContraseña;
+	private JPasswordField txtContrasena;
 	private JButton btnEnviar;
 
-	private char[] contraseña;
+	private char[] contrasena;
 	private JPanel lamina2;
 
 	public Lamina2() {
@@ -61,10 +61,10 @@ class Lamina2 extends JPanel {
 		lamina2.setLayout(new GridLayout(2, 2));
 
 		lblUsuario = new JLabel("Usuario:");
-		lblConstraseña = new JLabel("Contraseña:");
+		lblConstrasena = new JLabel("Contraseï¿½a:");
 
 		txtUsuario = new JTextField(20);
-		txtContraseña = new JPasswordField(20);
+		txtContrasena = new JPasswordField(20);
 
 		btnEnviar = new JButton("Enviar");
 
@@ -75,13 +75,13 @@ class Lamina2 extends JPanel {
 		// DocumentListener oyente = new Oyente();
 		// doc.addDocumentListener(oyente);
 
-		txtContraseña.getDocument().addDocumentListener(new Oyente());
+		txtContrasena.getDocument().addDocumentListener(new Oyente());
 
 		// Las celdas del GridLayout se agregan de izquierda a derecha, haciendo referencia a la primera fila.
 		lamina2.add(lblUsuario);
 		lamina2.add(txtUsuario);
-		lamina2.add(lblConstraseña);
-		lamina2.add(txtContraseña);
+		lamina2.add(lblConstrasena);
+		lamina2.add(txtContrasena);
 
 		add(lamina2, BorderLayout.NORTH);
 		add(btnEnviar, BorderLayout.SOUTH);
@@ -98,18 +98,18 @@ class Lamina2 extends JPanel {
 			// Escribir syso y pulsar CTRL + ESPACIO.
 			// System.out.println("Inserto.");
 
-			contraseña = txtContraseña.getPassword();
+			contrasena = txtContrasena.getPassword();
 
-			if (contraseña.length < 8 || contraseña.length > 12) txtContraseña.setBackground(Color.RED);
-			else txtContraseña.setBackground(Color.WHITE);
+			if (contrasena.length < 8 || contrasena.length > 12) txtContrasena.setBackground(Color.RED);
+			else txtContrasena.setBackground(Color.WHITE);
 
 		}
 
 		public void removeUpdate(DocumentEvent e) {
-			contraseña = txtContraseña.getPassword();
+			contrasena = txtContrasena.getPassword();
 
-			if (contraseña.length < 8 || contraseña.length > 12) txtContraseña.setBackground(Color.RED);
-			else txtContraseña.setBackground(Color.WHITE);
+			if (contrasena.length < 8 || contrasena.length > 12) txtContrasena.setBackground(Color.RED);
+			else txtContrasena.setBackground(Color.WHITE);
 		}
 
 	}
