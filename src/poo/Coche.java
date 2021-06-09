@@ -3,7 +3,7 @@ package poo;
 public class Coche {
 
 	private int ruedas;
-	private int tamaño;
+	private int tamano;
 	private boolean esFeo;
 
 	/* El constructor es un metodo especial que tiene el mismo nombre de la clase, y que se encarga
@@ -13,7 +13,7 @@ public class Coche {
 	public Coche() {
 
 		ruedas = 4; // Atributo original o de clase
-		tamaño = 2000;
+		tamano = 2000;
 
 	}
 
@@ -32,17 +32,13 @@ public class Coche {
 	}
 
 	public void setEsFeo(String esFeo) {
-		if (esFeo == "si")
-			this.esFeo = true;
-		else
-			this.esFeo = false;
+		if (esFeo == "si") this.esFeo = true;
+		else this.esFeo = false;
 	}
 
 	public String getEsFeo() {
-		if (esFeo == true)
-			return "El auto es feo";
-		else
-			return "El auto no es feo";
+		if (esFeo == true) return "El auto es feo";
+		else return "El auto no es feo";
 	}
 
 }

@@ -15,7 +15,7 @@ import java.awt.event.ActionEvent;
 public class Principal extends JFrame {
 	private static final long serialVersionUID = 1L;
 
-	private JTabbedPane pestañas;
+	private JTabbedPane pestanas;
 	private JLabel lblVersion;
 	private JButton btnAcerca;
 	private int x;
@@ -57,12 +57,12 @@ public class Principal extends JFrame {
 
 	private void makeGUI() {
 
-		pestañas = new JTabbedPane(JTabbedPane.TOP);
-		pestañas.setBounds(10, 11, 285, 356);
-		pestañas.setFocusable(false);
-		pestañas.add("Nuevo", new Nuevo());
-		pestañas.add("Modificar", new Modificar());
-		getContentPane().add(pestañas);
+		pestanas = new JTabbedPane(JTabbedPane.TOP);
+		pestanas.setBounds(10, 11, 285, 356);
+		pestanas.setFocusable(false);
+		pestanas.add("Nuevo", new Nuevo());
+		pestanas.add("Modificar", new Modificar());
+		getContentPane().add(pestanas);
 
 		lblVersion = new JLabel("Version 1.5");
 		lblVersion.setBounds(10, 378, 74, 14);

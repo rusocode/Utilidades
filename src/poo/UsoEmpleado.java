@@ -11,7 +11,8 @@ public class UsoEmpleado {
 	public static void main(String[] args) {
 
 		// FORMA COMPLEJA
-		// Empleado empleado1 = new Empleado("Juan", 1500, 1990, 12, 17 /* Zona de argumentos */); // Respetar la posicion de los argumentos
+		// Empleado empleado1 = new Empleado("Juan", 1500, 1990, 12, 17 /* Zona de argumentos */); // Respetar la posicion de
+		// los argumentos
 		// Empleado empleado2 = new Empleado("Chipi", 55, 1995, 06, 02);
 		// Empleado empleado3 = new Empleado("Diego", 2, 2002, 03, 15);
 		//
@@ -58,7 +59,8 @@ public class UsoEmpleado {
 		for (Empleado empleado : empleados)
 			empleado.devuelveDatos();
 
-		// ERROR LOGICO: se corrigio encapsulando la variable "id" y creando una variable estatica "idSiguiente" para incrementarla desde su propia clase
+		// ERROR LOGICO: se corrigio encapsulando la variable "id" y creando una variable estatica "idSiguiente" para
+		// incrementarla desde su propia clase
 		// empleado.id++;
 
 	}
@@ -68,7 +70,8 @@ public class UsoEmpleado {
 class Empleado {
 
 	// Encapsulamiento
-	// private final String NOMBRE = "Juan"; // Constante: espacio en memoria en donde se alamacena un valor que no puede ser modificado durante la ejecucion del programa
+	// private final String NOMBRE = "Juan"; // Constante: espacio en memoria en donde se alamacena un valor que no puede
+	// ser modificado durante la ejecucion del programa
 	private String nombre;
 	private double sueldo; // Variable: espacio en memoria en donde se alamacena un valor que puede variar durante la ejecucion del programa
 	private Date altaContrato;// altaContrato no es un dato de tipo primitivo (int, double, etc.), es una variabale de tipo objeto (Date)
@@ -86,11 +89,11 @@ class Empleado {
 	}
 
 	// Constructor con 5 parametros
-	public Empleado(String nombre, double sueldo, int año, int mes, int dia) {
+	public Empleado(String nombre, double sueldo, int ano, int mes, int dia) {
 
 		this.nombre = nombre;
 		this.sueldo = sueldo;
-		GregorianCalendar calendario = new GregorianCalendar(año, mes - 1, dia);
+		GregorianCalendar calendario = new GregorianCalendar(ano, mes - 1, dia);
 		this.altaContrato = calendario.getTime();
 
 		// Inicializa una variable en el constructor
@@ -110,8 +113,7 @@ class Empleado {
 	}
 
 	public void devuelveDatos() {
-		System.out
-				.println("Nombre: " + nombre + " - Sueldo: " + sueldo + " - Fecha de alta: " + altaContrato + " - ID: " + id);
+		System.out.println("Nombre: " + nombre + " - Sueldo: " + sueldo + " - Fecha de alta: " + altaContrato + " - ID: " + id);
 	}
 
 	public int getId() {

@@ -4,16 +4,16 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * Una clase abstracta es la que MARCA EL DISEÑO EN LA JERARQUIA DE LA HERENCIA, porque todas aquellas clases que
+ * Una clase abstracta es la que MARCA EL DISEï¿½O EN LA JERARQUIA DE LA HERENCIA, porque todas aquellas clases que
  * hereden de "Persona", estan obligadas a sobreescribir/construir el metodo abstracto que esta heredando de "Persona".
- * Por lo cual, no es ni mas ni menos que un patron o pauta a la hora de diseñar la herencia entre las clases de tu
+ * Por lo cual, no es ni mas ni menos que un patron o pauta a la hora de diseï¿½ar la herencia entre las clases de tu
  * programa. Tambien quiere decir que esta clase (Persona) tiene POCA funcionalidad en principio, porque esta en la
  * parte mas alta de la jerarquia de nuestra herencia. A medida que subes por la jerarquia de la herencia, las clases
  * son mas abstractas y menos especializadas.
  * 
  * PREGUNTA: Si WindowAdapter es una clase abstracta, se supone que debe tener almenos un metodo abstracto para que esta
  * clase pueda ser abstracta, y se supone segun la regla que estamos obligados a sobreescribir el metodo abstracto, sin
- * embargo en la api no se encuentra ningun metodo abstracto. Entonces ¿Que hace que este clase sea abstracta?
+ * embargo en la api no se encuentra ningun metodo abstracto. Entonces ï¿½Que hace que este clase sea abstracta?
  * 
  * RESPUESTA: Las clases abstractas generalmente tienen o pueden tener metodos abstractos, pero NO necesariamente estan
  * obligadas a tenerlas (como en el caso de WindowAdapter).
@@ -64,12 +64,12 @@ class Empleado extends Persona {
 	private int id;
 	private static int idSiguiente = 1;
 
-	public Empleado(String nombre, double sueldo, int año, int mes, int dia) {
+	public Empleado(String nombre, double sueldo, int ano, int mes, int dia) {
 
 		super(nombre);
 
 		this.sueldo = sueldo;
-		GregorianCalendar calendario = new GregorianCalendar(año, mes - 1, dia);
+		GregorianCalendar calendario = new GregorianCalendar(ano, mes - 1, dia);
 		this.altaContrato = calendario.getTime();
 		id = idSiguiente++;
 	}

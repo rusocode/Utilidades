@@ -3,8 +3,7 @@ package herencia.polimorfismo;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-
-public class UsoEmpleado{
+public class UsoEmpleado {
 
 	public static void main(String[] args) {
 
@@ -59,10 +58,10 @@ class Empleado {
 	private int id;
 	private static int idSiguiente = 1;
 
-	public Empleado(String nombre, double sueldo, int año, int mes, int dia) {
+	public Empleado(String nombre, double sueldo, int ano, int mes, int dia) {
 		this.nombre = nombre;
 		this.sueldo = sueldo;
-		GregorianCalendar calendario = new GregorianCalendar(año, mes - 1, dia);
+		GregorianCalendar calendario = new GregorianCalendar(ano, mes - 1, dia);
 		this.altaContrato = calendario.getTime();
 		id = idSiguiente++;
 	}
@@ -80,13 +79,13 @@ class Empleado {
 	}
 
 	public void aumentarSueldo(double porcentaje) {
-		
-		sueldo += sueldo * porcentaje / 100;	
+
+		sueldo += sueldo * porcentaje / 100;
 	}
 
 	public void mostrarDatos() {
-		System.out.println("ID: " + id + " - Nombre: " + this.getNombre() + " - Sueldo: " + this
-				.getSueldo() + "$ - Alta de contrato: " + this.getAltaContrato());
+		System.out.println("ID: " + id + " - Nombre: " + this.getNombre() + " - Sueldo: " + this.getSueldo() + "$ - Alta de contrato: "
+				+ this.getAltaContrato());
 	}
 
 }
@@ -95,8 +94,8 @@ class Empleado {
 class Jefatura extends Empleado {
 	private double incentivo;
 
-	public Jefatura(String nombre, double sueldo, int año, int mes, int dia) {
-		super(nombre, sueldo, año, mes, dia);
+	public Jefatura(String nombre, double sueldo, int ano, int mes, int dia) {
+		super(nombre, sueldo, ano, mes, dia);
 	}
 
 	public void setIncentivo(double incentivo) {
