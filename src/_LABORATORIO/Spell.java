@@ -49,6 +49,16 @@ public class Spell {
 
 		} else if (direction == 2) {
 
+			if (i == spells.length) {
+				System.out.println("No puedes mover el hechizo en esa direccion.");
+				return;
+			}
+
+			int spell = getSpell(i);
+
+			setSpell(i, getSpell(i + 1));
+			setSpell(i + 1, spell);
+
 		}
 	}
 
@@ -64,7 +74,8 @@ public class Spell {
 		System.out.println(spell.toString());
 
 		// Mueve el hechizo DARDO una posicion arriba
-		spell.moveSpell(DARDO, ARRIBA);
+		// spell.moveSpell(DARDO, ARRIBA);
+		spell.moveSpell(AGILIDAD, ABAJO);
 
 		System.out.println(spell.toString());
 
