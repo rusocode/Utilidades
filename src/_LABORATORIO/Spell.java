@@ -33,6 +33,13 @@ public class Spell {
 	public void moveSpell(int i, int direction) {
 		if (direction == 1) {
 
+			/* En caso de que se quiera mover hacia arriba el hechizo del indice 1, se evitaria con el siguiente if para que no
+			 * lanze un ArrayIndexOutOfBoundsException, ya que estaria accediendo a la posicion inexistente -1 del array. */
+			if (i == 1) {
+				System.out.println("No puedes mover el hechizo en esa direccion.");
+				return;
+			}
+
 			int spell = getSpell(i); // DARDO
 
 			// Intercambio de posicion
@@ -57,7 +64,7 @@ public class Spell {
 		System.out.println(spell.toString());
 
 		// Mueve el hechizo DARDO una posicion arriba
-		spell.moveSpell(DARDO, ARRIBA);
+		spell.moveSpell(AGILIDAD, ARRIBA);
 
 		System.out.println(spell.toString());
 
