@@ -14,7 +14,7 @@ public class Spell {
 
 	private int[] spells = new int[4];
 
-	public void addSpell() {
+	public Spell() {
 		spells[0] = AGILIDAD; // 1
 		spells[1] = PARALIZAR; // 2
 		spells[2] = FURIA; // 3
@@ -33,16 +33,15 @@ public class Spell {
 	public void moveSpell(int i, int direction) {
 		if (direction == 1) {
 
-			/* En caso de que se quiera mover hacia arriba el hechizo del indice 1, se evitaria con el siguiente if para que no
+			/* En caso de que se quiera mover el hechizo del indice 1 hacia arriba, se evitaria con el siguiente if para que no
 			 * lanze un ArrayIndexOutOfBoundsException, ya que estaria accediendo a la posicion inexistente -1 del array. */
 			if (i == 1) {
 				System.out.println("No puedes mover el hechizo en esa direccion.");
 				return;
 			}
 
-			int spell = getSpell(i); // DARDO
+			int spell = getSpell(i);
 
-			// Intercambio de posicion
 			// Establece en el indice 3 el hechizo FURIA
 			setSpell(i, getSpell(i - 1));
 			// Establece en el indice 2 el hechizo DARDO
@@ -59,12 +58,13 @@ public class Spell {
 	}
 
 	public static void main(String[] args) {
+
 		Spell spell = new Spell();
-		spell.addSpell();
+
 		System.out.println(spell.toString());
 
 		// Mueve el hechizo DARDO una posicion arriba
-		spell.moveSpell(AGILIDAD, ARRIBA);
+		spell.moveSpell(DARDO, ARRIBA);
 
 		System.out.println(spell.toString());
 
