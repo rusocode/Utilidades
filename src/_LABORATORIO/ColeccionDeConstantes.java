@@ -21,15 +21,19 @@ public final class ColeccionDeConstantes {
 	}
 
 	/**
-	 * Es buena practica declarar matrices de bytes para la asignacion de valores chicos, ya que los tipos mas pequeños
+	 * Es buena practica declarar matrices de bytes para la asignacion de valores chicos, ya que los tipos mas pequeÃ±os
 	 * (byte y short) basicamente solo estan destinados a matrices. Una matriz como new byte[1000] tomara 1000 bytes, y una
 	 * matriz como new int[1000] tomara 4000 bytes. byte y short ocupan el mismo espacio que int si fueran variables
-	 * locales, variables de clase o incluso variables de instancia. ¿Por que? Porque en (la mayoria) de los sistemas
+	 * locales, variables de clase o incluso variables de instancia. Â¿Por que? Porque en (la mayoria) los sistemas
 	 * informaticos, las direcciones de las variables estan alineadas, por lo que, por ejemplo, si usa un solo byte, en
 	 * realidad terminara con dos bytes, uno para la variable en si y otro para el relleno.
 	 * 
 	 * De nada :)
+	 * https://stackoverflow.com/questions/14531235/in-java-is-it-more-efficient-to-use-byte-or-short-instead-of-int-and-float-inst/14532302#14532302
 	 * https://stackoverflow.com/questions/27122610/why-does-the-java-api-use-int-instead-of-short-or-byte
+	 *
+	 * Si nos fijamos en la constantes de las famosas clases GL11 (lwjgl) y Calendar (API Java), todas estan declaradas como
+	 * int.
 	 */
 	public static final byte[] MODIFICADOR_FUERZA = { 1, 2, 3 };
 
