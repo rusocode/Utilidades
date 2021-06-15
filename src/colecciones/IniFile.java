@@ -326,8 +326,14 @@ public class IniFile {
 	public int getInt(String seccion, String clave) {
 		seccion = seccion.toUpperCase();
 		String valor = null;
+
 		if (isValidKey(seccion, clave)) valor = coleccion.get(seccion).get(clave).trim();
-		return !valor.isEmpty() ? Integer.parseInt(valor) : 0;
+		else {
+			System.out.println("Parametros incorrectos!");
+			return 0;  
+		}
+
+		return Integer.parseInt(valor);
 	}
 
 	public long getLong(String seccion, String clave) {
@@ -360,7 +366,7 @@ public class IniFile {
 
 		// Carga (en la coleccion) y lee el archivo Prueba.dat
 		IniFile iniPrueba = new IniFile(DATDIR + SEPARADOR + "Prueba.dat");
-		System.out.println(iniPrueba.getString("OBJ3", "Mensaje"));
+		System.out.println(iniPrueba.getInt("OBJ1", "Valor"));
 
 		// for (int i = 1; i <= iniPrueba.coleccion.size(); i++)
 		// System.out.println(iniPrueba.getString("OBJ" + i, "Name", "default"));
