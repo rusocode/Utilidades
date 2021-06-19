@@ -4,7 +4,7 @@ package _LABORATORIO;
 // https://stackoverflow.com/questions/6828362/difference-between-string-isempty-and-string-equals/6828386
 public class ComparacionDeCadenas {
 
-	private static String str = "asd";
+	private static String str;
 
 	public static void main(String[] args) {
 		System.out.println("valor de srt = " + str);
@@ -27,10 +27,10 @@ public class ComparacionDeCadenas {
 	static void prueba2() {
 
 		/* isEmpty() compara la variable de conteo con 0, mientras que equals verificara el tipo, la longitud de la cadena y
-		 * luego iterara sobre la cadena para comparar si los tamaños coinciden.
+		 * luego iterara sobre la cadena para comparar si los tamaï¿½os coinciden.
 		 * 
 		 * isEmpty() en realidad hara mucho menos! y eso es bueno. */
-		System.out.println("str.isEmpty() = " + str.isEmpty());
+		System.out.println("str.isEmpty() = " + str != null && !str.isEmpty());
 	}
 
 }

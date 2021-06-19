@@ -13,8 +13,7 @@ import static _LABORATORIO.ColeccionDeConstantes.*;
  * Clase para leer y escribir archivos ini y jar.
  * 
  * https://es.wikipedia.org/wiki/INI_(extensi%C3%B3n_de_archivo)
- *
- * @author Ru$o
+ * 
  */
 
 public class IniFile {
@@ -22,8 +21,8 @@ public class IniFile {
 	/* A tener en cuenta...
 	 * Si el orden no importa, entonces usamos una coleccion de tipo HashMap para manipular los datos del archivo.
 	 * Si el orden importa:
-	 * ¿Ordenacion? TreeMap (la mas lenta)
-	 * ¿Insercion? LinkedHashMap */
+	 * Ordenacion? TreeMap (la mas lenta)
+	 * Insercion? LinkedHashMap */
 	private HashMap<String, HashMap<String, String>> coleccion = new HashMap<String, HashMap<String, String>>();
 
 	private String filename;
@@ -293,58 +292,67 @@ public class IniFile {
 
 	/**
 	 * Devuelve el valor String de la seccion/clave.
-	 * El valor por defecto es "".
+	 * El valor por defecto es "Vacio".
 	 * 
-	 * Este metodo supone que la seccion/clave existen en el archivo. Por eso es IMPORTANTE (por ahora)
-	 * pasar bien los parametros, ya que saltaria un NPE.
-	 * FIXME Crear un metodo para comprobar los parametros.
-	 * FIXME Agregar dafaultValor a la coleccion.
 	 * FIXME Crear metodo generico para que reciba cualquier tipo de valor.
+	 * FIXME Para que mierda quiero pasarle un valor por defecto? Es necesario? El nombre se pone en el .dat!
 	 * 
 	 * @param seccion      - El nombre de la seccion en el archivo.
 	 * @param clave        - El nombre de la clave en el archivo.
 	 * @param defaultValue - El valor por defecto si la clave no tiene ningun valor.
-	 * @return El valor de la seccion/clave.
+	 * @return El valor de la seccion/clave o "Vacio" en caso de que no contenga ningun valor.
 	 */
-	public String getString(String seccion, String clave, String defaultValor) {
+	public String getString(String seccion, String clave/* , String defaultValor */) {
 
 		// Convierte a mayusculas el nombre de la seccion
 		seccion = seccion.toUpperCase();
 		String valor = null;
 
-		/* Si la coleccion contiene la seccion especificada, entonces se asigna a valor el valor devuelto
-		 * de la seccion/clave. En caso de que el valor contenga espacios al final de la cadena, los elimina. */
-		if (coleccion.containsKey(seccion)) valor = coleccion.get(seccion).get(clave).trim();
-		// Esto podria tomarse como una solucion a los NPE
-		/* else {
-		 * Log.getLogger().warning("Parametros incorectos!");
-		 * return defaultValor;
-		 * } */
+		/* Asigna el valor devuelto de la seccion/clave y en caso de que el valor contenga espacios al final de la cadena, los
+		 * elimina. */
+		if (isValidKey(seccion, clave)) valor = coleccion.get(seccion).get(clave).trim();
+		else {
+			System.out.println("Parametros incorrectos!");
+			return null;
+		}
 
-		// Si el valor esta vacio, devuelve defaultValor
-		return !valor.isEmpty() ? valor : defaultValor;
+		/* En este punto ya sabe que la variable "valor" tiene un valor asignado, por lo tanto soluciona el problema del NPE en
+		 * caso de que los parametros de seccion/clave pasados sean incorrectos y el valor termine siendo nulo.
+		 * Si el valor es vacio, entonces devuelve "Vacio". */
+		return !valor.isEmpty() ? valor : "Vacio";
 
 	}
 
-	public int getInt(String seccion, String clave, int defaultValor) {
+	public int getInt(String seccion, String clave) {
 		seccion = seccion.toUpperCase();
 		String valor = null;
-		if (coleccion.containsKey(seccion)) valor = coleccion.get(seccion).get(clave).trim();
-		return !valor.isEmpty() ? Integer.parseInt(valor) : defaultValor;
+
+		if (isValidKey(seccion, clave)) valor = coleccion.get(seccion).get(clave).trim();
+		else {
+			System.out.println("Parametros incorrectos!");
+			return 0;  
+		}
+
+		return Integer.parseInt(valor);
 	}
 
-	public long getLong(String seccion, String clave, long defaultValor) {
+	public long getLong(String seccion, String clave) {
 		seccion = seccion.toUpperCase();
 		String valor = null;
-		if (coleccion.containsKey(seccion)) valor = coleccion.get(seccion).get(clave).trim();
-		return !valor.isEmpty() ? Long.parseLong(valor) : defaultValor;
+		if (isValidKey(seccion, clave)) valor = coleccion.get(seccion).get(clave).trim();
+		return !valor.isEmpty() ? Long.parseLong(valor) : 0L;
 	}
 
-	public double getDouble(String seccion, String clave, double defaultValor) {
+	public double getDouble(String seccion, String clave) {
 		seccion = seccion.toUpperCase();
 		String valor = null;
-		if (coleccion.containsKey(seccion)) valor = coleccion.get(seccion).get(clave).trim();
-		return !valor.isEmpty() ? Double.parseDouble(valor) : defaultValor;
+		if (isValidKey(seccion, clave)) valor = coleccion.get(seccion).get(clave).trim();
+		return !valor.isEmpty() ? Double.parseDouble(valor) : 0D;
+	}
+
+	// Comprueba si la coleccion contiene la seccion y la clave especificada, evitando un NPE
+	private boolean isValidKey(String seccion, String clave) {
+		return coleccion.containsKey(seccion) && coleccion.get(seccion).containsKey(clave);
 	}
 
 	public static void main(String args[]) {
@@ -357,8 +365,8 @@ public class IniFile {
 		// iniMotd.store(DATDIR + SEPARADOR + "Motd.ini");
 
 		// Carga (en la coleccion) y lee el archivo Prueba.dat
-		// IniFile iniPrueba = new IniFile(DATDIR + SEPARADOR + "Prueba.dat");
-		// System.out.println(iniPrueba.getInt("OBJ1", "Valor", 0));
+		IniFile iniPrueba = new IniFile(DATDIR + SEPARADOR + "Prueba.dat");
+		System.out.println(iniPrueba.getInt("OBJ1", "Valor"));
 
 		// for (int i = 1; i <= iniPrueba.coleccion.size(); i++)
 		// System.out.println(iniPrueba.getString("OBJ" + i, "Name", "default"));
