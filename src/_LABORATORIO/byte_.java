@@ -2,16 +2,16 @@ package _LABORATORIO;
 
 /**
  * 
- * En java, es mas eficiente usar byte o short en lugar de int y float en lugar de double?
+ * En java, �es mas eficiente usar byte o short en lugar de int y float en lugar de double?
  * https://stackoverflow.com/questions/14531235/in-java-is-it-more-efficient-to-use-byte-or-short-instead-of-int-and-float-inst
  * 
  * 
- * Por que la API de Java usa int en lugar de short o byte? *ALTA EXPLICACION!!
+ * �Por que la API de Java usa int en lugar de short o byte? *ALTA EXPLICACION!!
  * https://stackoverflow.com/questions/27122610/why-does-the-java-api-use-int-instead-of-short-or-byte
  * 
- * Por que la API de Java usa int en lugar de short o byte?
+ * �Por que la API de Java usa int en lugar de short o byte?
  * "...(Casi) todas las operaciones en bytes/short promoveran estas primitivas a int"
- * POR QUE se promueve a estos tipos int?
+ * �POR QUE se promueve a estos tipos int?
  * Entonces, para ir un nivel mas profundo: la respuesta puede estar simplemente relacionada con el conjunto de
  * instrucciones de la maquina virtual Java. Como se resume en la Tabla en la Especificacion de la maquina virtual de
  * Java, todas las operaciones aritmeticas integrales, como sumar, dividir y otras, solo estan disponibles para el tipo
