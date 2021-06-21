@@ -14,7 +14,7 @@ import java.util.Date;
  * el grupo de cadenas (Heap > Java String Pool). Si usamos el operador new para crear una cadena, se crea en la memoria
  * del monton (Heap).
  * 
- * ¿Cuando usarla?
+ * Â¿Cuando usarla?
  * Si la cadena no va a ser modificada.
  * 
  * - Clase del paquete java.lang, no hace falta importarla!
@@ -40,7 +40,7 @@ public class String_ {
 		 * 
 		 * Antes que nada: '==' compara primitivos, 'equals()' compara objetos.
 		 * 
-		 * En Java solo los tipos primitivos (Descritos en el JLS (§4.2), por ejemplo int o char) se comparan con ==, los
+		 * En Java solo los tipos primitivos (Descritos en el JLS (ï¿½4.2), por ejemplo int o char) se comparan con ==, los
 		 * Strings (y los demas objetos) en Java se comparan entre ellos con el metodo equals.
 		 * 
 		 * Si bien puede utilizarse == para comparar referencias de tipo String, una prueba de igualdad determina si los dos
