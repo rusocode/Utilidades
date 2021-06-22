@@ -24,8 +24,7 @@ public class FlujoDeBytes {
 	private InputStream input;
 	private OutputStream output;
 
-	private static final String S = File.separator;
-	private static final String TEXT_FILE_PATH = "texts" + S;
+	private static final String TEXT_FILE_PATH = "texts" + File.separator;
 	private static final String TEXT_FILE_NAME = "Texto.txt";
 
 	private void read(final String file) {
