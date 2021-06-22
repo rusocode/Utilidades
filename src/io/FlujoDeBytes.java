@@ -1,79 +1,98 @@
 package io;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+
+/**
+ * Para los archivos binarios se usan las clases abstractas InputStream y OutputStram que leen/escriben flujos de
+ * bytes.
+ * 
+ * @author Juan Debenedetti aka Ru$o
+ * 
+ */
 
 public class FlujoDeBytes {
 
-	/* Para los archivos binarios se usan las clases abstractas InputStream y OutputStram para leer/escribir flujos de
-	 * bytes. */
+	private FileInputStream input;
+	private FileOutputStream output;
 
-	private static final String RUTA = "archivos/imagen.png";
+	private final String s = File.separator;
+	private final String FILEPATH = "archivos" + s;
+	private final String FILENAME = "Texto.txt";
 
 	public static void main(String[] args) {
-		leer();
+		FlujoDeBytes flujo = new FlujoDeBytes();
+		flujo.read();
+
 	}
 
-	static void leer() {
+	private void read() {
 
-		int[] bytes = null;
-		int byte_entrada, i = 0;
+		int byte_entrada = -1;
 
 		try {
 
-			// Clase que lee una imagen byte por byte
-			FileInputStream archivo = new FileInputStream(RUTA);
+			input = new FileInputStream("/utilidades/src/io/archivos/Texto.txt"); // FILEPATH + FILENAME
 
-			/* Api de Java: Un InputStreamReader es un puente entre flujos de bytes y flujos de caracteres: lee bytes y los
-			 * decodifica en caracteres utilizando un juego de caracteres especifico.
-			 * 
-			 * StackOverflow: Se usan especificamente para tratar con caracteres (por lo tanto, cadenas), por lo que manejan
-			 * codificaciones de juegos de caracteres (utf8, iso-8859-1, etc.) con elegancia.
-			 * 
-			 * En conclusion, si esta leyendo un archivo que esta codificado en una codificacion de caracteres que no sea la
-			 * codificacion char predeterminada del host, entonces debe usar InputStreamReader. La diferencia entre InputStream y
-			 * InputStreamReader es que InputStream lee como byte, mientras que InputStreamReader se lee como char. Por ejemplo, si
-			 * el texto de un archivo es abc, ambos funcionan bien. Pero si el texto esta a compuesto por un a y dos
-			 * caracteres chinos, entonces InputStream no funciona. */
-			InputStreamReader charset = new InputStreamReader(archivo);
+			System.out.println("Nombre del archivo: " + FILENAME);
 
-			bytes = new int[(int) archivo.getChannel().size()];
+			// Devuelve el tamaño actual del archivo de este canal
+			System.out.println("Tamaño: " + (int) input.getChannel().size() + " bytes"); // Cada caracter pesa 1 byte
 
+			System.out.print("Texto: ");
 			// En cada vuelta del while lee un byte o -1 si se ha alcanzado el final de la secuencia
-			while ((byte_entrada = charset.read()) != -1) {
-				bytes[i] = byte_entrada; // Almacena el byte en la posicion i del arreglo de bytes
-				System.out.println(byte_entrada); // (char) para ver los caracteres del byte
-				i++;
-			}
+			while ((byte_entrada = input.read()) != -1)
+				System.out.print((char) byte_entrada);
 
-			System.out.println("Tamaño de la imagen en bytes: " + i + " B\n" + "Tamaño de la imagen en Kilobytes: " + (i / 1024) + " KB");
-
-			archivo.close();
-
+		} catch (FileNotFoundException e) {
+			System.err.println("El archivo no existe!");
 		} catch (IOException e) {
-			System.err.println("Error de I/O: " + e.getMessage());
+			System.err.println("Error de I/O!");
+		} finally {
+			try {
+				if (input != null) input.close();
+			} catch (IOException e) {
+				System.err.println("No se pudo cerrar el flujo de entrada!");
+			}
 		}
 
-		escribir(bytes);
 	}
 
-	static void escribir(int datos[]) {
+	private void write(String texto) {
+
+		// int datos[] ?
+		char[] caracteres = texto.toCharArray();
 
 		try {
 
-			FileOutputStream salida = new FileOutputStream("C:/Users/juand/Downloads/Fondos/Casa2.jpg");
+			output = new FileOutputStream("C:" + s + "Users" + s + "juand" + s + "Desktop" + s + FILENAME);
 
-			for (int i = 0; i < datos.length; i++)
-				salida.write(datos[i]);
+			System.out.println("Nombre del archivo: " + FILENAME);
 
-			salida.close();
+			System.out.println("Se escribio: " + texto);
 
+			for (int i = 0; i < caracteres.length; i++)
+				output.write(caracteres[i]);
+
+			// Devuelve el tamaño actual del archivo de este canal
+			System.out.println("Tamaño: " + (int) output.getChannel().size() + " bytes"); // Cada caracter pesa 1 byte
+
+		} catch (FileNotFoundException e) {
+			System.err.println("El archivo no existe!");
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.err.println("Error de I/O!");
+		} finally {
+			try {
+				if (input != null) input.close();
+			} catch (IOException e) {
+				System.err.println("No se pudo cerrar el flujo de entrada!");
+			}
 		}
-
 	}
 
 }
