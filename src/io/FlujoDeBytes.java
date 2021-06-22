@@ -5,12 +5,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
 
 /**
- * Para los archivos binarios se usan las clases abstractas InputStream y OutputStram que leen/escriben flujos de
+ * Para los archivos binarios se usan las clases abstractas InputStream y OutputStram que leen y escriben flujos de
  * bytes.
+ * 
+ * https://mkyong.com/java/java-read-a-file-from-resources-folder/
  * 
  * @author Juan Debenedetti aka Ru$o
  * 
@@ -18,35 +21,27 @@ import java.io.UnsupportedEncodingException;
 
 public class FlujoDeBytes {
 
-	private FileInputStream input;
-	private FileOutputStream output;
+	private InputStream input;
+	private OutputStream output;
 
-	private final String s = File.separator;
-	private final String FILEPATH = "archivos" + s;
-	private final String FILENAME = "Texto.txt";
+	private static final String S = File.separator;
+	private static final String TEXT_FILE_PATH = "texts" + S;
+	private static final String TEXT_FILE_NAME = "Texto.txt";
 
-	public static void main(String[] args) {
-		FlujoDeBytes flujo = new FlujoDeBytes();
-		flujo.read();
-
-	}
-
-	private void read() {
+	private void read(final String file) {
 
 		int byte_entrada = -1;
 
 		try {
 
-			input = new FileInputStream("/utilidades/src/io/archivos/Texto.txt"); // FILEPATH + FILENAME
+			// Desde el cargador de clases se devuelve el recurso especificado como un flujo de datos
+			input = getClass().getClassLoader().getResourceAsStream(TEXT_FILE_PATH + file);
 
-			System.out.println("Nombre del archivo: " + FILENAME);
-
-			// Devuelve el tamaño actual del archivo de este canal
-			System.out.println("Tamaño: " + (int) input.getChannel().size() + " bytes"); // Cada caracter pesa 1 byte
-
+			System.out.println("Nombre del archivo: " + file);
+			System.out.println("Tamaño: " + input.available() + " bytes");
 			System.out.print("Texto: ");
 			// En cada vuelta del while lee un byte o -1 si se ha alcanzado el final de la secuencia
-			while ((byte_entrada = input.read()) != -1)
+			while ((byte_entrada = input.read()) != -1) // Cada caracter del alfabeto ASCII pesa 1 byte
 				System.out.print((char) byte_entrada);
 
 		} catch (FileNotFoundException e) {
@@ -63,24 +58,20 @@ public class FlujoDeBytes {
 
 	}
 
-	private void write(String texto) {
+	private void write(final String file, String texto) {
 
-		// int datos[] ?
 		char[] caracteres = texto.toCharArray();
 
 		try {
 
-			output = new FileOutputStream("C:" + s + "Users" + s + "juand" + s + "Desktop" + s + FILENAME);
+			URL url = getClass().getClassLoader().getResource(TEXT_FILE_PATH + file);
 
-			System.out.println("Nombre del archivo: " + FILENAME);
+			output = new FileOutputStream(url.getFile());
 
-			System.out.println("Se escribio: " + texto);
+			System.out.println("Nombre del archivo: " + file);
 
 			for (int i = 0; i < caracteres.length; i++)
 				output.write(caracteres[i]);
-
-			// Devuelve el tamaño actual del archivo de este canal
-			System.out.println("Tamaño: " + (int) output.getChannel().size() + " bytes"); // Cada caracter pesa 1 byte
 
 		} catch (FileNotFoundException e) {
 			System.err.println("El archivo no existe!");
@@ -88,11 +79,17 @@ public class FlujoDeBytes {
 			System.err.println("Error de I/O!");
 		} finally {
 			try {
-				if (input != null) input.close();
+				if (output != null) output.close();
 			} catch (IOException e) {
-				System.err.println("No se pudo cerrar el flujo de entrada!");
+				System.err.println("No se pudo cerrar el flujo de salida!");
 			}
 		}
+	}
+
+	public static void main(String[] args) {
+		FlujoDeBytes flujo = new FlujoDeBytes();
+		// flujo.read(TEXT_FILE_NAME);
+		flujo.write(TEXT_FILE_NAME, "Rulo quemado");
 	}
 
 }

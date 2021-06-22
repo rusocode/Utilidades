@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -31,7 +32,8 @@ public class VentanaConIcono extends JFrame {
 
 		// Ubicacion de la imagen
 		// Carga un recurso externo
-		imageURL = getClass().getClassLoader().getResource("torre32.png"); // 32x32 parace ser el tamaño justo para todos los contextos
+		/* 32x32 parace ser el tamaï¿½o justo para todos los contextos */
+		imageURL = getClass().getClassLoader().getResource("textures" + File.separator + "sub" + File.separator + "torre32.png");
 
 		// REFLEXION
 		// getClass().getClassLoader() = VentanaConIcono.class
@@ -50,7 +52,7 @@ public class VentanaConIcono extends JFrame {
 		// setIconImage((new ImageIcon(getClass().getClassLoader().getResource("img/logo0.png"))).getImage());
 		// setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaConIcono.class.getResource("/img/bola.png")));
 
-		// Informacion sobre los distintos tamaños de iconos de marco
+		// Informacion sobre los distintos tamaï¿½os de iconos de marco
 		// https://stackoverflow.com/questions/18224184/sizes-of-frame-icons-used-in-swing
 		// https://stackoverflow.com/questions/15247653/which-icon-sizes-to-use-with-a-jframes-seticonimages-method
 
