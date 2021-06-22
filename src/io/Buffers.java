@@ -1,4 +1,4 @@
-package streams;
+package io;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -13,7 +13,7 @@ public class Buffers {
 
 	/* FileOuputStream, FileInputStream, FileWriter y FileReader se utilizan para escribir o leer datos en memoria.
 	 * 
-	 * BufferedOutputStream, BufferedInputStream, BufferedWriter y BufferedReader, añaden un buffer intermedio encargado
+	 * BufferedOutputStream, BufferedInputStream, BufferedWriter y BufferedReader, aï¿½aden un buffer intermedio encargado
 	 * de controlar el acceso a la memoria.
 	 * 
 	 * -Si vamos escribiendo, se guardaran los datos hasta que tenga basantes como para hacer la escritura eficiente.
@@ -62,7 +62,7 @@ public class Buffers {
 				c++;
 			}
 
-			System.out.println("Tamaño de la imagen en bytes: " + c + " B\n" + "Tamaño de la imagen en Kilobytes: " + (c / 1024) + " KB");
+			System.out.println("Tamaï¿½o de la imagen en bytes: " + c + " B\n" + "Tamaï¿½o de la imagen en Kilobytes: " + (c / 1024) + " KB");
 
 			buffer.close();
 

@@ -1,4 +1,4 @@
-package streams;
+package io;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -35,7 +35,7 @@ public class FlujoDeBytes {
 			 * En conclusion, si esta leyendo un archivo que esta codificado en una codificacion de caracteres que no sea la
 			 * codificacion char predeterminada del host, entonces debe usar InputStreamReader. La diferencia entre InputStream y
 			 * InputStreamReader es que InputStream lee como byte, mientras que InputStreamReader se lee como char. Por ejemplo, si
-			 * el texto de un archivo es abc, ambos funcionan bien. Pero si el texto esta a你们 compuesto por un a y dos
+			 * el texto de un archivo es abc, ambos funcionan bien. Pero si el texto esta a compuesto por un a y dos
 			 * caracteres chinos, entonces InputStream no funciona. */
 			InputStreamReader charset = new InputStreamReader(archivo);
 

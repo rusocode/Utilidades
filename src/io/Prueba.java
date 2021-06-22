@@ -1,4 +1,4 @@
-package streams;
+package io;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
