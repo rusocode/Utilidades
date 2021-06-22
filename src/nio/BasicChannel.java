@@ -17,6 +17,10 @@ public class BasicChannel {
 	public static void main(String[] args) throws IOException {
 
 		FileInputStream input = new FileInputStream("C:\\Users\\juand\\Desktop\\Texto origen.txt"); // Ruta del archivo de entrada
+		/* Devuelve el canal del archivo asociado con este flujo de entrada.
+		 * La posición inicial del canal devuelto sera igual al numero de bytes leidos del archivo hasta ahora. La lectura de
+		 * bytes de este flujo incrementara la posicion del canal. Cambiar la posicion del canal, ya sea explicitamente o
+		 * leyendo, cambiara la posicion del archivo de esta secuencia. */
 		ReadableByteChannel source = input.getChannel();
 
 		FileOutputStream output = new FileOutputStream("C:\\Users\\juand\\Desktop\\Texto destino.txt"); // Ruta del archivo de salida
@@ -24,7 +28,7 @@ public class BasicChannel {
 
 		copyData(source, destination);
 
-		/* Cierra este flujo de entrada de archivo y libera cualquier recurso del sistema asociado con el flujo.
+		/* Cierra los flujos del archivo y libera cualquier recurso del sistema asociado con el flujo.
 		 * Si esta secuencia tiene un canal asociado, el canal tambien esta cerrado. */
 		input.close();
 		output.close();
