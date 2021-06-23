@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Para los archivos binarios se usan las clases abstractas InputStream y OutputStram que leen y escriben flujos de
@@ -25,9 +27,8 @@ public class FlujoDeBytes {
 	private FileOutputStream output;
 
 	private static final String S = File.separator;
-	private static final String TEXT_FILE_PATH = S + "assets" + S + "texts" + S;
-
-	public static final String TEXT_FILE_NAME = "texto.txt";
+	private static final String ASSETS = "assets";
+	private static final String TEXT_FILE_PATH = "texts";
 
 	private void read(final String filename) {
 
@@ -36,7 +37,7 @@ public class FlujoDeBytes {
 		try {
 
 			// Desde el cargador de clases se devuelve el recurso especificado como un flujo de datos
-			input = getClass().getClassLoader().getResourceAsStream(TEXT_FILE_PATH + filename);
+			input = getClass().getClassLoader().getResourceAsStream(TEXT_FILE_PATH + S + filename);
 
 			System.out.println("Nombre del archivo: " + filename);
 			System.out.println("Tamaño: " + input.available() + " bytes");
@@ -46,7 +47,7 @@ public class FlujoDeBytes {
 				System.out.print((char) byte_entrada);
 
 		} catch (FileNotFoundException e) {
-			System.err.println("El archivo no existe!");
+			System.err.println("El archivo no existe!\nMas informacion...\n" + e.getMessage());
 		} catch (IOException e) {
 			System.err.println("Error de I/O!");
 		} finally {
@@ -65,7 +66,7 @@ public class FlujoDeBytes {
 
 		try {
 
-			File file = new File(System.getProperty("user.dir") + TEXT_FILE_PATH + filename);
+			File file = new File(System.getProperty("user.dir") + S + ASSETS + S + TEXT_FILE_PATH + S + filename);
 
 			output = new FileOutputStream(file);
 
@@ -88,8 +89,8 @@ public class FlujoDeBytes {
 
 	public static void main(String[] args) {
 		FlujoDeBytes flujo = new FlujoDeBytes();
-		// flujo.read(TEXT_FILE_NAME);
-		flujo.write(TEXT_FILE_NAME, "Rulo quemado");
+		flujo.read("texto.txt");
+		flujo.write("texto.txt", "Rulo tostado");
 	}
 
 }

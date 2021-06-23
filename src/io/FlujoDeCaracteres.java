@@ -1,23 +1,27 @@
 package io;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Para los archivos de texto se usan las clases abstractas Reader y Writer para leer/escribir flujos de caracteres.
+ * 
+ * Nota: La clase FileReader usa la codificacion de caracteres predeterminada.
+ * 
+ * @author Juan Debenedetti aka Ru$o
+ * 
+ */
+
 public class FlujoDeCaracteres {
 
-	/* Para los archivos de texto se usan las clases abstractas Reader y Writer para leer/escribir flujos de caracteres.
-	 * 
-	 * Nota: La clase FileReader usa la codificacion de caracteres predeterminada. */
+	private static final String S = File.separator;
+	private static final String ASSETS = "assets";
+	private static final String TEXT_FILE_PATH = "texts";
 
-	private final static String RUTA = "archivos/texto.txt";
-
-	public static void main(String[] args) {
-		leer();
-		// escribir();
-	}
-
-	static void leer() {
+	private void read(final String filename) {
 
 		int codigo;
 
@@ -37,25 +41,26 @@ public class FlujoDeCaracteres {
 		}
 	}
 
-	static void escribir() {
+	private void write(final String filename, String texto) {
 
 		// Declarando el objeto desde el try se logra cerrar el flujo automaticamente
-
 		// Si es verdadero, entonces los datos se escribiran al final del archivo en lugar de al principio
-		try (FileWriter salida = new FileWriter("c:/users/juand/Desktop/texto.txt", true)) {
+		try (FileWriter output = new FileWriter(System.getProperty("user.dir") + S + ASSETS + S + TEXT_FILE_PATH + S + filename, true)) {
 
-			String frase = "De rutaaa";
+			output.write(texto);
 
-			salida.write("Tambien se puede agregar texto de esta forma!");
-
-			// Escribe un caracter en la ruta especificada
-			for (int i = 0; i < frase.length(); i++)
-				salida.write(frase.charAt(i));
-
+		} catch (FileNotFoundException e) {
+			System.err.println("El archivo no existe!\nMas informacion...\n" + e.getMessage());
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.err.println("Error de I/O!");
 		}
 
+	}
+
+	public static void main(String[] args) {
+		FlujoDeCaracteres flujo = new FlujoDeCaracteres();
+		flujo.read("texto.txt");
+		// flujo.write();
 	}
 
 }
