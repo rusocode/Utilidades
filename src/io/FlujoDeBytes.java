@@ -70,13 +70,9 @@ public class FlujoDeBytes {
 
 		// System.out.println(absolutePath.getParent().toString());
 
-		// URL url = getClass().getClassLoader().getResource("texts/Texto.txt"); FUNCIONA POR LA BARRA DE MIERDA!!
-		URL url = getClass().getResource("/texts/Texto.txt");
-
+		// URL url = getClass().getClassLoader().getResource("texts/texto.txt"); FUNCIONA POR LA BARRA DE MIERDA!!
+		// URL url = getClass().getResource("/texts/texto.txt");
 		// System.out.println(url.getPath());
-
-		// File f = new File("texts/Texto.txt");
-		// System.out.println(f.exists());
 
 		try {
 
@@ -86,7 +82,7 @@ public class FlujoDeBytes {
 
 			// https://stackoverflow.com/questions/17287478/get-file-from-project-folder-java/36445369
 			ClassLoader cl = getClass().getClassLoader(); // Parece que cargando el recurso desde el loader no encuentra el archivo...
-			File f1 = new File(cl.getResource(".").getFile());
+			File f1 = new File(cl.getResource("assets/texto.txt").getFile());
 
 			File f2 = new File(System.getProperty("user.home") + S + "Documents" + S + "Eclipse - Proyectos" + S + "utilidades" + S + "bin" + S
 					+ "texts" + S + "texto.txt");
@@ -107,7 +103,7 @@ public class FlujoDeBytes {
 				output.write(caracteres[i]);
 
 		} catch (FileNotFoundException e) {
-			System.err.println("El archivo no existe!\n" + e.getMessage());
+			System.err.println("El archivo no existe!\nMas informacion...\n" + e.getMessage());
 		} catch (IOException e) {
 			System.err.println("Error de I/O!");
 		} finally {
