@@ -2,34 +2,27 @@ package ficheros;
 
 import java.io.File;
 
-/*
- * Ruta relativa y absoluta, diferencia y caracteristicas
+/**
+ * La rutas se dividen en absolutas y relativas. Las absolutas representan la ruta completa del recurso. Dicho de otra
+ * forma, parten desde el directorio raiz hasta llegar al recurso, ej: "C:\Users\juand\Desktop\texto.txt".
+ * En cambio, las relativas representan solo una parte de la ruta. Esto es posible porque en las rutas
+ * relativas se tiene en cuenta el directorio actual de trabajo, ej: "assets\texto.txt" (sin separador al inicio de la
+ * ruta).
+ * 
+ * Mas informacion...
  * https://www.vozidea.com/diferencias-ruta-relativa-y-absoluta#:~:text=Rutas%20relativas%20y%20absolutas%2C%20diferencias%20caracter%C3%ADsticas.&text=Dicho%20de%20otra%20forma%2C%20se,el%20directorio%20actual%20de%20trabajo
- * */
+ * 
+ * @author Juan Debenedetti aka Ru$o
+ * 
+ */
 
 public class Rutas {
 
-	/* -Diferencia entre una ruta absoluta y relativa
-	 * 
-	 * La ruta absoluta representa la ruta completa del recurso. Dicho de otra forma, se parte desde el directorio raiz
-	 * hasta llegar al recurso, ej. /users/juand/readme.txt.
-	 * 
-	 * En cambio, en las rutas relativas se representa solo una parte de la ruta. Esto es posible porque en las rutas
-	 * relativas se tiene en cuenta el directorio actual de trabajo, ej. juand/readme.txt (sin separador al inicio de la
-	 * ruta). */
-
 	/* Como java es un lenguaje de programacion multiplataforma, nos brinda la posibilidad de implementar el caracter
-	 * separador para un SO especifico. */
+	 * separador de carpetas para un SO en especifico. */
 	private static String s = File.separator;
 
-	public static void main(String[] args) {
-		/* Si no se especifica una ruta especifica (EJ: ".project" archivo que pertenece al proyecto (ruta relativa = directorio
-		 * actual de trabajo)), entonces toma por defecto la ruta del proyecto actual. */
-		fileRecursivo(new File(System.getProperty("user.home") + s + "Documents" + s + "Silentsoft" + s + "CalculadoraAO")); // Ruta absoluta
-
-	}
-
-	static void fileFor(File file) {
+	private static void fileFor(File file) {
 
 		// Devuelve el nombre de la ruta absoluta que indica el mismo archivo o directorio
 		System.out.println(file.getAbsolutePath());
@@ -61,7 +54,7 @@ public class Rutas {
 		}
 	}
 
-	static void fileRecursivo(File file) {
+	private static void fileRecursivo(File file) {
 		if (!file.isDirectory()) System.out.println(file.getName());
 		else {
 
@@ -80,6 +73,13 @@ public class Rutas {
 				if (f.isDirectory()) fileRecursivo(f);
 			}
 		}
+	}
+
+	public static void main(String[] args) {
+		/* Si no se especifica una ruta especifica (ej: ".project" archivo que pertenece al proyecto), entonces toma por defecto
+		 * la ruta del proyecto actual. */
+		fileRecursivo(new File(System.getProperty("user.home") + s + "Documents" + s + "Silentsoft" + s + "CalculadoraAO"));
+
 	}
 
 }

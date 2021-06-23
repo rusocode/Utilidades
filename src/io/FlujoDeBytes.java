@@ -63,12 +63,6 @@ public class FlujoDeBytes {
 
 		char[] caracteres = texto.toCharArray();
 
-		// https://stackoverflow.com/questions/25546869/how-i-can-write-a-file-using-relative-path-in-java
-		Path relativePath = Paths.get(TEXT_FILE_PATH + file);
-		Path absolutePath = relativePath.toAbsolutePath();
-
-		System.out.println(absolutePath.getParent());
-
 //		try {
 //
 //			URL url = getClass().getClassLoader().getResource(TEXT_FILE_PATH + file);
@@ -91,6 +85,7 @@ public class FlujoDeBytes {
 //				System.err.println("No se pudo cerrar el flujo de salida!");
 //			}
 //		}
+
 	}
 
 	public static void main(String[] args) {
