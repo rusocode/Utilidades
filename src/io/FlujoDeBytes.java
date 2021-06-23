@@ -82,7 +82,7 @@ public class FlujoDeBytes {
 
 			// https://stackoverflow.com/questions/17287478/get-file-from-project-folder-java/36445369
 			ClassLoader cl = getClass().getClassLoader(); // Parece que cargando el recurso desde el loader no encuentra el archivo...
-			File f1 = new File(cl.getResource("assets/texto.txt").getFile());
+			File f1 = new File(cl.getResource("/assets/texts/texto.txt").getFile());
 
 			File f2 = new File(System.getProperty("user.home") + S + "Documents" + S + "Eclipse - Proyectos" + S + "utilidades" + S + "bin" + S
 					+ "texts" + S + "texto.txt");
