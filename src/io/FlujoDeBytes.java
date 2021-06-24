@@ -1,21 +1,14 @@
 package io;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Para los archivos binarios se usan las clases abstractas InputStream y OutputStram que leen y escriben flujos de
- * bytes.
+ * Para los archivos binarios se usan las clases abstractas InputStream y OutputStram encargadas de leer y escribir
+ * flujos de bytes.
  * 
  * https://mkyong.com/java/java-read-a-file-from-resources-folder/
- * 
- * Para ubiar el directorio del proyecto en cualquier entorno
- * https://stackoverflow.com/questions/13011892/how-to-locate-the-path-of-the-current-project-directory-in-java-ide/22011009
  * 
  * @author Juan Debenedetti aka Ru$o
  * 
@@ -24,26 +17,29 @@ import java.util.Date;
 public class FlujoDeBytes {
 
 	private InputStream input;
+	private FileInputStream in;
 	private FileOutputStream output;
 
 	private static final String S = File.separator;
 	private static final String ASSETS = "assets";
-	private static final String TEXT_FILE_PATH = "texts";
+	private static final String TEXTS_PATH = "texts";
 
 	private void read(final String filename) {
 
-		int byte_entrada = -1;
+		int byte_entrada;
 
 		try {
 
+			in = new FileInputStream();
+
 			// Desde el cargador de clases se devuelve el recurso especificado como un flujo de datos
-			input = getClass().getClassLoader().getResourceAsStream(TEXT_FILE_PATH + S + filename);
+			input = getClass().getClassLoader().getResourceAsStream(TEXTS_PATH + S + filename);
 
 			System.out.println("Nombre del archivo: " + filename);
 			System.out.println("Tamaño: " + input.available() + " bytes");
 			System.out.print("Texto: ");
-			// En cada vuelta del while lee un byte o -1 si se ha alcanzado el final de la secuencia
-			while ((byte_entrada = input.read()) != -1) // Cada caracter del alfabeto ASCII pesa 1 byte
+
+			while ((byte_entrada = input.read()) != -1)
 				System.out.print((char) byte_entrada);
 
 		} catch (FileNotFoundException e) {
@@ -60,15 +56,32 @@ public class FlujoDeBytes {
 
 	}
 
-	private void write(final String filename, String texto) {
+	/**
+	 * Un flujo de salida de archivo es un flujo de salida para escribir datos en un archivo o en un descriptor de archivo.
+	 * Si un archivo está disponible o puede crearse depende de la plataforma subyacente. Algunas plataformas, en
+	 * particular, permiten que un archivo se abra para escritura por solo un FileOutputStream (u otro objeto de escritura
+	 * de archivos) a la vez. En tales situaciones, los constructores de esta clase fallaran si el archivo involucrado ya
+	 * esta abierto.
+	 * <p>
+	 * FileOutputStream esta diseñado para escribir flujos de bytes sin procesar, como datos de imagen. Para escribir
+	 * secuencias de caracteres, considere usar FileWriter (ver {@link FlujoDeCaracteres#write}).
+	 * </p>
+	 * 
+	 * @param filename - El nombre del archivo de texto.
+	 * @param texto    - El texto que se va a escribir.
+	 * @param append   - Si es verdadero, los datos se escribiran al final del archivo en lugar de al principio.
+	 */
+	private void write(final String filename, String texto, boolean append) {
 
+		// Convierte la cadena en un array de caracteres para poder escribirlos como un flujo de bytes
 		char[] caracteres = texto.toCharArray();
 
 		try {
 
-			File file = new File(System.getProperty("user.dir") + S + ASSETS + S + TEXT_FILE_PATH + S + filename);
+			// TODO Lo agrego a un constructor?
+			File file = new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + filename);
 
-			output = new FileOutputStream(file);
+			output = new FileOutputStream(file, append);
 
 			for (int i = 0; i < caracteres.length; i++)
 				output.write(caracteres[i]);
@@ -87,10 +100,12 @@ public class FlujoDeBytes {
 
 	}
 
+	// TODO Agregar un metodo para lectura de imagenes, aprovechando la ocasion del flujo de bytes
+
 	public static void main(String[] args) {
 		FlujoDeBytes flujo = new FlujoDeBytes();
 		flujo.read("texto.txt");
-		flujo.write("texto.txt", "Rulo tostado");
+		// flujo.write("texto.txt", "Rulo tostado");
 	}
 
 }
