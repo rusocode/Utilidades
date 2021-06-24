@@ -11,6 +11,7 @@ import java.util.Date;
  * https://mkyong.com/java/java-read-a-file-from-resources-folder/
  * http://tutorials.jenkov.com/java-io/fileinputstream.html
  * 
+ * TODO Leer el flujo por medio de un array (eficiencia)
  * TODO Agregar un metodo para lectura de imagenes, aprovechando la ocasion del flujo de bytes
  * 
  * @author Juan Debenedetti aka Ru$o
