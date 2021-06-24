@@ -3,10 +3,12 @@ package io;
 import java.io.*;
 
 /**
- * Para los archivos de texto se usan las clases abstractas Reader y Writer encargadas de leer y escribir flujos de
- * caracteres.
+ * Clase de conveniencia para leer y escribir archivos de caracteres. El constructor de esta clase asumen que la
+ * codificacion de caracteres predeterminada y el tamaño de buffer de bytes predeterminado son aceptables. Para
+ * especificar estos valores usted mismo, construya un InputStreamReader en un FileInputStream para la lectura o un
+ * OutputStreamWriter en un FileOutputStream para la escritura.
  * 
- * Para ubiar el directorio del proyecto en cualquier entorno
+ * Ubicar el directorio del proyecto actual en cualquier plataforma
  * https://stackoverflow.com/questions/13011892/how-to-locate-the-path-of-the-current-project-directory-in-java-ide/22011009
  * 
  * @author Juan Debenedetti aka Ru$o
@@ -15,33 +17,34 @@ import java.io.*;
 
 public class FlujoDeCaracteres {
 
+	private String file;
+	private FileReader input;
+
 	private static final String S = File.separator;
 	private static final String ASSETS = "assets";
 	private static final String TEXTS_PATH = "texts";
+	private static final String FILENAME = "texto.txt";
+
+	public FlujoDeCaracteres(String file) {
+		this.file = file;
+	}
 
 	/**
-	 * Clase de conveniencia para leer archivos de caracteres. Los constructores de esta clase asumen que la codificacion de
-	 * caracteres predeterminada y el tamaño de buffer de bytes predeterminado son aceptables. Para especificar estos
-	 * valores usted mismo, construya un InputStreamReader en un FileInputStream.
-	 * <p>
-	 * FileReader esta diseñado para leer secuencias de caracteres. Para leer flujos de bytes sin procesar, considere usar
-	 * un FileInputStream (ver {@link FlujoDeBytes#read}).
-	 * </p>
-	 * 
-	 * @param filename - El nombre del archivo de texto.
+	 * Lee un solo caracter.
+	 * Para leer flujos de bytes sin procesar, considere usar un FileInputStream (ver {@link FlujoDeBytes#read}).
 	 */
-	private void read(final String filename) {
+	private void read() {
 
-		FileReader input = null;
-		int byte_entrada;
+		int character;
 
 		try {
 
-			input = new FileReader(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + filename);
+			input = new FileReader(file);
 
-			// En cada vuelta del while lee el codigo del caracter o -1 si se ha alcanzado el final de la secuencia
-			while ((byte_entrada = input.read()) != -1) // Cada caracter del alfabeto ASCII pesa 1 byte
-				System.out.println( byte_entrada);
+			/* Obtiene el caracter leido, o -1 si se ha alcanzado el final de la secuencia.
+			 * Cada caracter del alfabeto ASCII ocupa 1 byte! */
+			while ((character = input.read()) != -1)
+				System.out.print((char) character);
 
 		} catch (FileNotFoundException e) {
 			System.err.println("El archivo no existe!\nMas informacion...\n" + e.getMessage());
@@ -57,24 +60,18 @@ public class FlujoDeCaracteres {
 	}
 
 	/**
-	 * Clase de conveniencia para escribir archivos de caracteres. Los constructores de esta clase asumen que la
-	 * codificacion de caracteres predeterminada y el tamaño de buffer de bytes predeterminado son aceptables. Para
-	 * especificar estos valores usted mismo, construya un OutputStreamWriter en un FileOutputStream.
-	 * <p>
-	 * FileWriter esta diseñado para escribir secuencias de caracteres. Para escribir flujos de bytes sin procesar,
-	 * considere usar un FileOutputStream (ver {@link FlujoDeBytes#write}).
-	 * </p>
+	 * Escribe una cadena.
+	 * Para escribir flujos de bytes sin procesar, considere usar un FileOutputStream (ver {@link FlujoDeBytes#write}).
 	 * 
-	 * @param filename - El nombre del archivo de texto.
-	 * @param texto    - El texto que se va a escribir.
-	 * @param append   - Si es verdadero, los datos se escribiran al final del archivo en lugar de al principio.
+	 * @param text  - El texto que se va a escribir.
+	 * @param append - Si es verdadero, los datos se escribiran al final del archivo en lugar de reemplazar todo.
 	 */
-	private void write(final String filename, String texto, boolean append) {
+	private void write(String text, boolean append) {
 
 		// Declarando el objeto desde el try se logra cerrar el flujo automaticamente
-		try (FileWriter output = new FileWriter(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + filename, append)) {
+		try (FileWriter output = new FileWriter(file, append)) {
 
-			output.write(texto);
+			output.write(text);
 
 		} catch (IOException e) {
 			System.err.println(
@@ -84,9 +81,9 @@ public class FlujoDeCaracteres {
 	}
 
 	public static void main(String[] args) {
-		FlujoDeCaracteres flujo = new FlujoDeCaracteres();
-		flujo.read("Texto.txt");
-		// flujo.write("texto.txt", "Rulo quemado", false);
+		FlujoDeCaracteres flujo = new FlujoDeCaracteres(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + FILENAME);
+		// flujo.read();
+		flujo.write("Rulo quemado", false);
 	}
 
 }

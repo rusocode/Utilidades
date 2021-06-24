@@ -1,8 +1,6 @@
 package io;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Para los archivos binarios se usan las clases abstractas InputStream y OutputStram encargadas de leer y escribir
@@ -40,11 +38,12 @@ public class FlujoDeBytes {
 
 		try {
 
-			/* Lee el flujo de bytes desde un InpuStream, que es obtenido desde el cargador de clases en donde devuelve el recurso
-			 * especificado como un flujo de bytes. */
+			/* Teniendo en cuanta que InputStream es una clase abstracta, entonces se utiliza el cargador de clases para obtener el
+			 * recurso especificado (un archivo de texto en este caso) como un flujo de bytes. */
 			input = getClass().getClassLoader().getResourceAsStream(TEXTS_PATH + S + FILENAME);
 
-			// Lee el flujo de bytes desde un FileInputStream
+			/* La otra forma de leer un flujo de bytes es utilizando la clase FileInputStream. Esta clase es una version
+			 * especializada de un InputStream, pero no tiene ninguna diferencia real. */
 			// input = new FileInputStream(file);
 
 			System.out.println("Nombre del archivo: " + FILENAME);
@@ -79,9 +78,8 @@ public class FlujoDeBytes {
 	 * secuencias de caracteres, considere usar FileWriter (ver {@link FlujoDeCaracteres#write}).
 	 * </p>
 	 * 
-	 * @param filename - El nombre del archivo de texto.
-	 * @param texto    - El texto que se va a escribir.
-	 * @param append   - Si es verdadero, los datos se escribiran al final del archivo en lugar de al principio.
+	 * @param texto  - El texto que se va a escribir.
+	 * @param append - Si es verdadero, los datos se escribiran al final del archivo en lugar de al principio.
 	 */
 	private void write(String texto, boolean append) {
 
@@ -110,8 +108,10 @@ public class FlujoDeBytes {
 	}
 
 	public static void main(String[] args) {
+		/* No hay ninguna ventaja en particular al usar un String o un File para especificar la ruta del archivo, la unica
+		 * diferencia es que usando un objeto File, este puede ser mas manipulable a travez de sus metodos. */
 		FlujoDeBytes flujo = new FlujoDeBytes(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + FILENAME));
-		flujo.read();
+		// flujo.read();
 		// flujo.write("Rulo", false);
 
 	}
