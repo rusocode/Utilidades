@@ -9,6 +9,9 @@ import java.util.Date;
  * flujos de bytes.
  * 
  * https://mkyong.com/java/java-read-a-file-from-resources-folder/
+ * http://tutorials.jenkov.com/java-io/fileinputstream.html
+ * 
+ * TODO Agregar un metodo para lectura de imagenes, aprovechando la ocasion del flujo de bytes
  * 
  * @author Juan Debenedetti aka Ru$o
  * 
@@ -16,6 +19,7 @@ import java.util.Date;
 
 public class FlujoDeBytes {
 
+	private File file;
 	private InputStream input;
 	private FileInputStream in;
 	private FileOutputStream output;
@@ -23,19 +27,26 @@ public class FlujoDeBytes {
 	private static final String S = File.separator;
 	private static final String ASSETS = "assets";
 	private static final String TEXTS_PATH = "texts";
+	private static final String FILENAME = "texto.txt";
 
-	private void read(final String filename) {
+	public FlujoDeBytes(File file) {
+		this.file = file;
+	}
+
+	private void read() {
 
 		int byte_entrada;
 
 		try {
 
-			in = new FileInputStream();
+			/* Lee el flujo de bytes desde un InpuStream, que es obtenido desde el cargador de clases en donde devuelve el recurso
+			 * especificado como un flujo de bytes. */
+			input = getClass().getClassLoader().getResourceAsStream(TEXTS_PATH + S + FILENAME);
 
-			// Desde el cargador de clases se devuelve el recurso especificado como un flujo de datos
-			input = getClass().getClassLoader().getResourceAsStream(TEXTS_PATH + S + filename);
+			// Lee el flujo de bytes desde un FileInputStream
+			// input = new FileInputStream(file);
 
-			System.out.println("Nombre del archivo: " + filename);
+			System.out.println("Nombre del archivo: " + FILENAME);
 			System.out.println("Tamaño: " + input.available() + " bytes");
 			System.out.print("Texto: ");
 
@@ -71,15 +82,12 @@ public class FlujoDeBytes {
 	 * @param texto    - El texto que se va a escribir.
 	 * @param append   - Si es verdadero, los datos se escribiran al final del archivo en lugar de al principio.
 	 */
-	private void write(final String filename, String texto, boolean append) {
+	private void write(String texto, boolean append) {
 
 		// Convierte la cadena en un array de caracteres para poder escribirlos como un flujo de bytes
 		char[] caracteres = texto.toCharArray();
 
 		try {
-
-			// TODO Lo agrego a un constructor?
-			File file = new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + filename);
 
 			output = new FileOutputStream(file, append);
 
@@ -100,12 +108,11 @@ public class FlujoDeBytes {
 
 	}
 
-	// TODO Agregar un metodo para lectura de imagenes, aprovechando la ocasion del flujo de bytes
-
 	public static void main(String[] args) {
-		FlujoDeBytes flujo = new FlujoDeBytes();
-		flujo.read("texto.txt");
-		// flujo.write("texto.txt", "Rulo tostado");
+		FlujoDeBytes flujo = new FlujoDeBytes(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + FILENAME));
+		flujo.read();
+		// flujo.write("Rulo", false);
+
 	}
 
 }
