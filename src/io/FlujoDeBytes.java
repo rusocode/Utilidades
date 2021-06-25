@@ -12,8 +12,20 @@ import java.io.*;
  * el recurso especificado (un archivo de texto en este caso) como un flujo de bytes.
  * InputStream input = getClass().getClassLoader().getResourceAsStream(TEXTS_PATH + S + FILENAME);
  * 
- * TODO Limpiar un poco los comentarios
+ * -Rendimiento de lectura
+ * Leer un array de bytes a la vez es mas rapido que leer un solo byte a la vez desde un FileInputStream. La
+ * diferencia puede ser facilmente un factor 10 o mas en el aumento del rendimiento, al leer un array de bytes en
+ * lugar de leer un solo byte a la vez.
  * 
+ * La aceleracion exacta obtenida depende del tamaño de el array de bytes que lee y del sistema operativo, hardware,
+ * etc. de la computadora en la que esta ejecutando el codigo. Debe estudiar los tamaños de buffer del disco duro, etc.
+ * del sistema de destino antes de tomar una decision. Sin embargo, los tamaños de buffer de 8 Kb y superiores
+ * proporcionaran una buena aceleracion. Sin embargo, una vez que su array de bytes exceda la capacidad del sistema
+ * operativo y el hardware subyacentes, no obtendra una mayor aceleracion de un array de bytes mas grande.
+ * 
+ * Probablemente tendra que experimentar con diferentes tamaños de array de bytes y medir el rendimiento de lectura
+ * para encontrar el tamaño de array de bytes optimo.
+ *
  * @author Juan Debenedetti aka Ru$o
  * 
  */
@@ -37,11 +49,12 @@ public class FlujoDeBytes {
 	}
 
 	/**
-	 * Lee un array de bytes del flujo de entrada. Este metodo se bloquea si aun no hay ninguna entrada disponible.
+	 * Crea un flujo de entrada para el archivo de texto especificado, lee los bytes y los almacena en un array. Este metodo
+	 * se bloquea si aun no hay ninguna entrada disponible.
 	 * <p>
 	 * FileInputStream esta diseñado para leer flujos de bytes sin procesar, como datos de imagen. Para leer
 	 * secuencias de caracteres, considere usar FileReader (ver {@link FlujoDeCaracteres#read}).
-	 * </p>
+	 * <p>
 	 */
 	private void readText() {
 
@@ -53,27 +66,6 @@ public class FlujoDeBytes {
 
 			bytes = new byte[(int) input.getChannel().size()];
 
-			/* El metodo read() devuelve el numero total de bytes leidos en el buffer, o -1 si no hay mas datos porque se ha
-			 * alcanzado el final del archivo.
-			 * 
-			 * En caso de que haya menos bytes para leer de los que hay en el espacio del array, o menos de lo que se especifico
-			 * en el parametro de longitud, se leeran menos bytes en el array de bytes. Si se han leido todos los bytes del
-			 * FileInputStream, devolvera -1. Por lo tanto, es necesario inspeccionar el valor devuelto por estas llamadas al metodo
-			 * read().
-			 *
-			 * -Rendimiento de lectura
-			 * Leer un array de bytes a la vez es mas rapido que leer un solo byte a la vez desde un FileInputStream. La
-			 * diferencia puede ser facilmente un factor 10 o mas en el aumento del rendimiento, al leer un array de bytes en
-			 * lugar de leer un solo byte a la vez.
-			 * 
-			 * La aceleracion exacta obtenida depende del tamaño de el array de bytes que lee y del sistema operativo, hardware,
-			 * etc. de la computadora en la que esta ejecutando el codigo. Debe estudiar los tamaños de buffer del disco duro, etc.
-			 * del sistema de destino antes de tomar una decision. Sin embargo, los tamaños de buffer de 8 Kb y superiores
-			 * proporcionaran una buena aceleracion. Sin embargo, una vez que su array de bytes exceda la capacidad del sistema
-			 * operativo y el hardware subyacentes, no obtendra una mayor aceleracion de un array de bytes mas grande.
-			 * 
-			 * Probablemente tendra que experimentar con diferentes tamaños de array de bytes y medir el rendimiento de lectura
-			 * para encontrar el tamaño de array de bytes optimo. */
 			input.read(bytes);
 
 			// showTextInfo(input);
@@ -93,7 +85,8 @@ public class FlujoDeBytes {
 	}
 
 	/**
-	 * Escribe un array de bytes en el flujo de salida.
+	 * Crea un flujo de salida hacia el archivo de texto especificado y escribe los bytes del texto recibidos en el mismo
+	 * archivo.
 	 * <p>
 	 * FileOutputStream esta diseñado para escribir flujos de bytes sin procesar, como datos de imagen. Para escribir
 	 * secuencias de caracteres, considere usar FileWriter (ver {@link FlujoDeCaracteres#write}).
@@ -151,7 +144,7 @@ public class FlujoDeBytes {
 	}
 
 	/**
-	 * Lee una imagen y almacena los bytes en un array de bytes.
+	 * Crea un flujo de entrada para el archivo de imagen especificado, lee los bytes y los alamcena en un array.
 	 * 
 	 * @return Devuelve el array de bytes con los datos de la imagen o null si no se pudo leer.
 	 */
@@ -167,6 +160,8 @@ public class FlujoDeBytes {
 			 * se estarian creando espacios sobrantes como en el caso de un array convencional (new byte[1024]). */
 			bytes = new byte[(int) input.getChannel().size()];
 
+			/* Devuelve el numero total de bytes leidos en el buffer, o -1 si no hay mas datos porque se ha alcanzado el final del
+			 * archivo. */
 			input.read(bytes);
 
 			// showTextureInfo(input);
@@ -190,7 +185,7 @@ public class FlujoDeBytes {
 	}
 
 	/**
-	 * Copia la imagen en el mismo directorio.
+	 * Crea un flujo de salida hacia un nuevo archivo de imagen y escribe los bytes de la imagen recibidos en la nueva.
 	 * 
 	 * @param bytes[] - Los bytes leidos de la imagen.
 	 */
@@ -216,7 +211,7 @@ public class FlujoDeBytes {
 	}
 
 	/**
-	 * Muestra informacion acerca de la imagen, tamaño, bytes, etc.
+	 * Muestra informacion general acerca de la imagen.
 	 * 
 	 * @param input - La imagen.
 	 */
@@ -231,9 +226,11 @@ public class FlujoDeBytes {
 
 		try {
 
-			/* Lee el flujo mientras el byte leido sea distinto a -1.
-			 * Si el metodo read() devuelve -1, se ha alcanzado el final de la secuencia, lo que significa que no hay mas datos
-			 * para leer en InputStream. Es decir, -1 como valor int, no -1 como byte o valor short. ¡Hay una diferencia aqui! */
+			// https://stackoverflow.com/questions/3621067/why-is-the-range-of-bytes-128-to-127-in-java#:~:text=8%20Answers&text=The%20answer%20is%20two's%20complement,a%207-bit%20unsigned%20integer.
+			/* Lee un byte (entre -128 y 127, en donde se incluyen valores con signo) de los datos del flujo de entrada. Si devuelve
+			 * -1, no hay mas datos para leer y se puede cerrar. Es decir, -1 como valor int, no -1 como valor de byte. ¡Hay una
+			 * diferencia aqui! Por lo tanto, es necesario inspeccionar el valor devuelto por estas llamadas al metodo read() por
+			 * medio de un bucle while. */
 			while ((byte_ = input.read()) != -1)
 				bytes[i++] = (byte) byte_;
 
@@ -256,18 +253,21 @@ public class FlujoDeBytes {
 	}
 
 	private void showTextInfo(FileInputStream input) {
-//		while ((byteRead = input.read(bytes)) != -1)
-//			System.out.print(byteRead);
-//		System.out.println(" bytes leidos de " + TEXT_FILENAME);
+
+		// while ((byteRead = input.read(bytes)) != -1)
+		// System.out.print(byteRead);
+		// System.out.println(" bytes leidos de " + TEXT_FILENAME);
+
 	}
 
 	public static void main(String[] args) {
 
 		/* No hay ninguna ventaja en particular al usar un String o un File para especificar la ruta del archivo, la unica
 		 * diferencia es que usando un objeto File, este puede ser mas manipulable a travez de sus metodos. */
-//		FlujoDeBytes text = new FlujoDeBytes(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + TEXT_FILENAME));
-//		text.readText();
-//		text.writeText("Tostado", false);
+		/* FlujoDeBytes text = new FlujoDeBytes(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S +
+		 * TEXT_FILENAME)); */
+		// text.readText();
+		// text.writeText("Tostado", false);
 
 		FlujoDeBytes texture = new FlujoDeBytes(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTURE_PATH + S + TEXTURE_FILENAME));
 		byte[] bytes = texture.readTexture();
