@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
-public class ArchivoEspecial {
+public class CaracteresEspeciales {
 
 	private InputStreamReader charset;
 
@@ -20,7 +20,7 @@ public class ArchivoEspecial {
 	private final String FILENAME = "Texto.txt";
 
 	public static void main(String[] args) {
-		ArchivoEspecial file = new ArchivoEspecial();
+		CaracteresEspeciales file = new CaracteresEspeciales();
 		file.read();
 		// file.write("tostado");
 	}

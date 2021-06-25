@@ -3,13 +3,11 @@ package io;
 import java.io.*;
 
 /**
- * Para los archivos binarios se usan las clases abstractas InputStream y OutputStram encargadas de leer y escribir
- * flujos de bytes.
+ * Las clases FileInputStream y FileOutputStream, hacen posible leer y escribir un archivo como un flujo de bytes.
  * 
  * https://mkyong.com/java/java-read-a-file-from-resources-folder/
- * http://tutorials.jenkov.com/java-io/fileinputstream.html
+ * http://tutorials.jenkov.com/java-io/index.html
  * 
- * TODO Leer el flujo por medio de un array (eficiencia)
  * TODO Agregar un metodo para lectura de imagenes, aprovechando la ocasion del flujo de bytes
  * 
  * @author Juan Debenedetti aka Ru$o
@@ -19,39 +17,70 @@ import java.io.*;
 public class FlujoDeBytes {
 
 	private File file;
-	private InputStream input;
-	private FileInputStream in;
+
+	private FileInputStream input;
 	private FileOutputStream output;
 
 	private static final String S = File.separator;
 	private static final String ASSETS = "assets";
 	private static final String TEXTS_PATH = "texts";
-	private static final String FILENAME = "texto.txt";
+	private static final String FILENAME = "text.txt";
 
 	public FlujoDeBytes(File file) {
 		this.file = file;
 	}
 
+	/**
+	 * Lee una matriz de bytes del flujo de entrada. Este metodo se bloquea si aun no hay ninguna entrada disponible.
+	 * <p>
+	 * FileInputStream esta diseñado para leer flujos de bytes sin procesar, como datos de imagen. Para leer
+	 * secuencias de caracteres, considere usar FileReader (ver {@link FlujoDeCaracteres#read}).
+	 * </p>
+	 */
 	private void read() {
 
-		int byte_entrada;
+		// Crea una matriz de bytes con la capacidad de 1 Kb
+		byte[] bytes = new byte[1024];
+
+		int byteRead;
 
 		try {
 
-			/* Teniendo en cuanta que InputStream es una clase abstracta, entonces se utiliza el cargador de clases para obtener el
-			 * recurso especificado (un archivo de texto en este caso) como un flujo de bytes. */
-			input = getClass().getClassLoader().getResourceAsStream(TEXTS_PATH + S + FILENAME);
+			/* Teniendo en cuanta que InputStream es una clase abstracta, entonces se utiliza el cargador de clases para obtener
+			 * el recurso especificado (un archivo de texto en este caso) como un flujo de bytes. */
+			// InputStream input = getClass().getClassLoader().getResourceAsStream(TEXTS_PATH + S + FILENAME);
 
-			/* La otra forma de leer un flujo de bytes es utilizando la clase FileInputStream. Esta clase es una version
-			 * especializada de un InputStream, pero no tiene ninguna diferencia real. */
-			// input = new FileInputStream(file);
+			/* Puede agregar lectura y almacenamiento en buffer transparentes y automaticos de una matriz de bytes desde un
+			 * FileInputStream utilizando un BufferedInputStream. BufferedInputStream lee un fragmento de bytes en una matriz
+			 * de bytes del FileInputStream subyacente. Luego puede leer los bytes uno por uno desde BufferedInputStream y aun asi
+			 * obtener gran parte de la aceleracion que proviene de leer una matriz de bytes en lugar de un byte a la vez. */
+			input = new FileInputStream(file);
 
-			System.out.println("Nombre del archivo: " + FILENAME);
-			System.out.println("Tamaño: " + input.available() + " bytes");
-			System.out.print("Texto: ");
+			/* El metodo read() devuelve el numero de bytes leidos en la matriz de bytes. En caso de que haya menos bytes
+			 * para leer de los que hay en el espacio de la matriz, o menos de lo que se especifico en el parametro de longitud, se
+			 * leeran menos bytes en la matriz de bytes. Si se han leido todos los bytes del FileInputStream, devolvera -1. Por lo
+			 * tanto, es necesario inspeccionar el valor devuelto por estas llamadas al metodo read().
+			 * 
+			 * -Rendimiento de lectura
+			 * Leer una matriz de bytes a la vez es mas rapido que leer un solo byte a la vez desde un FileInputStream. La
+			 * diferencia puede ser facilmente un factor 10 o mas en el aumento del rendimiento, al leer una matriz de bytes en
+			 * lugar de leer un solo byte a la vez.
+			 * 
+			 * La aceleracion exacta obtenida depende del tamaño de la matriz de bytes que lee y del sistema operativo, hardware,
+			 * etc. de la computadora en la que esta ejecutando el codigo. Debe estudiar los tamaños de buffer del disco duro, etc.
+			 * del sistema de destino antes de tomar una decision. Sin embargo, los tamaños de buffer de 8 Kb y superiores
+			 * proporcionaran una buena aceleracion. Sin embargo, una vez que su matriz de bytes exceda la capacidad del sistema
+			 * operativo y el hardware subyacentes, no obtendra una mayor aceleracion de una matriz de bytes mas grande.
+			 * 
+			 * Probablemente tendra que experimentar con diferentes tamaños de matriz de bytes y medir el rendimiento de lectura
+			 * para encontrar el tamaño de matriz de bytes optimo. */
 
-			while ((byte_entrada = input.read()) != -1)
-				System.out.print((char) byte_entrada);
+			while ((byteRead = input.read(bytes)) != -1)
+				System.out.print(byteRead);
+			System.out.println(" bytes leidos de " + FILENAME);
+
+			// TODO No estara al pedo el ciclo while?
+			// System.out.println(input.read(bytes));
 
 		} catch (FileNotFoundException e) {
 			System.err.println("El archivo no existe!\nMas informacion...\n" + e.getMessage());
@@ -68,30 +97,48 @@ public class FlujoDeBytes {
 	}
 
 	/**
-	 * Un flujo de salida de archivo es un flujo de salida para escribir datos en un archivo o en un descriptor de archivo.
-	 * Si un archivo está disponible o puede crearse depende de la plataforma subyacente. Algunas plataformas, en
-	 * particular, permiten que un archivo se abra para escritura por solo un FileOutputStream (u otro objeto de escritura
-	 * de archivos) a la vez. En tales situaciones, los constructores de esta clase fallaran si el archivo involucrado ya
-	 * esta abierto.
+	 * Escribe una matriz de bytes en el flujo de salida.
 	 * <p>
 	 * FileOutputStream esta diseñado para escribir flujos de bytes sin procesar, como datos de imagen. Para escribir
 	 * secuencias de caracteres, considere usar FileWriter (ver {@link FlujoDeCaracteres#write}).
 	 * </p>
 	 * 
 	 * @param texto  - El texto que se va a escribir.
-	 * @param append - Si es verdadero, los datos se escribiran al final del archivo en lugar de al principio.
+	 * @param append - Si es verdadero, los datos se escribiran al final del archivo en lugar de sobreescribirlos.
 	 */
 	private void write(String texto, boolean append) {
 
-		// Convierte la cadena en un array de caracteres para poder escribirlos como un flujo de bytes
-		char[] caracteres = texto.toCharArray();
+		/* Codifica esta cadena en una secuencia de bytes usando el juego de caracteres predeterminado de la plataforma,
+		 * almacenando el resultado en una nueva matriz de bytes. */
+		byte[] bytes = texto.getBytes();
 
 		try {
 
 			output = new FileOutputStream(file, append);
 
-			for (int i = 0; i < caracteres.length; i++)
-				output.write(caracteres[i]);
+			/* -Rendimiento de escritura
+			 * Es mas rapido escribir una matriz de bytes en un FileOutputStream que escribir un byte a la vez. La
+			 * aceleracion puede ser bastante significativa, hasta 10 veces mayor o mas. Por lo tanto, se recomienda utilizar los
+			 * metodos de escritura (byte[]) siempre que sea posible.
+			 * 
+			 * La aceleracion exacta que obtiene depende del sistema operativo subyacente y el hardware de la computadora en la que
+			 * ejecuta el codigo Java. La aceleracion depende de cuestiones como la velocidad de la memoria, la velocidad del disco
+			 * duro y el tamaño del buffer. */
+			output.write(bytes);
+
+			// Escribe un byte a la vez en el flujo de salida (ineficiencia)
+			/* for (int i = 0; i < 10; i++)
+			 * output.write(i); */
+
+			/* Cuando escribe datos en un FileOutputStream, los datos pueden almacenarse en cache internamente en la memoria
+			 * de la computadora y escribirse en el disco en un momento posterior. Por ejemplo, cada vez que hay X cantidad de datos
+			 * para escribir, o cuando se cierra FileOutputStream.
+			 * 
+			 * Si desea asegurarse de que todos los datos escritos se escriban en el disco sin tener que cerrar FileOutputStream,
+			 * puede llamar al metodo flush(). Llamar a flush() se asegurara de que todos los datos que se han escrito en
+			 * FileOutputStream hasta ahora, tambien se escriban por completo en el disco. */
+
+			// output.flush();
 
 		} catch (FileNotFoundException e) {
 			System.err.println("El archivo no existe!\nMas informacion...\n" + e.getMessage());
@@ -111,8 +158,8 @@ public class FlujoDeBytes {
 		/* No hay ninguna ventaja en particular al usar un String o un File para especificar la ruta del archivo, la unica
 		 * diferencia es que usando un objeto File, este puede ser mas manipulable a travez de sus metodos. */
 		FlujoDeBytes flujo = new FlujoDeBytes(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + FILENAME));
-		// flujo.read();
-		// flujo.write("Rulo", false);
+		flujo.read();
+		// flujo.write("Tostado", false);
 
 	}
 

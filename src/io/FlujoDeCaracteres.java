@@ -17,16 +17,17 @@ import java.io.*;
 
 public class FlujoDeCaracteres {
 
-	private String file;
+	private String path;
+
 	private FileReader input;
 
 	private static final String S = File.separator;
 	private static final String ASSETS = "assets";
 	private static final String TEXTS_PATH = "texts";
-	private static final String FILENAME = "texto.txt";
+	private static final String FILENAME = "text.txt";
 
-	public FlujoDeCaracteres(String file) {
-		this.file = file;
+	public FlujoDeCaracteres(String path) {
+		this.path = path;
 	}
 
 	/**
@@ -39,7 +40,7 @@ public class FlujoDeCaracteres {
 
 		try {
 
-			input = new FileReader(file);
+			input = new FileReader(path);
 
 			/* Obtiene el caracter leido, o -1 si se ha alcanzado el final de la secuencia.
 			 * Cada caracter del alfabeto ASCII ocupa 1 byte! */
@@ -63,13 +64,13 @@ public class FlujoDeCaracteres {
 	 * Escribe una cadena.
 	 * Para escribir flujos de bytes sin procesar, considere usar un FileOutputStream (ver {@link FlujoDeBytes#write}).
 	 * 
-	 * @param text  - El texto que se va a escribir.
-	 * @param append - Si es verdadero, los datos se escribiran al final del archivo en lugar de reemplazar todo.
+	 * @param text   - El texto que se va a escribir.
+	 * @param append - Si es verdadero, los datos se escribiran al final del archivo en lugar de sobreescribirlos.
 	 */
 	private void write(String text, boolean append) {
 
-		// Declarando el objeto desde el try se logra cerrar el flujo automaticamente
-		try (FileWriter output = new FileWriter(file, append)) {
+		// Creando el objeto desde el try se logra cerrar el flujo automaticamente
+		try (FileWriter output = new FileWriter(path, append)) {
 
 			output.write(text);
 
