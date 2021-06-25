@@ -24,7 +24,9 @@ public class FlujoDeBytes {
 	private static final String S = File.separator;
 	private static final String ASSETS = "assets";
 	private static final String TEXTS_PATH = "texts";
-	private static final String FILENAME = "text.txt";
+	private static final String TEXTURE_PATH = "textures";
+	private static final String TEXT_FILENAME = "text.txt";
+	private static final String TEXTURE_FILENAME = "dragon.png";
 
 	public FlujoDeBytes(File file) {
 		this.file = file;
@@ -56,11 +58,14 @@ public class FlujoDeBytes {
 			 * obtener gran parte de la aceleracion que proviene de leer una matriz de bytes en lugar de un byte a la vez. */
 			input = new FileInputStream(file);
 
-			/* El metodo read() devuelve el numero de bytes leidos en la matriz de bytes. En caso de que haya menos bytes
-			 * para leer de los que hay en el espacio de la matriz, o menos de lo que se especifico en el parametro de longitud, se
-			 * leeran menos bytes en la matriz de bytes. Si se han leido todos los bytes del FileInputStream, devolvera -1. Por lo
-			 * tanto, es necesario inspeccionar el valor devuelto por estas llamadas al metodo read().
+			/* El metodo read() devuelve el numero total de bytes leidos en el buffer, o -1 si no hay mas datos porque se ha
+			 * alcanzado el final del archivo.
 			 * 
+			 * En caso de que haya menos bytes para leer de los que hay en el espacio de la matriz, o menos de lo que se especifico
+			 * en el parametro de longitud, se leeran menos bytes en la matriz de bytes. Si se han leido todos los bytes del
+			 * FileInputStream, devolvera -1. Por lo tanto, es necesario inspeccionar el valor devuelto por estas llamadas al metodo
+			 * read().
+			 *
 			 * -Rendimiento de lectura
 			 * Leer una matriz de bytes a la vez es mas rapido que leer un solo byte a la vez desde un FileInputStream. La
 			 * diferencia puede ser facilmente un factor 10 o mas en el aumento del rendimiento, al leer una matriz de bytes en
@@ -77,7 +82,7 @@ public class FlujoDeBytes {
 
 			while ((byteRead = input.read(bytes)) != -1)
 				System.out.print(byteRead);
-			System.out.println(" bytes leidos de " + FILENAME);
+			System.out.println(" bytes leidos de " + TEXT_FILENAME);
 
 			// TODO No estara al pedo el ciclo while?
 			// System.out.println(input.read(bytes));
@@ -154,13 +159,45 @@ public class FlujoDeBytes {
 
 	}
 
+	private void readTexture() {
+
+		// Crea una matriz de bytes con la capacidad de 2 Kb
+		byte[] bytes = new byte[1024 * 2];
+		int byte_, i = 0;
+
+		try {
+
+			input = new FileInputStream(file);
+
+			while ((byte_ = input.read()) != -1)
+				bytes[i++] = (byte) byte_;
+
+			System.out.println(i);
+
+		} catch (FileNotFoundException e) {
+			System.err.println("El archivo no existe!\nMas informacion...\n" + e.getMessage());
+		} catch (IOException e) {
+			System.err.println("Error de I/O!");
+		} finally {
+			try {
+				if (output != null) output.close();
+			} catch (IOException e) {
+				System.err.println("No se pudo cerrar el flujo de salida!");
+			}
+		}
+
+	}
+
 	public static void main(String[] args) {
+
 		/* No hay ninguna ventaja en particular al usar un String o un File para especificar la ruta del archivo, la unica
 		 * diferencia es que usando un objeto File, este puede ser mas manipulable a travez de sus metodos. */
-		FlujoDeBytes flujo = new FlujoDeBytes(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + FILENAME));
-		flujo.read();
-		// flujo.write("Tostado", false);
+		FlujoDeBytes texto = new FlujoDeBytes(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + TEXT_FILENAME));
+		// texto.read();
+		// texto.write("Tostado", false);
 
+		FlujoDeBytes imagen = new FlujoDeBytes(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTURE_PATH + S + TEXTURE_FILENAME));
+		imagen.readTexture();
 	}
 
 }
