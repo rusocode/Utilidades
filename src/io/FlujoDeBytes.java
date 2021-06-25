@@ -8,7 +8,11 @@ import java.io.*;
  * https://mkyong.com/java/java-read-a-file-from-resources-folder/
  * http://tutorials.jenkov.com/java-io/index.html
  * 
- * TODO Agregar un metodo para lectura de imagenes, aprovechando la ocasion del flujo de bytes
+ * Teniendo en cuanta que InputStream es una clase abstracta, entonces se utiliza el cargador de clases para obtener
+ * el recurso especificado (un archivo de texto en este caso) como un flujo de bytes.
+ * InputStream input = getClass().getClassLoader().getResourceAsStream(TEXTS_PATH + S + FILENAME);
+ * 
+ * TODO Limpiar un poco los comentarios
  * 
  * @author Juan Debenedetti aka Ru$o
  * 
@@ -33,59 +37,46 @@ public class FlujoDeBytes {
 	}
 
 	/**
-	 * Lee una matriz de bytes del flujo de entrada. Este metodo se bloquea si aun no hay ninguna entrada disponible.
+	 * Lee un array de bytes del flujo de entrada. Este metodo se bloquea si aun no hay ninguna entrada disponible.
 	 * <p>
 	 * FileInputStream esta diseñado para leer flujos de bytes sin procesar, como datos de imagen. Para leer
 	 * secuencias de caracteres, considere usar FileReader (ver {@link FlujoDeCaracteres#read}).
 	 * </p>
 	 */
-	private void read() {
+	private void readText() {
 
-		// Crea una matriz de bytes con la capacidad de 1 Kb
-		byte[] bytes = new byte[1024];
-
-		int byteRead;
+		byte[] bytes = null;
 
 		try {
 
-			/* Teniendo en cuanta que InputStream es una clase abstracta, entonces se utiliza el cargador de clases para obtener
-			 * el recurso especificado (un archivo de texto en este caso) como un flujo de bytes. */
-			// InputStream input = getClass().getClassLoader().getResourceAsStream(TEXTS_PATH + S + FILENAME);
-
-			/* Puede agregar lectura y almacenamiento en buffer transparentes y automaticos de una matriz de bytes desde un
-			 * FileInputStream utilizando un BufferedInputStream. BufferedInputStream lee un fragmento de bytes en una matriz
-			 * de bytes del FileInputStream subyacente. Luego puede leer los bytes uno por uno desde BufferedInputStream y aun asi
-			 * obtener gran parte de la aceleracion que proviene de leer una matriz de bytes en lugar de un byte a la vez. */
 			input = new FileInputStream(file);
+
+			bytes = new byte[(int) input.getChannel().size()];
 
 			/* El metodo read() devuelve el numero total de bytes leidos en el buffer, o -1 si no hay mas datos porque se ha
 			 * alcanzado el final del archivo.
 			 * 
-			 * En caso de que haya menos bytes para leer de los que hay en el espacio de la matriz, o menos de lo que se especifico
-			 * en el parametro de longitud, se leeran menos bytes en la matriz de bytes. Si se han leido todos los bytes del
+			 * En caso de que haya menos bytes para leer de los que hay en el espacio del array, o menos de lo que se especifico
+			 * en el parametro de longitud, se leeran menos bytes en el array de bytes. Si se han leido todos los bytes del
 			 * FileInputStream, devolvera -1. Por lo tanto, es necesario inspeccionar el valor devuelto por estas llamadas al metodo
 			 * read().
 			 *
 			 * -Rendimiento de lectura
-			 * Leer una matriz de bytes a la vez es mas rapido que leer un solo byte a la vez desde un FileInputStream. La
-			 * diferencia puede ser facilmente un factor 10 o mas en el aumento del rendimiento, al leer una matriz de bytes en
+			 * Leer un array de bytes a la vez es mas rapido que leer un solo byte a la vez desde un FileInputStream. La
+			 * diferencia puede ser facilmente un factor 10 o mas en el aumento del rendimiento, al leer un array de bytes en
 			 * lugar de leer un solo byte a la vez.
 			 * 
-			 * La aceleracion exacta obtenida depende del tamaño de la matriz de bytes que lee y del sistema operativo, hardware,
+			 * La aceleracion exacta obtenida depende del tamaño de el array de bytes que lee y del sistema operativo, hardware,
 			 * etc. de la computadora en la que esta ejecutando el codigo. Debe estudiar los tamaños de buffer del disco duro, etc.
 			 * del sistema de destino antes de tomar una decision. Sin embargo, los tamaños de buffer de 8 Kb y superiores
-			 * proporcionaran una buena aceleracion. Sin embargo, una vez que su matriz de bytes exceda la capacidad del sistema
-			 * operativo y el hardware subyacentes, no obtendra una mayor aceleracion de una matriz de bytes mas grande.
+			 * proporcionaran una buena aceleracion. Sin embargo, una vez que su array de bytes exceda la capacidad del sistema
+			 * operativo y el hardware subyacentes, no obtendra una mayor aceleracion de un array de bytes mas grande.
 			 * 
-			 * Probablemente tendra que experimentar con diferentes tamaños de matriz de bytes y medir el rendimiento de lectura
-			 * para encontrar el tamaño de matriz de bytes optimo. */
+			 * Probablemente tendra que experimentar con diferentes tamaños de array de bytes y medir el rendimiento de lectura
+			 * para encontrar el tamaño de array de bytes optimo. */
+			input.read(bytes);
 
-			while ((byteRead = input.read(bytes)) != -1)
-				System.out.print(byteRead);
-			System.out.println(" bytes leidos de " + TEXT_FILENAME);
-
-			// TODO No estara al pedo el ciclo while?
-			// System.out.println(input.read(bytes));
+			// showTextInfo(input);
 
 		} catch (FileNotFoundException e) {
 			System.err.println("El archivo no existe!\nMas informacion...\n" + e.getMessage());
@@ -102,27 +93,27 @@ public class FlujoDeBytes {
 	}
 
 	/**
-	 * Escribe una matriz de bytes en el flujo de salida.
+	 * Escribe un array de bytes en el flujo de salida.
 	 * <p>
 	 * FileOutputStream esta diseñado para escribir flujos de bytes sin procesar, como datos de imagen. Para escribir
 	 * secuencias de caracteres, considere usar FileWriter (ver {@link FlujoDeCaracteres#write}).
 	 * </p>
 	 * 
-	 * @param texto  - El texto que se va a escribir.
+	 * @param text   - El texto que se va a escribir.
 	 * @param append - Si es verdadero, los datos se escribiran al final del archivo en lugar de sobreescribirlos.
 	 */
-	private void write(String texto, boolean append) {
+	private void writeText(String text, boolean append) {
 
 		/* Codifica esta cadena en una secuencia de bytes usando el juego de caracteres predeterminado de la plataforma,
-		 * almacenando el resultado en una nueva matriz de bytes. */
-		byte[] bytes = texto.getBytes();
+		 * almacenando el resultado en un nuevo array de bytes. */
+		byte[] bytes = text.getBytes();
 
 		try {
 
 			output = new FileOutputStream(file, append);
 
 			/* -Rendimiento de escritura
-			 * Es mas rapido escribir una matriz de bytes en un FileOutputStream que escribir un byte a la vez. La
+			 * Es mas rapido escribir un array de bytes en un FileOutputStream que escribir un byte a la vez. La
 			 * aceleracion puede ser bastante significativa, hasta 10 veces mayor o mas. Por lo tanto, se recomienda utilizar los
 			 * metodos de escritura (byte[]) siempre que sea posible.
 			 * 
@@ -159,20 +150,57 @@ public class FlujoDeBytes {
 
 	}
 
-	private void readTexture() {
+	/**
+	 * Lee una imagen y almacena los bytes en un array de bytes.
+	 * 
+	 * @return Devuelve el array de bytes con los datos de la imagen o null si no se pudo leer.
+	 */
+	private byte[] readTexture() {
 
-		// Crea una matriz de bytes con la capacidad de 2 Kb
-		byte[] bytes = new byte[1024 * 2];
-		int byte_, i = 0;
+		byte[] bytes = null;
 
 		try {
 
 			input = new FileInputStream(file);
 
-			while ((byte_ = input.read()) != -1)
-				bytes[i++] = (byte) byte_;
+			/* Inicializa el array tomando el tamaño total de la imagen. Esto resulta eficiente en terminos de rendimiento ya que no
+			 * se estarian creando espacios sobrantes como en el caso de un array convencional (new byte[1024]). */
+			bytes = new byte[(int) input.getChannel().size()];
 
-			System.out.println(i);
+			input.read(bytes);
+
+			// showTextureInfo(input);
+
+			return bytes;
+
+		} catch (FileNotFoundException e) {
+			System.err.println("El archivo no existe!\nMas informacion...\n" + e.getMessage());
+		} catch (IOException e) {
+			System.err.println("Error de I/O!");
+		} finally {
+			try {
+				if (input != null) input.close();
+			} catch (IOException e) {
+				System.err.println("No se pudo cerrar el flujo de salida!");
+			}
+		}
+
+		return bytes;
+
+	}
+
+	/**
+	 * Copia la imagen en el mismo directorio.
+	 * 
+	 * @param bytes[] - Los bytes leidos de la imagen.
+	 */
+	private void writeTexture(byte[] bytes) {
+		try {
+
+			// Crea un archivo llamado "dragon_copia.png"
+			output = new FileOutputStream(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTURE_PATH + S + "dragon_copia.png"));
+
+			output.write(bytes);
 
 		} catch (FileNotFoundException e) {
 			System.err.println("El archivo no existe!\nMas informacion...\n" + e.getMessage());
@@ -185,19 +213,65 @@ public class FlujoDeBytes {
 				System.err.println("No se pudo cerrar el flujo de salida!");
 			}
 		}
+	}
 
+	/**
+	 * Muestra informacion acerca de la imagen, tamaño, bytes, etc.
+	 * 
+	 * @param input - La imagen.
+	 */
+	private void showTextureInfo(FileInputStream input) {
+
+		/* El tamaño del array tiene que ser mayor al tamaño de la imagen, por eso es importante saber de antemano ese tamaño.
+		 * Si el tamaño de la imagen es menor al espacio del array, entonces se asignaran 0 a los espacios sobrantes del
+		 * array. */
+		byte[] bytes = new byte[1024 * 2];
+
+		int byte_, i = 0;
+
+		try {
+
+			/* Lee el flujo mientras el byte leido sea distinto a -1.
+			 * Si el metodo read() devuelve -1, se ha alcanzado el final de la secuencia, lo que significa que no hay mas datos
+			 * para leer en InputStream. Es decir, -1 como valor int, no -1 como byte o valor short. ¡Hay una diferencia aqui! */
+			while ((byte_ = input.read()) != -1)
+				bytes[i++] = (byte) byte_;
+
+			// Imprime cada byte de la imagen
+			for (byte b : bytes)
+				System.out.println(b);
+
+		} catch (FileNotFoundException e) {
+			System.err.println("El archivo no existe!\nMas informacion...\n" + e.getMessage());
+		} catch (IOException e) {
+			System.err.println("Error de I/O!");
+		} finally {
+			try {
+				if (input != null) input.close();
+			} catch (IOException e) {
+				System.err.println("No se pudo cerrar el flujo de entrada!");
+			}
+		}
+
+	}
+
+	private void showTextInfo(FileInputStream input) {
+//		while ((byteRead = input.read(bytes)) != -1)
+//			System.out.print(byteRead);
+//		System.out.println(" bytes leidos de " + TEXT_FILENAME);
 	}
 
 	public static void main(String[] args) {
 
 		/* No hay ninguna ventaja en particular al usar un String o un File para especificar la ruta del archivo, la unica
 		 * diferencia es que usando un objeto File, este puede ser mas manipulable a travez de sus metodos. */
-		FlujoDeBytes texto = new FlujoDeBytes(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + TEXT_FILENAME));
-		// texto.read();
-		// texto.write("Tostado", false);
+//		FlujoDeBytes text = new FlujoDeBytes(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + TEXT_FILENAME));
+//		text.readText();
+//		text.writeText("Tostado", false);
 
-		FlujoDeBytes imagen = new FlujoDeBytes(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTURE_PATH + S + TEXTURE_FILENAME));
-		imagen.readTexture();
+		FlujoDeBytes texture = new FlujoDeBytes(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTURE_PATH + S + TEXTURE_FILENAME));
+		byte[] bytes = texture.readTexture();
+		texture.writeTexture(bytes);
 	}
 
 }

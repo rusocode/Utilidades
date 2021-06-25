@@ -9,29 +9,37 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Buffers {
+/**
+ * FileOuputStream, FileInputStream, FileWriter y FileReader se utilizan para escribir o leer datos en memoria.
+ * 
+ * BufferedOutputStream, BufferedInputStream, BufferedWriter y BufferedReader, a�aden un buffer intermedio encargado
+ * de controlar el acceso a la memoria.
+ * 
+ * -Si vamos escribiendo, se guardaran los datos hasta que tenga basantes como para hacer la escritura eficiente.
+ * 
+ * -Si queremos leer, la clase leera muchos datos de golpe, aunque solo nos de los que hayamos pedido. En las siguientes
+ * lecturas nos dara lo que tiene almacenado, hasta que necesite leer otra vez.
+ * 
+ * Esta forma de trabajar hace que el acceso al disco sea mas eficiente y el programa corra mas rapido. La diferencia se
+ * notara mas cuanto mayor sea el fichero que queramos leer o escribir.
+ * 
+ * La clave en las clases que comienzan con Buffered es que usan un buffer. Digamos que es una memoria interna que
+ * normalmente hace que esas clases sean mas eficientes, es decir, es esperable que un BufferedInputStream sea mas
+ * rapido que el flujo ordinario. El flujo normal tiene que estar llamando y accediendo a la memoria por cada byte
+ * que quiera devolver, resultando ineficiente y consumiendo muchos recursos. En cambio el buffer accede a la memoria
+ * una vez y recolecta un array de bytes.
+ * Cuando se le llama al metodo read() ya no tiene que acceder a la memoria, sino que devuelve la informacion
+ * del buffer interno. En algun momento el buffer interno se agota, pero mientras esto ocurre se han ahorrado un monton
+ * de procesos.
+ * 
+ * TODO Acomodar...
+ * Puede agregar lectura y almacenamiento en buffer transparentes y automaticos de un array de bytes desde un
+ * FileInputStream utilizando un BufferedInputStream. BufferedInputStream lee un fragmento de bytes en un array
+ * de bytes del FileInputStream subyacente. Luego puede leer los bytes uno por uno desde BufferedInputStream y aun asi
+ * obtener gran parte de la aceleracion que proviene de leer un array de bytes en lugar de un byte a la vez.
+ */
 
-	/* FileOuputStream, FileInputStream, FileWriter y FileReader se utilizan para escribir o leer datos en memoria.
-	 * 
-	 * BufferedOutputStream, BufferedInputStream, BufferedWriter y BufferedReader, a�aden un buffer intermedio encargado
-	 * de controlar el acceso a la memoria.
-	 * 
-	 * -Si vamos escribiendo, se guardaran los datos hasta que tenga basantes como para hacer la escritura eficiente.
-	 * 
-	 * -Si queremos leer, la clase leera muchos datos de golpe, aunque solo nos de los que hayamos pedido. En las siguientes
-	 * lecturas nos dara lo que tiene almacenado, hasta que necesite leer otra vez.
-	 * 
-	 * Esta forma de trabajar hace que el acceso al disco sea mas eficiente y el programa corra mas rapido. La diferencia se
-	 * notara mas cuanto mayor sea el fichero que queramos leer o escribir.
-	 * 
-	 * La clave en las clases que comienzan con Buffered es que usan un buffer. Digamos que es una memoria interna que
-	 * normalmente hace que esas clases sean mas eficientes, es decir, es esperable que un BufferedInputStream sea mas
-	 * rapido que el flujo ordinario. El flujo normal tiene que estar llamando y accediendo a la memoria por cada byte
-	 * que quiera devolver, resultando ineficiente y consumiendo muchos recursos. En cambio el buffer accede a la memoria
-	 * una vez y recolecta un array de bytes.
-	 * Cuando se le llama al metodo read() ya no tiene que acceder a la memoria, sino que devuelve la informacion
-	 * del buffer interno. En algun momento el buffer interno se agota, pero mientras esto ocurre se han ahorrado un monton
-	 * de procesos. */
+public class Buffers {
 
 	private static final String RUTA_IMAGEN = "archivos/imagen.png";
 	private static final String RUTA_TEXTO = "archivos/texto.txt";
@@ -62,7 +70,7 @@ public class Buffers {
 				c++;
 			}
 
-			System.out.println("Tama�o de la imagen en bytes: " + c + " B\n" + "Tama�o de la imagen en Kilobytes: " + (c / 1024) + " KB");
+			System.out.println("Tamaño de la imagen en bytes: " + c + " B\n" + "Tama�o de la imagen en Kilobytes: " + (c / 1024) + " KB");
 
 			buffer.close();
 
