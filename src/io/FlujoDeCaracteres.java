@@ -32,7 +32,7 @@ public class FlujoDeCaracteres {
 
 	/**
 	 * Lee un solo caracter.
-	 * Para leer flujos de bytes sin procesar, considere usar un FileInputStream (ver {@link FlujoDeBytes#read}).
+	 * Para leer flujos de bytes sin procesar, considere usar un FileInputStream (ver {@link FlujoDeBytes#readText}).
 	 */
 	private void read() {
 
@@ -62,7 +62,7 @@ public class FlujoDeCaracteres {
 
 	/**
 	 * Escribe una cadena.
-	 * Para escribir flujos de bytes sin procesar, considere usar un FileOutputStream (ver {@link FlujoDeBytes#write}).
+	 * Para escribir flujos de bytes sin procesar, considere usar un FileOutputStream (ver {@link FlujoDeBytes#writeText}).
 	 * 
 	 * @param text   - El texto que se va a escribir.
 	 * @param append - Si es verdadero, los datos se escribiran al final del archivo en lugar de sobreescribirlos.
