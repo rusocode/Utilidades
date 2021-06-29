@@ -44,7 +44,7 @@ public class SpecialCharacterStream implements Constants {
 	 */
 	private void read() {
 
-		char[] buf = new char[BUFFER_SIZE];
+		char[] buffer = new char[BUFFER_SIZE];
 
 		try {
 
@@ -57,8 +57,8 @@ public class SpecialCharacterStream implements Constants {
 			System.out.println("-Texto-");
 
 			// Lee todos los caracteres del array o -1 si llego al final del archivo
-			while (charset.read(buf) != -1) {
-				System.out.println(buf);
+			while (charset.read(buffer) != -1) {
+				System.out.println(buffer);
 				System.out.println("Bytes restantes que se pueden leer: " + input.available());
 			}
 

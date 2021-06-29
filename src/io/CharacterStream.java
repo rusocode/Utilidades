@@ -39,8 +39,6 @@ public class CharacterStream implements Constants {
 
 		char[] buffer = new char[BUFFER_SIZE];
 
-		int caracter;
-
 		try {
 
 			input = new FileReader(path);
