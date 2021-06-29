@@ -179,7 +179,7 @@ public class FlujoDeBytes {
 		 * Si el tamaño del archivo es menor al espacio del array, entonces se asignaran 0 a los espacios sobrantes.
 		 * IMPORTANTE: Esta forma de inicializar el array (en este caso) es ineficiente, solo se usa como una muestra de su
 		 * funcionamiento. */
-		final int size = 2;
+		final int size = 10; // https://www.quora.com/Why-are-there-1024-bytes-in-a-kilobyte
 
 		byte[] buf = null;
 
@@ -204,10 +204,8 @@ public class FlujoDeBytes {
 				 * archivo. */
 				i = input.read(buf);
 
-				System.out.println(i);
-				System.out.println(buf);
-				// String value = new String(buf, StandardCharsets.UTF_8);
-				// System.out.println(value);
+				// Decodifica la matriz de bytes al formato UTF-8 y la muestra
+				System.out.println(new String(buf, StandardCharsets.UTF_8));
 
 			} while (i != -1);
 
