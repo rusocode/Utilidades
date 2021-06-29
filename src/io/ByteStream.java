@@ -62,7 +62,6 @@ import java.nio.charset.StandardCharsets;
 
 public class ByteStream implements Constants {
 
-	private String path;
 	private File file;
 	private FileInputStream input;
 	private FileOutputStream output;
@@ -70,15 +69,6 @@ public class ByteStream implements Constants {
 	/** Crea un flujo para el archivo usando un objeto File. */
 	public ByteStream(File file) {
 		this.file = file;
-	}
-
-	/**
-	 * Crea un flujo para el archivo usando un objeto String.
-	 * No hay ninguna ventaja en particular al usar un String o un File para especificar la ruta del archivo, la unica
-	 * diferencia es que usando un objeto File, este puede ser mas manipulable a travez de sus metodos.
-	 */
-	public ByteStream(String path) {
-		this.path = path;
 	}
 
 	/**
@@ -216,9 +206,7 @@ public class ByteStream implements Constants {
 
 		/* Si el tamaño del archivo es menor al espacio del array, entonces se asignaran caracteres de espacio a los lugares
 		 * sobrantes del array. */
-		final int size = 8192; // https://www.quora.com/Why-are-there-1024-bytes-in-a-kilobyte
-
-		byte[] buf = new byte[size];
+		byte[] buf = new byte[BUFFER_SIZE];
 
 		try {
 

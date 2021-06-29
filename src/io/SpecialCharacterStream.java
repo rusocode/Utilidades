@@ -18,8 +18,9 @@ import java.nio.charset.StandardCharsets;
  * Por defecto, el charset (juego de caracteres) esta especificado en la plataforma, pero en este caso
  * se lo indico explicitamente al constructor de InputStreamReader que use UTF-8.
  * 
- * TODO Agrege un caracter chino (特 = 3 bytes) al archivo de texto para probar la decodificacion de caracteres epeciales
+ * Agrege un caracter chino (特 = 3 bytes) al archivo de texto para probar la decodificacion de caracteres epeciales
  * (no predeterminado por el host) con InputStreamReader.
+ * 
  * FIXME La plataforma se refiere a la JVM, Eclipse o al SO?
  * 
  * @author Juan Debenedetti aka Ru$o
@@ -38,12 +39,12 @@ public class SpecialCharacterStream implements Constants {
 	}
 
 	/**
-	 * Crea un flujo de entrada para el archivo de texto, lee los bytes del array y los decodifica en caracteres utilizando
-	 * el formato UTF-8.
+	 * Crea un flujo de entrada para el archivo de texto y lee los caracteres del buffer codificados en el formato
+	 * especificado.
 	 */
 	private void read() {
 
-		char[] buf = new char[8192];
+		char[] buf = new char[BUFFER_SIZE];
 
 		try {
 
@@ -55,7 +56,7 @@ public class SpecialCharacterStream implements Constants {
 			System.out.println("Tamaño: " + input.available() + " bytes");
 			System.out.println("-Texto-");
 
-			// Lee los caracteres del array o -1 si llego al final del archivo
+			// Lee todos los caracteres del array o -1 si llego al final del archivo
 			while (charset.read(buf) != -1) {
 				System.out.println(buf);
 				System.out.println("Bytes restantes que se pueden leer: " + input.available());

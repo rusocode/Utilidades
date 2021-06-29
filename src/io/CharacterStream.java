@@ -18,31 +18,35 @@ import java.io.*;
 public class CharacterStream implements Constants {
 
 	private String path;
-
 	private FileReader input;
 
+	/**
+	 * Crea un flujo para el archivo usando un objeto String.
+	 * No hay ninguna ventaja en particular al usar un String o un File para especificar la ruta del archivo, la unica
+	 * diferencia es que usando un objeto File, este puede ser mas manipulable a travez de sus metodos.
+	 */
 	public CharacterStream(String path) {
 		this.path = path;
 	}
 
 	/**
-	 * Lee un solo caracter.
+	 * Crea un flujo de entrada para el archivo de texto y lee los caracteres del buffer codificados en el formato
+	 * predetermiando de la plataforma.
+	 *
 	 * Para leer flujos de bytes sin procesar, considere usar un FileInputStream (ver {@link ByteStream#readText}).
 	 */
 	private void read() {
 
-		// TODO Usar un array de caracteres para un mejor rendimiento
+		char[] buffer = new char[BUFFER_SIZE];
 
-		int character;
+		int caracter;
 
 		try {
 
 			input = new FileReader(path);
-
-			/* Obtiene el caracter leido, o -1 si se ha alcanzado el final de la secuencia.
-			 * Cada caracter del alfabeto ASCII ocupa 1 byte! */
-			while ((character = input.read()) != -1)
-				System.out.print((char) character);
+			// Lee todos los caracteres del array o -1 si llego al final del archivo
+			while (input.read(buffer) != -1)
+				System.out.print(buffer);
 
 		} catch (FileNotFoundException e) {
 			System.err.println("El archivo no existe!\nMas informacion...");
@@ -61,7 +65,9 @@ public class CharacterStream implements Constants {
 	}
 
 	/**
-	 * Escribe una cadena.
+	 * Crea un flujo de salida para el archivo de texto y escribe una cadena utilizando el formato predeterminado de la
+	 * plataforma.
+	 * 
 	 * Para escribir flujos de bytes sin procesar, considere usar un FileOutputStream (ver {@link ByteStream#writeText}).
 	 * 
 	 * @param text   - El texto que se va a escribir.
