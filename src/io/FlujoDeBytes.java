@@ -7,7 +7,9 @@ import java.nio.charset.StandardCharsets;
  * Las clases FileInputStream y FileOutputStream, hacen posible leer y escribir un archivo como un flujo de bytes.
  * 
  * https://mkyong.com/java/java-read-a-file-from-resources-folder/
+ * https://mkyong.com/java/how-to-read-file-in-java-fileinputstream/
  * http://tutorials.jenkov.com/java-io/index.html
+ * https://www.programiz.com/java-programming/fileinputstream
  * 
  * Teniendo en cuanta que InputStream es una clase abstracta, entonces se utiliza el cargador de clases para obtener
  * el recurso especificado (un archivo de texto en este caso) como un flujo de bytes.
@@ -90,11 +92,7 @@ public class FlujoDeBytes {
 	 */
 	private byte[] readTexture() {
 
-		// https://stackoverflow.com/questions/3621067/why-is-the-range-of-bytes-128-to-127-in-java#:~:text=8%20Answers&text=The%20answer%20is%20two's%20complement,a%207-bit%20unsigned%20integer.
-		byte[] bytes = null; // Array para alamcenar bytes con signo (-128 a 127)
-		int[] Ubytes = null; // Array para almacenar bytes sin singo/sin firmar (0 a 255)
-
-		int byte_, i = 0;
+		byte[] bytes = null;
 
 		try {
 
@@ -102,24 +100,14 @@ public class FlujoDeBytes {
 
 			System.out.println("Archivo: " + file.getName());
 			System.out.println("Ruta: " + file.getPath());
-			System.out.println("Tamaño: " + input.getChannel().size() + " bytes");
+			System.out.println("Tamaño: " + input.available() + " bytes");
 
-			/* Inicializa el array tomando el tamaño total de la imagen. Esto resulta eficiente en terminos de rendimiento ya que no
-			 * se estarian creando espacios sobrantes como en el caso de un array convencional (new byte[1024]). */
-			bytes = new byte[(int) input.getChannel().size()];
-			Ubytes = new int[(int) input.getChannel().size()];
+			bytes = new byte[input.available()];
 
-			/* Lee un byte de los datos del flujo de entrada. Si devuelve -1, no hay mas datos para leer y se puede cerrar. Es
-			 * decir, -1 como int, no como byte. ¡Hay una diferencia aqui! Por lo tanto, es necesario inspeccionar el valor devuelto
-			 * por estas llamadas al metodo read() por medio de un bucle while. */
-			while ((byte_ = input.read()) != -1) {
-				bytes[i] = (byte) byte_; // Convierte el byte sin firma a un byte con signo y lo almacena
-				Ubytes[i] = byte_; // Almacena el byte sin firma
-				i++;
+			while (input.read(bytes) != -1) {
+				for (int i = 0; i < bytes.length; i++)
+					System.out.println("bloque " + i + " > byte = " + bytes[i]);
 			}
-
-			for (i = 0; i < bytes.length; i++)
-				System.out.println("byte en el bloque " + i + " > byte = " + bytes[i] + ", Ubyte = " + Ubytes[i]);
 
 		} catch (FileNotFoundException e) {
 			System.err.println("El archivo no existe!\nMas informacion...");
@@ -137,7 +125,6 @@ public class FlujoDeBytes {
 		}
 
 		return bytes;
-
 	}
 
 	/**
@@ -167,6 +154,59 @@ public class FlujoDeBytes {
 	}
 
 	/**
+	 * Crea un flujo de entrada para el archivo de imagen, lee la secuencia y muestra los bytes con signo y sin signo.
+	 */
+	private void showTextureInfo() {
+
+		// https://stackoverflow.com/questions/3621067/why-is-the-range-of-bytes-128-to-127-in-java#:~:text=8%20Answers&text=The%20answer%20is%20two's%20complement,a%207-bit%20unsigned%20integer.
+		byte[] bytes = null; // Array para alamcenar bytes con signo (-128 a 127)
+		int[] Ubytes = null; // Array para almacenar bytes sin singo/sin firmar (0 a 255)
+
+		int byte_, i = 0;
+
+		try {
+
+			input = new FileInputStream(file);
+
+			System.out.println("Archivo: " + file.getName());
+			System.out.println("Ruta: " + file.getPath());
+			System.out.println("Tamaño: " + input.available() + " bytes");
+
+			/* Inicializa el array tomando el tamaño total de la imagen. Esto resulta eficiente en terminos de rendimiento ya que no
+			 * se estarian creando espacios sobrantes como en el caso de un array convencional (new byte[1024]). */
+			bytes = new byte[(int) input.getChannel().size()];
+			Ubytes = new int[(int) input.getChannel().size()];
+
+			/* Lee un byte de los datos del flujo de entrada. Si devuelve -1, no hay mas datos para leer y se puede cerrar. Es
+			 * decir, -1 como int, no como byte. ¡Hay una diferencia aqui! Por lo tanto, es necesario inspeccionar el valor devuelto
+			 * por estas llamadas al metodo read() por medio de un bucle while. */
+			while ((byte_ = input.read()) != -1) {
+				bytes[i] = (byte) byte_; // Convierte el byte sin firma a un byte con signo y lo almacena
+				Ubytes[i] = byte_; // Almacena el byte sin firma (U = unsigned)
+				i++;
+			}
+
+			for (i = 0; i < bytes.length; i++)
+				System.out.println("bloque " + i + " > byte = " + bytes[i] + ", Ubyte = " + Ubytes[i]);
+
+		} catch (FileNotFoundException e) {
+			System.err.println("El archivo no existe!\nMas informacion...");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.err.println("Error de I/O!\nMas informaion...");
+			e.printStackTrace();
+		} finally {
+			try {
+				if (input != null) input.close();
+			} catch (IOException e) {
+				System.err.println("No se pudo cerrar el flujo de entrada!\nMas informacion...");
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	/**
 	 * Crea un flujo de entrada para el archivo de texto, lee los caracteres como bytes y los almacena en un array. Este
 	 * metodo se bloquea si aun no hay ninguna entrada disponible.
 	 * <p>
@@ -177,13 +217,10 @@ public class FlujoDeBytes {
 
 		/* El tamaño del array tiene que ser mayor al tamaño del archivo, por eso es importante saber de antemano ese tamaño.
 		 * Si el tamaño del archivo es menor al espacio del array, entonces se asignaran 0 a los espacios sobrantes.
-		 * IMPORTANTE: Esta forma de inicializar el array (en este caso) es ineficiente, solo se usa como una muestra de su
-		 * funcionamiento. */
-		final int size = 10; // https://www.quora.com/Why-are-there-1024-bytes-in-a-kilobyte
+		 * FIXME Esta forma de inicializar el array (en este caso) es ineficiente? */
+		final int size = 8192; // https://www.quora.com/Why-are-there-1024-bytes-in-a-kilobyte
 
-		byte[] buf = null;
-
-		int i = 0;
+		byte[] buf = new byte[size];
 
 		try {
 
@@ -192,22 +229,21 @@ public class FlujoDeBytes {
 			// Desventaja al usar path
 			// System.out.println("Archivo: " + file.getName());
 			// System.out.println("Ruta: " + file.getPath());
-			System.out.println("Tamaño: " + input.getChannel().size() + " bytes");
+			System.out.println("Tamaño: " + input.available() + " bytes");
 
-			do {
+			/* Podemos usar la lectura read(byte[] b) para leer bytes predefinidos en una matriz de bytes; aumentara
+			 * significativamente el rendimiento de lectura. En este caso lee 8192 bytes a la vez, si es el final del archivo,
+			 * devuelve -1.
+			 * Por ejemplo, si un archivo contiene 81920 bytes (80 kb), el archivo input.read() predeterminado requerira 81920
+			 * llamadasm nativas para leer todos los bytes del archivo; Mientras que input.read(buf) (para un tamaño de 8192), solo
+			 * necesitamos 10 llamadas nativas. La diferencia es enorme. */
+			while (input.read(buf) != -1) {
 
-				// Lee el archivo por fragmentos de datos (eficaz)
-				buf = new byte[size];
-
-				/* Lee los datos del flujo de entrada en el buffer.
-				 * Devuelve el numero total de bytes leidos en el buffer, o -1 si no hay mas datos porque se ha alcanzado el final del
-				 * archivo. */
-				i = input.read(buf);
-
-				// Decodifica la matriz de bytes al formato UTF-8 y la muestra
+				// Decodifica la matriz de bytes en formato UTF-8
 				System.out.println(new String(buf, StandardCharsets.UTF_8));
 
-			} while (i != -1);
+				System.out.println("Bytes restantes que se pueden leer: " + input.available());
+			}
 
 		} catch (FileNotFoundException e) {
 			System.err.println("El archivo no existe!\nMas informacion...\n" + e.getMessage());
@@ -264,13 +300,13 @@ public class FlujoDeBytes {
 	public static void main(String[] args) {
 
 		FlujoDeBytes texture = new FlujoDeBytes(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTURE_PATH + S + TEXTURE_FILENAME));
-		// texture.readTexture();
+		texture.showTextureInfo();
 		// texture.writeTexture(bytes);
 
 		/* No hay ninguna ventaja en particular al usar un String o un File para especificar la ruta del archivo, la unica
 		 * diferencia es que usando un objeto File, este puede ser mas manipulable a travez de sus metodos. */
 		FlujoDeBytes text = new FlujoDeBytes(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + TEXT_FILENAME);
-		text.readText();
+		// text.readText();
 		// text.writeText("Tostado", false);
 
 	}
