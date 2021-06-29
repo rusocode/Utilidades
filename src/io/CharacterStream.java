@@ -15,26 +15,23 @@ import java.io.*;
  * 
  */
 
-public class FlujoDeCaracteres {
+public class CharacterStream implements Constants {
 
 	private String path;
 
 	private FileReader input;
 
-	private static final String S = File.separator;
-	private static final String ASSETS = "assets";
-	private static final String TEXTS_PATH = "texts";
-	private static final String FILENAME = "text.txt";
-
-	public FlujoDeCaracteres(String path) {
+	public CharacterStream(String path) {
 		this.path = path;
 	}
 
 	/**
 	 * Lee un solo caracter.
-	 * Para leer flujos de bytes sin procesar, considere usar un FileInputStream (ver {@link FlujoDeBytes#readText}).
+	 * Para leer flujos de bytes sin procesar, considere usar un FileInputStream (ver {@link ByteStream#readText}).
 	 */
 	private void read() {
+
+		// TODO Usar un array de caracteres para un mejor rendimiento
 
 		int character;
 
@@ -48,21 +45,24 @@ public class FlujoDeCaracteres {
 				System.out.print((char) character);
 
 		} catch (FileNotFoundException e) {
-			System.err.println("El archivo no existe!\nMas informacion...\n" + e.getMessage());
+			System.err.println("El archivo no existe!\nMas informacion...");
+			e.printStackTrace();
 		} catch (IOException e) {
-			System.err.println("Error de I/O: " + e.getMessage());
+			System.err.println("Error de I/O!\nMas informacion...");
+			e.printStackTrace();
 		} finally {
 			try {
 				if (input != null) input.close();
 			} catch (IOException e) {
-				System.err.println("No se pudo cerrar el flujo de entrada!");
+				System.err.println("No se pudo cerrar el flujo de entrada!\nMas informacion...");
+				e.printStackTrace();
 			}
 		}
 	}
 
 	/**
 	 * Escribe una cadena.
-	 * Para escribir flujos de bytes sin procesar, considere usar un FileOutputStream (ver {@link FlujoDeBytes#writeText}).
+	 * Para escribir flujos de bytes sin procesar, considere usar un FileOutputStream (ver {@link ByteStream#writeText}).
 	 * 
 	 * @param text   - El texto que se va a escribir.
 	 * @param append - Si es verdadero, los datos se escribiran al final del archivo en lugar de sobreescribirlos.
@@ -76,15 +76,16 @@ public class FlujoDeCaracteres {
 
 		} catch (IOException e) {
 			System.err.println(
-					"El archivo mencionado existe pero es un directorio en lugar de un archivo normal, no existe pero no se puede crear o no se puede abrir por cualquier otro motivo.");
+					"El archivo mencionado existe pero es un directorio en lugar de un archivo normal, no existe pero no se puede crear o no se puede abrir por cualquier otro motivo.\nMas informacion...");
+			e.printStackTrace();
 		}
 
 	}
 
 	public static void main(String[] args) {
-		FlujoDeCaracteres flujo = new FlujoDeCaracteres(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + FILENAME);
-		// flujo.read();
-		flujo.write("Rulo quemado", false);
+		CharacterStream flujo = new CharacterStream(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + TEXT_FILENAME);
+		flujo.read();
+		// flujo.write("Rulo quemado", false);
 	}
 
 }

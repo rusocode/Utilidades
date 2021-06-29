@@ -60,28 +60,24 @@ import java.nio.charset.StandardCharsets;
  * 
  */
 
-public class FlujoDeBytes {
+public class ByteStream implements Constants {
 
-	private File file;
 	private String path;
-
+	private File file;
 	private FileInputStream input;
 	private FileOutputStream output;
 
-	private static final String S = File.separator;
-	private static final String ASSETS = "assets";
-	private static final String TEXTS_PATH = "texts";
-	private static final String TEXTURE_PATH = "textures";
-	private static final String TEXT_FILENAME = "text.txt";
-	private static final String TEXTURE_FILENAME = "bola_amarilla2.png";
-
 	/** Crea un flujo para el archivo usando un objeto File. */
-	public FlujoDeBytes(File file) {
+	public ByteStream(File file) {
 		this.file = file;
 	}
 
-	/** Crea un flujo para el archivo usando un objeto String. */
-	public FlujoDeBytes(String path) {
+	/**
+	 * Crea un flujo para el archivo usando un objeto String.
+	 * No hay ninguna ventaja en particular al usar un String o un File para especificar la ruta del archivo, la unica
+	 * diferencia es que usando un objeto File, este puede ser mas manipulable a travez de sus metodos.
+	 */
+	public ByteStream(String path) {
 		this.path = path;
 	}
 
@@ -141,14 +137,17 @@ public class FlujoDeBytes {
 			output.write(bytes);
 
 		} catch (FileNotFoundException e) {
-			System.err.println("El archivo no existe!\nMas informacion...\n" + e.getMessage());
+			System.err.println("El archivo no existe!\nMas informacion...");
+			e.printStackTrace();
 		} catch (IOException e) {
-			System.err.println("Error de I/O!");
+			System.err.println("Error de I/O!\nMas informacion...");
+			e.printStackTrace();
 		} finally {
 			try {
 				if (output != null) output.close();
 			} catch (IOException e) {
-				System.err.println("No se pudo cerrar el flujo de salida!");
+				System.err.println("No se pudo cerrar el flujo de salida!\nMas informacion...");
+				e.printStackTrace();
 			}
 		}
 	}
@@ -211,25 +210,24 @@ public class FlujoDeBytes {
 	 * metodo se bloquea si aun no hay ninguna entrada disponible.
 	 * <p>
 	 * FileInputStream esta diseñado para leer flujos de bytes sin procesar, como datos de imagen. Para leer
-	 * secuencias de caracteres, considere usar FileReader (ver {@link FlujoDeCaracteres#read}).
+	 * secuencias de caracteres, considere usar FileReader (ver {@link CharacterStream#read}).
 	 */
-	private byte[] readText() {
+	private void readText() {
 
-		/* El tamaño del array tiene que ser mayor al tamaño del archivo, por eso es importante saber de antemano ese tamaño.
-		 * Si el tamaño del archivo es menor al espacio del array, entonces se asignaran 0 a los espacios sobrantes.
-		 * FIXME Esta forma de inicializar el array (en este caso) es ineficiente? */
+		/* Si el tamaño del archivo es menor al espacio del array, entonces se asignaran caracteres de espacio a los lugares
+		 * sobrantes del array. */
 		final int size = 8192; // https://www.quora.com/Why-are-there-1024-bytes-in-a-kilobyte
 
 		byte[] buf = new byte[size];
 
 		try {
 
-			input = new FileInputStream(path);
+			input = new FileInputStream(file);
 
-			// Desventaja al usar path
-			// System.out.println("Archivo: " + file.getName());
-			// System.out.println("Ruta: " + file.getPath());
+			System.out.println("Archivo: " + file.getName());
+			System.out.println("Ruta: " + file.getPath());
 			System.out.println("Tamaño: " + input.available() + " bytes");
+			System.out.println("-Texto-");
 
 			/* Podemos usar la lectura read(byte[] b) para leer bytes predefinidos en una matriz de bytes; aumentara
 			 * significativamente el rendimiento de lectura. En este caso lee 8192 bytes a la vez, si es el final del archivo,
@@ -237,28 +235,23 @@ public class FlujoDeBytes {
 			 * Por ejemplo, si un archivo contiene 81920 bytes (80 kb), el archivo input.read() predeterminado requerira 81920
 			 * llamadasm nativas para leer todos los bytes del archivo; Mientras que input.read(buf) (para un tamaño de 8192), solo
 			 * necesitamos 10 llamadas nativas. La diferencia es enorme. */
-			while (input.read(buf) != -1) {
-
-				// Decodifica la matriz de bytes en formato UTF-8
-				System.out.println(new String(buf, StandardCharsets.UTF_8));
-
-				System.out.println("Bytes restantes que se pueden leer: " + input.available());
-			}
+			while (input.read(buf) != -1)
+				System.out.println(new String(buf)); // Decodifica la matriz de bytes en el formato predeterminado del host
 
 		} catch (FileNotFoundException e) {
-			System.err.println("El archivo no existe!\nMas informacion...\n" + e.getMessage());
+			System.err.println("El archivo no existe!\nMas informacion...");
+			e.printStackTrace();
 		} catch (IOException e) {
-			System.err.println("Error de I/O!\nMas informacion...\n");
+			System.err.println("Error de I/O!\nMas informacion...");
 			e.printStackTrace();
 		} finally {
 			try {
 				if (input != null) input.close();
 			} catch (IOException e) {
-				System.err.println("No se pudo cerrar el flujo de entrada!");
+				System.err.println("No se pudo cerrar el flujo de entrada!\nMas informacion...");
+				e.printStackTrace();
 			}
 		}
-
-		return buf;
 
 	}
 
@@ -266,7 +259,7 @@ public class FlujoDeBytes {
 	 * Crea un flujo de salida hacia el archivo de texto y escribe los bytes del mensaje.
 	 * <p>
 	 * FileOutputStream esta diseñado para escribir flujos de bytes sin procesar, como datos de imagen. Para escribir
-	 * secuencias de caracteres, considere usar FileWriter (ver {@link FlujoDeCaracteres#write}).
+	 * secuencias de caracteres, considere usar FileWriter (ver {@link CharacterStream#write}).
 	 * 
 	 * @param mensaje - El mensaje que se va a escribir.
 	 * @param append  - Si es verdadero, los datos se escribiran al final del archivo en lugar de sobreescribirlos.
@@ -284,14 +277,17 @@ public class FlujoDeBytes {
 			output.write(bytes);
 
 		} catch (FileNotFoundException e) {
-			System.err.println("El archivo no existe!\nMas informacion...\n" + e.getMessage());
+			System.err.println("El archivo no existe!\nMas informacion...");
+			e.printStackTrace();
 		} catch (IOException e) {
-			System.err.println("Error de I/O!");
+			System.err.println("Error de I/O!\nMas informacion...");
+			e.printStackTrace();
 		} finally {
 			try {
 				if (output != null) output.close();
 			} catch (IOException e) {
-				System.err.println("No se pudo cerrar el flujo de salida!");
+				System.err.println("No se pudo cerrar el flujo de salida!\nMas informacion...");
+				e.printStackTrace();
 			}
 		}
 
@@ -299,14 +295,12 @@ public class FlujoDeBytes {
 
 	public static void main(String[] args) {
 
-		FlujoDeBytes texture = new FlujoDeBytes(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTURE_PATH + S + TEXTURE_FILENAME));
-		texture.showTextureInfo();
+		ByteStream texture = new ByteStream(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTURE_PATH + S + TEXTURE_FILENAME));
+		// texture.readTexture();
 		// texture.writeTexture(bytes);
 
-		/* No hay ninguna ventaja en particular al usar un String o un File para especificar la ruta del archivo, la unica
-		 * diferencia es que usando un objeto File, este puede ser mas manipulable a travez de sus metodos. */
-		FlujoDeBytes text = new FlujoDeBytes(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + TEXT_FILENAME);
-		// text.readText();
+		ByteStream text = new ByteStream(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + TEXT_FILENAME));
+		text.readText();
 		// text.writeText("Tostado", false);
 
 	}
