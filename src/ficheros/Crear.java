@@ -5,6 +5,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Ubicar el directorio del proyecto actual en cualquier plataforma
+ * https://stackoverflow.com/questions/13011892/how-to-locate-the-path-of-the-current-project-directory-in-java-ide/22011009
+ */
+
 public class Crear {
 
 	public static void main(String[] args) throws IOException {
@@ -45,7 +50,7 @@ public class Crear {
 		} else System.out.println("El archivo no existe!");
 
 		/* Elimina el archivo o directorio indicado por este nombre de ruta abstracto. Si este nombre de ruta denota un
-		 * directorio, entonces el directorio debe estar vacío para ser eliminado. */
+		 * directorio, entonces el directorio debe estar vacï¿½o para ser eliminado. */
 		// file.delete();
 
 	}

@@ -6,8 +6,7 @@ import java.io.*;
  * Clase para leer y escribir archivos de caracteres usando la codificacion predeterminada.
  * Para especificar la codificacion utilize un InputStreamReader o OutputStreamWriter dependiendo del caso.
  * 
- * Ubicar el directorio del proyecto actual en cualquier plataforma
- * https://stackoverflow.com/questions/13011892/how-to-locate-the-path-of-the-current-project-directory-in-java-ide/22011009
+ * 
  * 
  * @author Juan Debenedetti aka Ru$o
  * 
@@ -28,8 +27,8 @@ public class CharacterStream implements Constants {
 	}
 
 	/**
-	 * Crea un flujo de entrada para el archivo de texto y lee los caracteres del buffer decodificadolos en el formato
-	 * predetermiando.
+	 * Crea un flujo de entrada para el archivo de texto y hace llamadas nativas o llamadas a un buffer dependiendo del
+	 * caso, en donde decodifica el "code point" utilizando el formato predetermiando de la plataforma.
 	 *
 	 * Para leer flujos de bytes sin procesar, considere usar un FileInputStream (ver {@link ByteStream#readText}).
 	 */
@@ -37,12 +36,30 @@ public class CharacterStream implements Constants {
 
 		char[] buffer = new char[BUFFER_SIZE];
 
+		int[] bytes = null; // Array para alamcenar bytes con signo (-128 a 127)
+		int[] Ubytes = null; // Array para almacenar bytes sin singo/sin firmar (0 a 255)
+		
+		int codepoint;
+
 		try {
 
 			input = new FileReader(path);
-			// Lee todos los caracteres del array o -1 si llego al final del archivo
-			while (input.read(buffer) != -1) // Caracter leido, como un numero entero en el rango de 0 a 65535 (0x00-0xffff)
+
+			System.out.println("Tamaño: " + input + " bytes");
+			
+			/* Lee el archivo de texto byte por byte, en donde se devuelve el codepoint en cada llamada nativa al sistema operativo,
+			 * resultado bastante ineficiente para lecturas de archivos grandes.
+			 * El -1 indica el final del archivo. Es decir, -1 como int, no como byte. */
+			while ((codepoint = input.read()) != -1) {
+				System.out.println(codepoint);
+			}
+
+			/* Lee los codepoints almacenados en un array de bytes (buffer) aumentando significativamente el rendimiento de
+			 * lectura. */
+			while (input.read(buffer) != -1)
 				System.out.print(buffer);
+
+			// Caracter leido, como un numero entero en el rango de 0 a 65535 (0x00-0xffff)
 
 		} catch (FileNotFoundException e) {
 			System.err.println("El archivo no existe!\nMas informacion...");

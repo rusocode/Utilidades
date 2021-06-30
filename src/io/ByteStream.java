@@ -6,20 +6,21 @@ import java.nio.charset.StandardCharsets;
 /**
  * Las clases FileInputStream y FileOutputStream, hacen posible leer y escribir un archivo como un flujo de bytes.
  * 
- * https://mkyong.com/java/java-read-a-file-from-resources-folder/
- * https://mkyong.com/java/how-to-read-file-in-java-fileinputstream/
- * http://tutorials.jenkov.com/java-io/index.html
- * https://www.programiz.com/java-programming/fileinputstream
+ * -Codificacion Unicode UTF-8
+ * Supongamos que tenemos una hoja de texto con el mensaje "Tostado", entonces si nosotros creamos un flujo
+ * que lo podriamos definir como un "tubo", este se encargaria de transformar el "code point" a su representacion
+ * en un caracter.
+ * Tomando como ejemplo el "code point" U+0054 definido por el formato Unicode, podriamos tomar ese codigo para
+ * decodificarlo a un caracter, en este caso U+0054 representa la T mayuscula.
+ * Unicode es un formato universal y unico, que representa mas de 130000+ caracteres de todo el mundo.
+ * Es importante aclarar que el "code point" es un numero decimal sin firmar, es decir un numero entre 0 y 255 ambos
+ * incluidos, que representa 1 byte en memoria. En el ejemplo anterior usamos el codigo U+0054 que seria 54 en
+ * en hexadecimal, 84 en decimal y finalmente 01010100 en binario, haciendo posible su envio a travez de la red.
  * 
- * Teniendo en cuanta que InputStream es una clase abstracta, entonces se utiliza el cargador de clases para obtener
- * el recurso especificado (un archivo de texto en este caso) como un flujo de bytes.
- * InputStream input = getClass().getClassLoader().getResourceAsStream(TEXTS_PATH + S + FILENAME);
- * 
- * -Rendimiento de lectura
- * Leer un array de bytes a la vez es mas rapido que leer un solo byte a la vez desde un FileInputStream. La
- * diferencia puede ser facilmente un factor 10 o mas en el aumento del rendimiento, al leer un array de bytes en
- * lugar de leer un solo byte a la vez.
- * 
+ * -Rendimiento de lectura usando buffers
+ * Teniendo una base del funcionamiento de Unicode, podriamos decir que el "tubo" almacena el "code point" en un buffer
+ * de x bytes. Usamos un buffer para que el "tubo" pueda leer los "code point" mucho mas rapido que las lecturas nativas
+ * de bytes uno por uno.
  * La aceleracion exacta obtenida depende del tamaño de el array de bytes que lee y del sistema operativo, hardware,
  * etc. de la computadora en la que esta ejecutando el codigo. Debe estudiar los tamaños de buffer del disco duro, etc.
  * del sistema de destino antes de tomar una decision. Sin embargo, los tamaños de buffer de 8 Kb y superiores
@@ -37,24 +38,6 @@ import java.nio.charset.StandardCharsets;
  * La aceleracion exacta que obtiene depende del sistema operativo subyacente y el hardware de la computadora en la que
  * ejecuta el codigo Java. La aceleracion depende de cuestiones como la velocidad de la memoria, la velocidad del disco
  * duro y el tamaño del buffer.
- * 
- * Ejemplo de ineficiencia escribiendo un byte a la vez:
- * 
- * <code>
- * 	for (int i = 0; i < 10; i++)
- * 		output.write(i);
- * </code>
- * 
- * - Flush
- * Cuando escribe datos en un FileOutputStream, los datos pueden almacenarse en cache internamente en la memoria
- * de la computadora y escribirse en el disco en un momento posterior. Por ejemplo, cada vez que hay X cantidad de datos
- * para escribir, o cuando se cierra FileOutputStream.
- * 
- * Si desea asegurarse de que todos los datos escritos se escriban en el disco sin tener que cerrar FileOutputStream,
- * puede llamar al metodo flush(). Llamar a flush() se asegurara de que todos los datos que se han escrito en
- * FileOutputStream hasta ahora, tambien se escriban por completo en el disco.
- * 
- * <code>output.flush();</code>
  * 
  * @author Juan Debenedetti aka Ru$o
  * 
@@ -196,17 +179,15 @@ public class ByteStream implements Constants {
 	}
 
 	/**
-	 * Crea un flujo de entrada para el archivo de texto, lee los caracteres como bytes y los almacena en un array. Este
-	 * metodo se bloquea si aun no hay ninguna entrada disponible.
-	 * <p>
-	 * FileInputStream esta diseñado para leer flujos de bytes sin procesar, como datos de imagen. Para leer
-	 * secuencias de caracteres, considere usar FileReader (ver {@link CharacterStream#read}).
+	 * Crea un flujo de entrada para el archivo de texto y hace llamadas nativas o llamadas a un buffer dependiendo del
+	 * caso, en donde decodifica el "code point" utilizando el formato predetermiando de la plataforma.
+	 * Este metodo se bloquea si aun no hay ninguna entrada disponible.
 	 */
 	private void readText() {
 
 		/* Si el tamaño del archivo es menor al espacio del array, entonces se asignaran caracteres de espacio a los lugares
 		 * sobrantes del array. */
-		byte[] buf = new byte[BUFFER_SIZE];
+		byte[] buffer = new byte[BUFFER_SIZE];
 
 		try {
 
@@ -217,14 +198,14 @@ public class ByteStream implements Constants {
 			System.out.println("Tamaño: " + input.available() + " bytes");
 			System.out.println("-Texto-");
 
-			/* Podemos usar la lectura read(byte[] b) para leer bytes predefinidos en una matriz de bytes; aumentara
+			/* Podemos usar la lectura read(byte[] b) para leer bytes predefinidos en un array de bytes; aumentara
 			 * significativamente el rendimiento de lectura. En este caso lee 8192 bytes a la vez, si es el final del archivo,
 			 * devuelve -1.
 			 * Por ejemplo, si un archivo contiene 81920 bytes (80 kb), el archivo input.read() predeterminado requerira 81920
-			 * llamadasm nativas para leer todos los bytes del archivo; Mientras que input.read(buf) (para un tamaño de 8192), solo
+			 * llamadas nativas para leer todos los bytes del archivo; Mientras que input.read(buf) (para un tamaño de 8192), solo
 			 * necesitamos 10 llamadas nativas. La diferencia es enorme. */
-			while (input.read(buf) != -1)
-				System.out.println(new String(buf)); // Decodifica la matriz de bytes en el formato predeterminado del host
+			while (input.read(buffer) != -1)
+				System.out.println(new String(buffer)); // Decodifica la matriz de bytes en el formato predeterminado del host
 
 		} catch (FileNotFoundException e) {
 			System.err.println("El archivo no existe!\nMas informacion...");
