@@ -88,7 +88,7 @@ public class ByteStream implements Constants {
 			System.out.println("Tamaño: " + input.available() + " bytes");
 
 			/* Lee el archivo de texto byte por byte, en donde se devuelve el code point en cada llamada nativa al sistema
-			 * operativo, resultado bastante ineficiente para lecturas de archivos grandes.
+			 * operativo, resultado bastante ineficiente para lecturas de archivos grandes, pero en este caso lo usamos de prueba.
 			 * El -1 indica el final del archivo. Es decir, -1 como int, no como byte, por lo tanto, es necesario inspeccionar el
 			 * valor devuelto por estas llamadas al metodo read() por medio de un bucle while. */
 			while ((codepoint = input.read()) != -1) {
@@ -156,7 +156,7 @@ public class ByteStream implements Constants {
 	}
 
 	/**
-	 * Crea un flujo de entrada para el archivo de imagen, lee los bytes y los alamcena en un array.
+	 * Crea un flujo de entrada para el archivo de imagen y lee desde el buffer.
 	 */
 	private void readTexture() {
 
@@ -193,7 +193,7 @@ public class ByteStream implements Constants {
 	}
 
 	/**
-	 * Crea un flujo de salida hacia un nuevo archivo de imagen y escribe los bytes de la imagen recibidos en la nueva.
+	 * Crea un flujo de salida hacia un nuevo archivo de imagen y escribe los bytes recibidos en una nueva imagen.
 	 * 
 	 * @param bytes[] - Los bytes leidos de la imagen.
 	 */

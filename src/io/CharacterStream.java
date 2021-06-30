@@ -74,7 +74,8 @@ public class CharacterStream implements Constants {
 	 */
 	private void write(String text, boolean append) {
 
-		// Creando el objeto desde el try se logra cerrar el flujo automaticamente
+		/* Creando el objeto desde el try se logra cerrar el flujo automaticamente, esto es lo que se denomia
+		 * Try-With-Resource. */
 		try (FileWriter output = new FileWriter(path, append)) {
 
 			output.write(text);
