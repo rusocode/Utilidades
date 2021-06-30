@@ -3,10 +3,8 @@ package io;
 import java.io.*;
 
 /**
- * Clase de conveniencia para leer y escribir archivos de caracteres. El constructor de esta clase asumen que la
- * codificacion de caracteres predeterminada y el tamaño de buffer de bytes predeterminado son aceptables. Para
- * especificar estos valores usted mismo, construya un InputStreamReader en un FileInputStream para la lectura o un
- * OutputStreamWriter en un FileOutputStream para la escritura.
+ * Clase para leer y escribir archivos de caracteres usando la codificacion predeterminada.
+ * Para especificar la codificacion utilize un InputStreamReader o OutputStreamWriter dependiendo del caso.
  * 
  * Ubicar el directorio del proyecto actual en cualquier plataforma
  * https://stackoverflow.com/questions/13011892/how-to-locate-the-path-of-the-current-project-directory-in-java-ide/22011009
@@ -30,8 +28,8 @@ public class CharacterStream implements Constants {
 	}
 
 	/**
-	 * Crea un flujo de entrada para el archivo de texto y lee los caracteres del buffer codificados en el formato
-	 * predetermiando de la plataforma.
+	 * Crea un flujo de entrada para el archivo de texto y lee los caracteres del buffer decodificadolos en el formato
+	 * predetermiando.
 	 *
 	 * Para leer flujos de bytes sin procesar, considere usar un FileInputStream (ver {@link ByteStream#readText}).
 	 */
@@ -43,7 +41,7 @@ public class CharacterStream implements Constants {
 
 			input = new FileReader(path);
 			// Lee todos los caracteres del array o -1 si llego al final del archivo
-			while (input.read(buffer) != -1)
+			while (input.read(buffer) != -1) // Caracter leido, como un numero entero en el rango de 0 a 65535 (0x00-0xffff)
 				System.out.print(buffer);
 
 		} catch (FileNotFoundException e) {
@@ -63,8 +61,8 @@ public class CharacterStream implements Constants {
 	}
 
 	/**
-	 * Crea un flujo de salida para el archivo de texto y escribe una cadena utilizando el formato predeterminado de la
-	 * plataforma.
+	 * Crea un flujo de salida hacia el archivo de texto y escribe una cadena utilizando la codificacion en el formato
+	 * predeterminado.
 	 * 
 	 * Para escribir flujos de bytes sin procesar, considere usar un FileOutputStream (ver {@link ByteStream#writeText}).
 	 * 
