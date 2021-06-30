@@ -5,20 +5,20 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * Clase puente entre flujos de bytes y flujos de caracteres, en donde lee bytes y los decodifica en caracteres
- * utilizando un formato especifico.
+ * utilizando el formato especificado.
  * 
  * Un InpuStreamReder se usa especificamente para tratar con caracteres (por lo tanto, cadenas), por lo que manejan
  * codificaciones de juegos de caracteres (utf-8, iso-8859-1, etc.) con elegancia.
  * En conclusion, si esta leyendo un archivo que esta codificado en una codificacion de caracteres que no sea la
  * codificacion char predeterminada del host, entonces debe usar InputStreamReader. La diferencia entre InputStream y
  * InputStreamReader es que InputStream lee como byte, mientras que InputStreamReader se lee como char. Por ejemplo, si
- * el texto de un archivo es "abc", ambos funcionan bien. Pero si el texto esta a compuesto por un a y dos caracteres
+ * el texto de un archivo es "abc", ambos funcionan bien. Pero si el texto esta a compuesto por una a y dos caracteres
  * chinos, entonces InputStream no funciona.
  * 
  * Por defecto, el charset (juego de caracteres) esta especificado en la plataforma, pero en este caso
  * se lo indico explicitamente al constructor de InputStreamReader que use UTF-8.
  * 
- * Agrege un caracter chino (特 = 3 bytes) al archivo de texto para probar la decodificacion de caracteres epeciales por
+ * Agrege un caracter griego (α = 2 bytes) al archivo de texto para probar la decodificacion de caracteres epeciales por
  * InputStreamReader.
  * 
  * FIXME La plataforma se refiere a la JVM, Eclipse o al SO?
@@ -39,13 +39,12 @@ public class SpecialCharacterStream implements Constants {
 	}
 
 	/**
-	 * Crea un flujo de entrada para el archivo de texto y lee los "code point" dentro del buffer decodificadolos en el
-	 * formato especificado.
+	 * Crea un flujo de entrada para el archivo de texto y lee desde el buffer, en donde decodifica el "code point"
+	 * utilizando el formato especificado.
 	 */
 	private void read() {
 
 		char[] buffer = new char[BUFFER_SIZE];
-		int codepoint;
 
 		try {
 
@@ -55,7 +54,8 @@ public class SpecialCharacterStream implements Constants {
 			System.out.println("Archivo: " + file.getName());
 			System.out.println("Ruta: " + file.getPath());
 			System.out.println("Tamaño: " + input.available() + " bytes");
-			System.out.println("-Texto-");
+
+			System.out.println("Decodificando...");
 
 			// Lee todos los caracteres del array o -1 si llego al final del archivo
 			while (charset.read(buffer) != -1) {
