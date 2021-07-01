@@ -2,6 +2,8 @@ package io;
 
 import java.io.*;
 
+import static util.Constants.*;
+
 /**
  * Clase para leer y escribir archivos de caracteres usando la codificacion predeterminada.
  * Para especificar la codificacion utilize un InputStreamReader o OutputStreamWriter dependiendo del caso.
@@ -10,7 +12,7 @@ import java.io.*;
  * 
  */
 
-public class CharacterStream implements Constants {
+public class CharacterStream {
 
 	private String path;
 	private FileReader input;
@@ -89,7 +91,7 @@ public class CharacterStream implements Constants {
 	}
 
 	public static void main(String[] args) {
-		CharacterStream flujo = new CharacterStream(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + TEXT_FILENAME);
+		CharacterStream flujo = new CharacterStream(TEXT);
 		flujo.read();
 		// flujo.write("Rulo quemado", false);
 	}

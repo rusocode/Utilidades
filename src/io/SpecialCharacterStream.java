@@ -3,6 +3,8 @@ package io;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
+import static util.Constants.*;
+
 /**
  * Clase puente entre flujos de bytes y flujos de caracteres, en donde lee bytes y los decodifica en caracteres
  * utilizando el formato especificado.
@@ -27,7 +29,7 @@ import java.nio.charset.StandardCharsets;
  * 
  */
 
-public class SpecialCharacterStream implements Constants {
+public class SpecialCharacterStream {
 
 	private File file;
 	private FileInputStream input;
@@ -86,8 +88,7 @@ public class SpecialCharacterStream implements Constants {
 	}
 
 	public static void main(String[] args) {
-		SpecialCharacterStream file = new SpecialCharacterStream(
-				new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + TEXT_FILENAME));
+		SpecialCharacterStream file = new SpecialCharacterStream(new File(TEXT));
 		file.read();
 
 	}

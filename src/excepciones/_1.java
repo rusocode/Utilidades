@@ -66,6 +66,20 @@ public class _1 {
 
 	public static void main(String[] args) {
 
+		/* Ejemplo de error en tiempo de compilacion usando como ejemplo un error de tipo IOException, que es una excepcion
+		 * comprobada, por lo tanto estamos obligados a encerrar la linea que puede llegar a lanzar esta excepcion en un
+		 * bloque try{}catch(){}. */
+
+		File file = new File("hola.txt");
+
+		try {
+			FileReader input = new FileReader(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		// -----------
+
 		// Ejemplo de error en tiempo de ejecucion (no comprobada)
 
 		int numeros[] = new int[5];
@@ -104,20 +118,6 @@ public class _1 {
 		}
 
 		System.out.println("\nNombre: " + nombre + " - Edad: " + edad);
-
-		// -----------
-
-		/* Ejemplo de error en tiempo de compilacion usando como ejemplo un error de tipo IOException, que es una excepcion
-		 * comprobada, por lo tanto estamos obligados a encerrar la linea que puede llegar a lanzar esta excepcion en un
-		 * bloque try{}catch(){}. */
-
-		File file = new File("hola.txt");
-
-		try {
-			FileReader input = new FileReader(file);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
 
 	}
 

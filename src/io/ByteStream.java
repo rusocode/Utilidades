@@ -2,6 +2,8 @@ package io;
 
 import java.io.*;
 
+import static util.Constants.*;
+
 /**
  * Las clases FileInputStream y FileOutputStream, hacen posible leer y escribir un archivo como un flujo de bytes.
  * 
@@ -47,7 +49,7 @@ import java.io.*;
  * 
  */
 
-public class ByteStream implements Constants {
+public class ByteStream {
 
 	private File file;
 	private FileInputStream input;
@@ -204,7 +206,7 @@ public class ByteStream implements Constants {
 		try {
 
 			// Crea un archivo llamado "dragon_copia.png"
-			output = new FileOutputStream(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTURE_PATH + S + "dragon_copia.png"));
+			output = new FileOutputStream(new File(DIR_PROJECT + s + DIR_ASSETS + s + DIR_TEXTURES + s + "dragon_copia.png"));
 
 			output.write(bytes);
 
@@ -226,11 +228,11 @@ public class ByteStream implements Constants {
 
 	public static void main(String[] args) {
 
-		ByteStream texture = new ByteStream(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTURE_PATH + S + TEXTURE_FILENAME));
+		ByteStream texture = new ByteStream(new File(BOLA_AMARILLA2));
 		texture.readTexture();
 		// texture.writeTexture(bytes);
 
-		ByteStream text = new ByteStream(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + TEXT_FILENAME));
+		ByteStream text = new ByteStream(new File(TEXT));
 		// text.readText();
 		// text.writeText("Tostado", false);
 
