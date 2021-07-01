@@ -66,7 +66,7 @@ import javax.swing.JOptionPane;
  * 
  */
 
-public class _1 {
+public class Excepciones {
 
 	public static void main(String[] args) {
 

@@ -63,7 +63,7 @@ class Reloj {
 
 	public void start2() {
 
-		// Clase interna local, solo se puede usar una vez
+		// Clase interna local
 		class Oyente implements ActionListener {
 
 			public void actionPerformed(ActionEvent e) {
