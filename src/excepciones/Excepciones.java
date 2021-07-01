@@ -3,6 +3,8 @@ package excepciones;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.net.UnknownHostException;
 
 import javax.swing.JOptionPane;
 
@@ -68,16 +70,16 @@ import javax.swing.JOptionPane;
 
 public class Excepciones {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+
+		capturar();
 
 		/* Ejemplo de error en tiempo de compilacion usando como ejemplo un error de tipo IOException, que es una excepcion
 		 * comprobada, por lo tanto estamos obligados a encerrar la linea que puede llegar a lanzar esta excepcion en un
 		 * bloque try{}catch(){}. */
 
-		File file = new File("hola.txt");
-
 		try {
-			FileReader input = new FileReader(file);
+			FileReader input = new FileReader("hola.txt");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -123,6 +125,33 @@ public class Excepciones {
 
 		System.out.println("\nNombre: " + nombre + " - Edad: " + edad);
 
+		// -----------
+
+		// Lanza la excepcion de forma manual
+		throw new ArrayIndexOutOfBoundsException();
+
+	}
+
+	private static void capturar() throws IOException {
+
+		FileReader input = new FileReader("hola.txt");
+
+	}
+
+	/**
+	 * Lanza manualmente una excepcion comprobada, por lo tanto es obligatorio especificar la excepcion en la cabezera del
+	 * metodo con throws o capturarla con un bloque try{}catch(){}, ya que la solucion NO depende del programador.
+	 */
+	private void excepcionComprobada() throws IOException {
+		throw new IOException();
+	}
+
+	/**
+	 * Lanza manualmente una excepcion no comprobada, por lo tanto NO es obligatorio especificar la excepcion en la cabezera
+	 * del metodo con throws o capturarla con un bloque try{}catch(){}, ya que la solucion si depende del programador.
+	 */
+	private void excepcionNoComprobada() {
+		throw new ArrayIndexOutOfBoundsException();
 	}
 
 }
