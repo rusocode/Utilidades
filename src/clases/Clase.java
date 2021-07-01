@@ -1,4 +1,4 @@
-package _LABORATORIO;
+package clases;
 
 import java.lang.reflect.Field;
 

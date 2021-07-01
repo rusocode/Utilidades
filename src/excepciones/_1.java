@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  * Los errores de ejecucion son los errores no comprobados.
  * 
  * Los errores comprobados y no comprobados heredan de la clase Throwable que a su vez esta clase se divide en Error
- * (errores de hardware) y en Exception.
+ * (errores de hardware) y Exception.
  * De la clase Exception heredan algunas clases como IOException, que por obligacion estas excepciones son comprobadas
  * ya que java tiene previsto este tipo de errores, y por otro lado estan las clases como RuntimeException que son
  * excepciones no comprobadas.
@@ -57,6 +57,10 @@ import javax.swing.JOptionPane;
  * Es buena practica especificar en la cabecera del metodo, el tipo de excepcion que podria lanzar para alertar
  * a otros programadores el tipo de excepcion que ese metodo podria lanzar. En caso de que no encuentres el tipo de
  * excepcion, la puedes crear manualmente.
+ *
+ * Traducido: Intenta (try) guardar esta imagen (bola.png), y en el caso de que no lo consigas, capturame (catch) la
+ * excepcion y me ejecutas ste codigo (imagenBola = ImageIO.read(new File("src/img/bola.png"));), evitando asi, la
+ * detencion del programa.
  * 
  * @author Juan Debenedetti aka Ru$o
  * 
