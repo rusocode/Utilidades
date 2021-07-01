@@ -206,7 +206,7 @@ public class ByteStream {
 		try {
 
 			// Crea un archivo llamado "dragon_copia.png"
-			output = new FileOutputStream(new File(DIR_PROJECT + s + DIR_ASSETS + s + DIR_TEXTURES + s + "dragon_copia.png"));
+			output = new FileOutputStream(new File(getTextureDir() + "dragon_copia.png"));
 
 			output.write(bytes);
 

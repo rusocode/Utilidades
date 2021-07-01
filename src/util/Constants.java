@@ -16,16 +16,16 @@ public final class Constants {
 	public static final String s = File.separator;
 
 	// Nombres de archivos
-	public static final String TEXT = getTextDir("text.txt");
-	public static final String BOLA = getTextureDir("bola.png");
-	public static final String BOLA_AMARILLA2 = getTextureDir("bola_amarilla2.png");
+	public static final String TEXT = getTextDir() + "text.txt";
+	public static final String BOLA = getTextureDir() + "bola.png";
+	public static final String BOLA_AMARILLA2 = getTextureDir() + "bola_amarilla2.png";
 
-	private static String getTextDir(final String file) {
-		return DIR_PROJECT + s + DIR_ASSETS + s + DIR_TEXT + s + file;
+	public static String getTextDir() {
+		return DIR_PROJECT + s + DIR_ASSETS + s + DIR_TEXT + s;
 	}
 
-	private static String getTextureDir(final String file) {
-		return DIR_PROJECT + s + DIR_ASSETS + s + DIR_TEXTURES + s + file;
+	public static String getTextureDir() {
+		return DIR_PROJECT + s + DIR_ASSETS + s + DIR_TEXTURES + s;
 	}
 
 }
