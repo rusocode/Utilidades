@@ -224,11 +224,11 @@ public class ByteStream implements Constants {
 	public static void main(String[] args) {
 
 		ByteStream texture = new ByteStream(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTURE_PATH + S + TEXTURE_FILENAME));
-		// texture.readTexture();
+		texture.readTexture();
 		// texture.writeTexture(bytes);
 
 		ByteStream text = new ByteStream(new File(System.getProperty("user.dir") + S + ASSETS + S + TEXTS_PATH + S + TEXT_FILENAME));
-		text.readText();
+		// text.readText();
 		// text.writeText("Tostado", false);
 
 	}
