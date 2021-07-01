@@ -75,13 +75,13 @@ public class ByteStream implements Constants {
 
 			input = new FileInputStream(file);
 
-			/* Inicializa los arrays tomando el tamaño total del archivo.
+			/* Inicializa los arrays de diferentes formas, tomando el tamaño total del archivo.
 			 * 
-			 * FIXME Esto resulta eficiente en terminos de rendimiento ya que no se estarian creando espacios sobrantes como en el
-			 * caso de un array convencional de 8192 ? */
+			 * FIXME ¿Esto resulta eficiente en terminos de rendimiento ya que no se estarian creando espacios sobrantes como en el
+			 * caso de un array convencional de 8192 posiciones? */
 			chars = new char[(int) input.getChannel().size()];
-			bytes = new byte[(int) input.getChannel().size()];
-			Ubytes = new int[(int) input.getChannel().size()];
+			bytes = new byte[(int) file.length()];
+			Ubytes = new int[input.available()];
 
 			System.out.println("Archivo: " + file.getName());
 			System.out.println("Ruta: " + file.getPath());
@@ -157,6 +157,9 @@ public class ByteStream implements Constants {
 
 	/**
 	 * Crea un flujo de entrada para el archivo de imagen y lee desde el buffer.
+	 * 
+	 * Es importante aclarar que el metodo read del flujo de entrada, recibe un array de bytes (buffer), en donde es llenado
+	 * por los bytes del archivo. La lectura la hacemos nosotros mismo a travez del metodo for.
 	 */
 	private void readTexture() {
 
