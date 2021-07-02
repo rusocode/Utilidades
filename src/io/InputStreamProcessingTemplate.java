@@ -5,7 +5,7 @@ import java.io.*;
 // http://tutorials.jenkov.com/java-exception-handling/exception-handling-templates.html
 public class InputStreamProcessingTemplate {
 
-	public static void process(String fileName, InputStreamProcessor processor) {
+	public static void process(String fileName, InputStreamProcessor processor) throws MyException {
 
 		IOException processException = null;
 		InputStream input = null;
