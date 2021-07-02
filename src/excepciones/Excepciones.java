@@ -1,11 +1,6 @@
 package excepciones;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.UnknownHostException;
-
+import java.io.*;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,8 +15,8 @@ import javax.swing.JOptionPane;
  * ya que java tiene previsto este tipo de errores, y por otro lado estan las clases como RuntimeException que son
  * excepciones no comprobadas.
  * La diferencia entre ambas es que las excepciones comprobadas implementan por obligacion la declaracion de control
- * try{}catch(){}, y las no comprobadas, no. Los bloques try{}catch(){} evitan detener el programa por completo
- * capturando la excepcion correspondiente y asi seguir con su ejecucion.
+ * try{}catch(){} o la clausula throws, y las no comprobadas, no. Los bloques try{}catch(){} evitan detener el programa
+ * por completo capturando la excepcion correspondiente y asi seguir con su ejecucion.
  * 
  * -Excepciones comprobadas
  * Son excepciones en el cual el programador no tiene culpa en absoluto. Para este tipo de errores, java ya tiene
@@ -29,7 +24,7 @@ import javax.swing.JOptionPane;
  * contempladas, por ejemplo, un error en el cual nosotros no tengamos la culpa como es el caso de un IOException, que
  * se produce cuando creamos un programa en el cual necesitamos ir a una carpeta de la computadora donde se esta
  * ejecutando ese programa para obtener una imagen y la imagen no esta. Como este tipo de error es AJENO a nuestra
- * voluntad, java lo tiene "planeado" usando el bloque try-catch.
+ * voluntad, java lo tiene "planeado" usando el bloque try{}catch(){}.
  * 
  * -Excepciones no comprobadas
  * Las excepciones no comprobadas, no obligan a implementar el bloque try{}catch(){} ya que se
@@ -53,16 +48,12 @@ import javax.swing.JOptionPane;
  * Capturar siempre lo que lanza un throws o algo mas generico, ej: si lanzo un IOException y capturo con un
  * InpuntMismatchException, daria error. Esto se podria solucionar capturando con la excepcion correcta o con
  * alguna clase mas generica como Exception. Pero si especificamos la excepcion correcta, estamos reduciendo el tipo de
- * error en la jerarquia de herencia sobre las excepciones.
- * La clausula throw (instancia la clase, ej: throw new ArrayIndexOutOfBoundsException) lanza excepciones de forma
- * manual.
+ * error en la jerarquia de herencia sobre las excepciones y ademas indicamos cual es la verdadera excepcion.
+ * La clausula throw (ej: throw new ArrayIndexOutOfBoundsException) lanza excepciones de forma manual.
  * Es buena practica especificar en la cabecera del metodo, el tipo de excepcion que podria lanzar para alertar
- * a otros programadores el tipo de excepcion que ese metodo podria lanzar. En caso de que no encuentres el tipo de
- * excepcion, la puedes crear manualmente.
- *
- * Traducido: Intenta (try) guardar esta imagen (bola.png), y en el caso de que no lo consigas, capturame (catch) la
- * excepcion y me ejecutas ste codigo (imagenBola = ImageIO.read(new File("src/img/bola.png"));), evitando asi, la
- * detencion del programa.
+ * a otros programadores el tipo de excepcion que ese metodo podria lanzar.
+ * Las excepciones se pueden crear manualmente como una simple clase en caso de que no encuentres una definida por la
+ * API de java.
  * 
  * @author Juan Debenedetti aka Ru$o
  * 
@@ -70,9 +61,7 @@ import javax.swing.JOptionPane;
 
 public class Excepciones {
 
-	public static void main(String[] args) throws IOException {
-
-		capturar();
+	public static void main(String[] args) {
 
 		/* Ejemplo de error en tiempo de compilacion usando como ejemplo un error de tipo IOException, que es una excepcion
 		 * comprobada, por lo tanto estamos obligados a encerrar la linea que puede llegar a lanzar esta excepcion en un
@@ -81,8 +70,13 @@ public class Excepciones {
 		try {
 			FileReader input = new FileReader("hola.txt");
 		} catch (FileNotFoundException e) {
+			System.err.println("El archivo no existe!");
 			e.printStackTrace();
 		}
+
+		/* Traducido: Intenta (try) buscar este archivo (hola.txt), y en el caso de que no lo consigas, capturame (catch) la
+		 * excepcion y me ejecutas este codigo (System.err.println("El archivo no existe!");), evitando asi, la detencion del
+		 * programa. */
 
 		// -----------
 
@@ -132,25 +126,23 @@ public class Excepciones {
 
 	}
 
-	private static void capturar() throws IOException {
-
-		FileReader input = new FileReader("hola.txt");
-
-	}
-
 	/**
 	 * Lanza manualmente una excepcion comprobada, por lo tanto es obligatorio especificar la excepcion en la cabezera del
 	 * metodo con throws o capturarla con un bloque try{}catch(){}, ya que la solucion NO depende del programador.
+	 * Es importante remarcar que los metodos que llamen a este metodo, ESTAN obligados a especificar la excepcion en la
+	 * cabezera.
 	 */
-	private void excepcionComprobada() throws IOException {
-		throw new IOException();
+	private static void excepcionComprobada() throws IOException {
+		throw new FileNotFoundException();
 	}
 
 	/**
 	 * Lanza manualmente una excepcion no comprobada, por lo tanto NO es obligatorio especificar la excepcion en la cabezera
 	 * del metodo con throws o capturarla con un bloque try{}catch(){}, ya que la solucion si depende del programador.
+	 * Es importante remarcar que los metodos que llamen a este metodo, NO estan obligados a especificar la excepcion en la
+	 * cabezera.
 	 */
-	private void excepcionNoComprobada() {
+	private static void excepcionNoComprobada() /* throws ArrayIndexOutOfBoundsException */ {
 		throw new ArrayIndexOutOfBoundsException();
 	}
 
