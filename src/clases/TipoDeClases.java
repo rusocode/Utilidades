@@ -27,6 +27,7 @@ import javax.swing.Timer;
  * 
  * -Clas interna anonima
  * Son adecuadas para crear clases de un solo uso
+ * https://www.it-swarm-es.com/es/java/como-se-usan-las-clases-internas-anonimas-en-java/958037391/
  * 
  * @author Juan Debenedetti aka Ru$o
  * 
