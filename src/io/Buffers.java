@@ -113,6 +113,7 @@ public class Buffers {
 			long endTime = System.nanoTime();
 			System.out.println("\nDuracion: " + (endTime - startTime) / 1e6 + " ms");
 
+			// https://es.stackoverflow.com/questions/24374/c%C3%B3mo-calcular-el-tiempo-de-ejecuci%C3%B3n-de-un-proceso-en-java/24378#:~:text=El%20m%C3%A9todo%20System.,mide%20con%20precisi%C3%B3n%20de%20nanosegundos.
 //			long startTime = System.nanoTime();
 //			while ((b = input.read()) != -1)
 //				System.out.print((char) b);
