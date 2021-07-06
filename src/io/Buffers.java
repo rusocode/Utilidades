@@ -98,7 +98,7 @@ public class Buffers {
 
 		try {
 
-			// input = new FileInputStream(file);
+			input = new FileInputStream(file);
 			// charset = new InputStreamReader(input);
 			// characterBuffer = new BufferedReader(charset);
 
@@ -107,12 +107,17 @@ public class Buffers {
 
 			/* El metodo readLine() lee una linea de texto. Una linea se considera terminada por cualquiera de un avance de linea
 			 * ('\n'), un retorno de carro ('\r') o un retorno de carro seguido inmediatamente por un salto de linea. */
+			long startTime = System.nanoTime();
 			while ((linea = characterBuffer.readLine()) != null)
 				System.out.println(linea);
+			long endTime = System.nanoTime();
+			System.out.println("\nDuracion: " + (endTime - startTime) / 1e6 + " ms");
 
-			// TODO Calcular el tiempo
+//			long startTime = System.nanoTime();
 //			while ((b = input.read()) != -1)
 //				System.out.print((char) b);
+//			long endTime = System.nanoTime();
+//			System.out.println("\nDuracion: " + (endTime - startTime) / 1e6 + " ms");
 
 		} catch (FileNotFoundException e) {
 			System.err.println("El archivo no existe!\nMas informacion...");
