@@ -8,19 +8,27 @@ import static util.Constants.*;
  * Las clases FileInputStream y FileOutputStream, hacen posible leer y escribir un archivo como un flujo de bytes.
  * 
  * <p>
- * <b>Codificacion Unicode UTF-8</b><br>
- * Supongamos que tenemos una hoja de texto con el mensaje "Tostado", entonces si nosotros creamos un flujo
+ * <b>Codificacion Unicode en UTF-8</b><br>
+ * Supongamos que tenemos una hoja de texto con un mensaje codificado en bianario, entonces si nosotros creamos un flujo
  * que lo podriamos definir como un "tubo", este se encargaria de transformar el "code point" a su representacion
  * en un caracter en el caso de una lectura. Tomando como ejemplo el code point U+0054 definido por el formato Unicode,
  * este se decodificaria a un caracter representando la letra T mayuscula.
  * Unicode es un formato universal y unico, que representa mas de 130000+ caracteres de todo el mundo.
  * Es importante aclarar que el metodo read() del flujo obtiene el code point como un numero entero entre un rango
- * determinado por Unicode. En el ejemplo anterior usamos el codigo U+0054 que seria 54 en en hexadecimal, 84 en decimal
- * y finalmente 01010100 en binario, haciendo posible su envio a travez de la red. En este caso, el codepoint U+0054
- * ocupa 2 bytes, ya que el byte sobrante...
- * Los bytes sin signo representan los decimales entre 0 y 127 ambos incluidos, que serian los code point usados por el
- * formato ASCII ocupando 1 byte en memoria.
+ * determinado por Unicode. En el ejemplo anterior usamos el code point U+0054 que seria 54 en en hexadecimal, 84 en
+ * decimal y finalmente 01010100 en binario, haciendo posible su envio a travez de la red. Esta transformacion en
+ * binario la hace el formato UTF-8 para que la maquina lo pueda entender.
+ * 
+ * El sitema ASCII representa 128 caracteres, los decimales entre 0 y 127, ambos incluidos, que serian los code
+ * point usandos por el sitema Unicode. ¿Entonces por que el sistema ASCII representa 128 caracteres y no 256 de los que
+ * podria representar con 1 byte? Porque el primer bit del byte se utiliza para controlar si es un numero negativo o
+ * positivo, es decir que el primer bit representa el signo del numero. Entonces se podria decir que 1 byte en java
+ * representa los numeros entre -128 y 127, ambos incluidos, sumando un total de 256 caracteres (el 0 tambien se suma).
+ * A esto se le llama complemento a dos.
+ * 
  * https://stackoverflow.com/questions/3621067/why-is-the-range-of-bytes-128-to-127-in-java#:~:text=8%20Answers&text=The%20answer%20is%20two's%20complement,a%207-bit%20unsigned%20integer.
+ * https://en.wikipedia.org/wiki/Two%27s_complement
+ * https://www.youtube.com/watch?v=M_yNoV3c8DY
  * </p>
  * 
  * <p>
@@ -41,7 +49,7 @@ import static util.Constants.*;
  * </p>
  * 
  * <p>
- * <b>Rendimiento de escritura</b><br>
+ * <b>Rendimiento de escritura usando buffers</b><br>
  * Es mas rapido escribir un array de bytes en un FileOutputStream que escribir un byte a la vez. La
  * aceleracion puede ser bastante significativa, hasta 10 veces mayor o mas. Por lo tanto, se recomienda utilizar los
  * metodos de escritura a travez de un array siempre que sea posible.
@@ -76,8 +84,8 @@ public class ByteStream {
 		int codepoint, i = 0;
 
 		char[] chars = null; // Array para almacenar caracteres
-		byte[] bytes = null; // Array para alamcenar bytes con signo (-128 a 127)
-		int[] Ubytes = null; // Array para almacenar enteros sin singo/sin firmar (0 a 255)
+		byte[] bytes = null; // Array para alamcenar decimales con signo de -128 a 127
+		int[] Ubytes = null; // Array para almacenar decimales sin singo de 0 a 255
 
 		try {
 
@@ -95,14 +103,15 @@ public class ByteStream {
 			System.out.println("Ruta: " + file.getPath());
 			System.out.println("Tamaño: " + input.available() + " bytes");
 
-			/* Lee el archivo de texto byte por byte, en donde se devuelve el code point en cada llamada nativa al sistema
-			 * operativo, resultado bastante ineficiente para lecturas de archivos grandes, pero en este caso lo usamos de prueba.
-			 * El -1 indica el final del archivo. Es decir, -1 como int, no como byte, por lo tanto, es necesario inspeccionar el
+			/* Lee el archivo de texto byte por byte, en donde se devuelve un decimal entre 0 y 255 ambos incluidos en cada llamada
+			 * nativa al sistema operativo, resultado bastante ineficiente para lecturas de archivos grandes, aunque en este caso se
+			 * usan las llamadas nativas como un ejemplo de su funcionamiento.
+			 * El -1 indica el final del archivo, es decir, -1 como int, no como byte, por lo tanto, es necesario inspeccionar el
 			 * valor devuelto por estas llamadas al metodo read() por medio de un bucle while. */
 			while ((codepoint = input.read()) != -1) {
-				chars[i] = (char) codepoint; // Decodifica el code point a caracter
-				bytes[i] = (byte) codepoint; // Decodifica el code point a byte con signo
-				Ubytes[i] = codepoint; // U = unsigned
+				chars[i] = (char) codepoint; // Convierte el decimal a caracter
+				bytes[i] = (byte) codepoint; // Convierte el decimal a byte con signo
+				Ubytes[i] = codepoint; // Decimales sin firmar entre 0 y 255 (U = unsigned)
 				i++;
 			}
 
@@ -138,7 +147,7 @@ public class ByteStream {
 
 		/* Codifica el mensaje en una secuencia de bytes usando el juego de caracteres predeterminado de la plataforma,
 		 * almacenando el resultado en un nuevo array de bytes. */
-		byte[] bytes = mensaje.getBytes(); // TODO "utf-8"?
+		byte[] bytes = mensaje.getBytes();
 
 		try {
 
@@ -204,9 +213,10 @@ public class ByteStream {
 	}
 
 	/**
-	 * Crea un flujo de salida hacia un nuevo archivo de imagen y escribe los bytes recibidos en una nueva imagen.
+	 * Crea un flujo de salida hacia un nuevo archivo de imagen utilizando los bytes recibidos por parametro.
+	 * Es decir, que copia y pega una imagen en una ruta especificada.
 	 * 
-	 * @param bytes[] - Los bytes leidos de la imagen.
+	 * @param bytes[] - Los bytes leidos de la imagen a copiar.
 	 */
 	private void writeTexture(byte[] bytes) {
 		try {
@@ -235,11 +245,11 @@ public class ByteStream {
 	public static void main(String[] args) {
 
 		ByteStream texture = new ByteStream(new File(BOLA_AMARILLA2));
-		// texture.readTexture();
+		texture.readTexture();
 		// texture.writeTexture(bytes);
 
 		ByteStream text = new ByteStream(new File(TEXT));
-		text.readText();
+		// text.readText();
 		// text.writeText("Tostado", false);
 
 	}
