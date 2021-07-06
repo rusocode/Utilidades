@@ -90,7 +90,6 @@ public class SpecialCharacterStream {
 	public static void main(String[] args) {
 		SpecialCharacterStream file = new SpecialCharacterStream(new File(TEXT));
 		file.read();
-
 	}
 
 }

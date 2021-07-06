@@ -7,7 +7,8 @@ import static util.Constants.*;
 /**
  * Las clases FileInputStream y FileOutputStream, hacen posible leer y escribir un archivo como un flujo de bytes.
  * 
- * -Codificacion Unicode UTF-8
+ * <p>
+ * <b>Codificacion Unicode UTF-8</b><br>
  * Supongamos que tenemos una hoja de texto con el mensaje "Tostado", entonces si nosotros creamos un flujo
  * que lo podriamos definir como un "tubo", este se encargaria de transformar el "code point" a su representacion
  * en un caracter en el caso de una lectura. Tomando como ejemplo el code point U+0054 definido por el formato Unicode,
@@ -17,11 +18,13 @@ import static util.Constants.*;
  * determinado por Unicode. En el ejemplo anterior usamos el codigo U+0054 que seria 54 en en hexadecimal, 84 en decimal
  * y finalmente 01010100 en binario, haciendo posible su envio a travez de la red. En este caso, el codepoint U+0054
  * ocupa 2 bytes, ya que el byte sobrante...
- * Los bytes sin signo representan los numeros entre 0 y 127 ambos incluidos, que serian los code point usados por el
+ * Los bytes sin signo representan los decimales entre 0 y 127 ambos incluidos, que serian los code point usados por el
  * formato ASCII ocupando 1 byte en memoria.
  * https://stackoverflow.com/questions/3621067/why-is-the-range-of-bytes-128-to-127-in-java#:~:text=8%20Answers&text=The%20answer%20is%20two's%20complement,a%207-bit%20unsigned%20integer.
+ * </p>
  * 
- * -Rendimiento de lectura usando buffers
+ * <p>
+ * <b>Rendimiento de lectura usando buffers</b><br>
  * Teniendo una base del funcionamiento de Unicode, podriamos decir que el tubo (flujo) almacena el code point en un
  * buffer de una capacidad determinada. Usamos un buffer para que el tubo pueda leer los code point mucho mas rapido que
  * las lecturas nativas de bytes uno por uno.
@@ -35,8 +38,10 @@ import static util.Constants.*;
  * obtendra una mayor aceleracion de un array de bytes mas grande.
  * Probablemente tendra que experimentar con diferentes tamaños de array de bytes y medir el rendimiento de lectura
  * para encontrar el tamaño de array de bytes optimo.
+ * </p>
  * 
- * -Rendimiento de escritura
+ * <p>
+ * <b>Rendimiento de escritura</b><br>
  * Es mas rapido escribir un array de bytes en un FileOutputStream que escribir un byte a la vez. La
  * aceleracion puede ser bastante significativa, hasta 10 veces mayor o mas. Por lo tanto, se recomienda utilizar los
  * metodos de escritura a travez de un array siempre que sea posible.
@@ -44,6 +49,7 @@ import static util.Constants.*;
  * La aceleracion exacta que obtiene depende del sistema operativo subyacente y el hardware de la computadora en la que
  * ejecuta el codigo Java. La aceleracion depende de cuestiones como la velocidad de la memoria, la velocidad del disco
  * duro y el tamaño del buffer.
+ * </p>
  * 
  * @author Juan Debenedetti aka Ru$o
  * 

@@ -47,7 +47,7 @@ public class CharacterStream {
 			while (input.read(buffer) != -1)
 				System.out.print(buffer);
 
-			// Caracter leido, como un numero entero en el rango de 0 a 65535 (0x00-0xffff)
+			// Caracter leido como un numero entero en el rango de 0 a 65535 (0x00-0xffff)
 
 		} catch (FileNotFoundException e) {
 			System.err.println("El archivo no existe!\nMas informacion...");
