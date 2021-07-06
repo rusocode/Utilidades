@@ -229,11 +229,11 @@ public class ByteStream {
 	public static void main(String[] args) {
 
 		ByteStream texture = new ByteStream(new File(BOLA_AMARILLA2));
-		texture.readTexture();
+		// texture.readTexture();
 		// texture.writeTexture(bytes);
 
 		ByteStream text = new ByteStream(new File(TEXT));
-		// text.readText();
+		text.readText();
 		// text.writeText("Tostado", false);
 
 	}

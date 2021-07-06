@@ -24,20 +24,6 @@ public class CharacterStream {
 	 */
 	public CharacterStream(String path) {
 		this.path = path;
-		
-		new InputStreamProcessor() {
-			
-			@Override
-			public void process(InputStream input) throws IOException {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-	}
-
-	private void read2() {
-		InputStreamProcessingTemplate.process(path, );
-		
 	}
 
 	/**

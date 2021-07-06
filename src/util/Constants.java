@@ -7,7 +7,7 @@ public final class Constants {
 	private Constants() {
 	}
 
-	public static final int BUFFER_SIZE = 1024; // https://www.quora.com/Why-are-there-1024-bytes-in-a-kilobyte
+	public static final int BUFFER_SIZE = 250; // https://www.quora.com/Why-are-there-1024-bytes-in-a-kilobyte
 
 	public static final String DIR_PROJECT = System.getProperty("user.dir");
 	public static final String DIR_ASSETS = "assets";
