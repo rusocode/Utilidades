@@ -25,7 +25,9 @@ import javax.swing.Timer;
  * ella el metodo donde estan declaradas.
  * > El codigo resulta mas simple.
  * 
- * TODO Falta la clase anonima
+ * -Clas interna anonima
+ * Son adecuadas para crear clases de un solo uso
+ * https://www.it-swarm-es.com/es/java/como-se-usan-las-clases-internas-anonimas-en-java/958037391/
  * 
  * @author Juan Debenedetti aka Ru$o
  * 
@@ -37,8 +39,9 @@ public class TipoDeClases {
 
 		Reloj reloj = new Reloj(2000, true);
 
-		reloj.start1();
+		// reloj.start1();
 		// reloj.start2();
+		reloj.start3();
 
 		JOptionPane.showMessageDialog(null, "Pulsa OK para detener el temporizador!");
 
@@ -77,6 +80,20 @@ class Reloj {
 		new Timer(intervalo, new Oyente()).start();
 	}
 
+	// https://programmerclick.com/article/60791397920/
+	public void start3() {
+		// Clase interna anonima
+		new Timer(intervalo, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Date ahora = new Date();
+				System.out.println("Te pongo la hr. cada " + (intervalo / 1000) + " segundos: " + ahora);
+				if (sonido) Toolkit.getDefaultToolkit().beep();
+
+			}
+		}).start();
+	}
+
 	// Clase interna
 	private class Oyente implements ActionListener {
 
@@ -88,4 +105,5 @@ class Reloj {
 
 		}
 	}
+
 }
