@@ -84,8 +84,8 @@ public class ByteStream {
 		int codepoint, i = 0;
 
 		char[] chars = null; // Array para almacenar caracteres
-		byte[] bytes = null; // Array para alamcenar decimales con signo de -128 a 127
-		int[] Ubytes = null; // Array para almacenar decimales sin singo de 0 a 255
+		byte[] Int8 = null; // Array para alamcenar decimales con signo de -128 a 127
+		int[] UInt8 = null; // Array para almacenar decimales sin singo de 0 a 255
 
 		try {
 
@@ -96,8 +96,8 @@ public class ByteStream {
 			 * FIXME ¿Esto resulta eficiente en terminos de rendimiento ya que no se estarian creando espacios sobrantes como en el
 			 * caso de un array convencional de 8192 posiciones? */
 			chars = new char[(int) input.getChannel().size()];
-			bytes = new byte[(int) file.length()];
-			Ubytes = new int[input.available()];
+			Int8 = new byte[(int) file.length()];
+			UInt8 = new int[input.available()];
 
 			System.out.println("Archivo: " + file.getName());
 			System.out.println("Ruta: " + file.getPath());
@@ -110,15 +110,15 @@ public class ByteStream {
 			 * valor devuelto por estas llamadas al metodo read() por medio de un bucle while. */
 			while ((codepoint = input.read()) != -1) {
 				chars[i] = (char) codepoint; // Convierte el decimal a caracter
-				bytes[i] = (byte) codepoint; // Convierte el decimal a byte con signo
-				Ubytes[i] = codepoint; // Decimales sin firmar entre 0 y 255 (U = unsigned)
+				Int8[i] = (byte) codepoint; // Convierte el decimal a byte con signo
+				UInt8[i] = codepoint; // Decimales sin firmar entre 0 y 255 (U = unsigned)
 				i++;
 			}
 
 			System.out.println("Decodificando...");
 
-			for (i = 0; i < bytes.length; i++)
-				System.out.println("bloque " + i + " > caracter = " + chars[i] + ", byte = " + bytes[i] + ", Ubyte = " + Ubytes[i]);
+			for (i = 0; i < Int8.length; i++)
+				System.out.println("bloque " + i + " > caracter = " + chars[i] + ", byte = " + Int8[i] + ", Ubyte = " + UInt8[i]);
 
 		} catch (FileNotFoundException e) {
 			System.err.println("El archivo no existe!\nMas informacion...");
@@ -180,7 +180,7 @@ public class ByteStream {
 	 */
 	private void readTexture() {
 
-		byte[] buffer = new byte[BUFFER_SIZE];
+		byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
 
 		try {
 

@@ -17,8 +17,8 @@ import static util.Constants.*;
  * el texto de un archivo es "abc", ambos funcionan bien. Pero si el texto esta a compuesto por una a y dos caracteres
  * chinos, entonces InputStream no funciona.
  * 
- * Por defecto, el charset (juego de caracteres) esta especificado en la plataforma, pero en este caso
- * se lo indico explicitamente al constructor de InputStreamReader que use UTF-8.
+ * Por defecto, el charset (juego de caracteres) esta especificado en la plataforma, pero en este caso se lo indico
+ * explicitamente al constructor de InputStreamReader que use UTF-8.
  * 
  * Agrege un caracter griego (α = 2 bytes) al archivo de texto para probar la decodificacion de caracteres epeciales por
  * InputStreamReader.
@@ -46,7 +46,7 @@ public class SpecialCharacterStream {
 	 */
 	private void read() {
 
-		char[] buffer = new char[BUFFER_SIZE];
+		char[] buffer = new char[DEFAULT_BUFFER_SIZE];
 
 		try {
 

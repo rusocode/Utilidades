@@ -1,0 +1,75 @@
+-Funcionamiento general de internet
+Los datos son enviados en una enorme coleccion de 0s y 1s. Lo que hace que la transferencia de datos en internet sea eficiente, es la
+forma en que estos 0s y 1s se cortan en pequeños trozos conocidos como paquetes y se transmiten.
+Los paquetes se encaminan con un router hacia tu dispositivo.
+Los paquetes llegan como señales de luces por medio de la fibra optica a una antena y esta transmite las señales como ondas electromagneticas en caso
+de tener una red conectada inalambricamente.
+Al llegar a tu IP, los paquetes son reensablados con su numero de secuencia.
+En internet se usan los protocolos para la gestion de este complejo flujo de paquetes de datos, evitando asi, el desorden (tomando como ejemplo el 
+correo postal). Los protocolos establecen las reglas para la conversion de paquetes de datos, la conexion de las direcciones de origen y destino a cada 
+paquete, las reglas para los enrutadores, etc.
+
+-Modelo OSI
+*Niveles OSI orientados a red
+Estos niveles se encargan de gestionar el apartado fisico de la conexion, como el establecimiento de la comunicacion, el enrutamiento de esta y el envio.
+1.Fisica: Gestiona los procedimientos a nivel electronico. Maneja las señales electricas y transmite el flujo de bits.
+2.Enlace de datos: Se ocupa del direccionamiento fisico de los datos, el acceso al medio y deteccion de errores en la transmision. Esta capa construye las tramas 
+de bits con la informacion y ademas otros elementos para controlar que la transmision se haga de forma correcta. El elemento tipico que realiza las 
+funciones de esta capa es el switch o tambien el router, que se encarga de recibir y enviar datos desde un transmisor a un receptor.
+3.Red: Esta capa se encarga de la identificacion del enrutamiento entre dos o mas redes conectadas. Este nivel hara que los datos puedan llegar 
+desde el transmisor al receptor siendo capaz de hacer las conmutaciones y encaminamientos necesarios para que el mensaje llegue. Debido a esto es 
+necesario que esta capa conozca la topologia de la red en la que opera. El protocolo mas conocido que se encarga de esto es el IP.
+4.Transporte: Este nivel se encarga de realizar el transporte de los datos que se encuentran dentro del paquete de transmision desde el origen al destino. Esto 
+se realiza de forma independiente al tipo de red que haya detectado el nivel inferior. La unidad de informacion o PDU antes vista, tambien le llamamos Datagrama 
+si trabaja con el protocolo UDP orientado al envio sin conexion, o Segmento, si trabaja con el protocolo TCP orientado a la conexion.
+Es la capa principal en donde se debe proporcionar la calidad suficiente para que la transmision del mensaje se realice correctamente y con las exigencias del usuario.
+*Niveles OSI orientados a aplicacion
+Estos niveles trabajan directamente con las aplicaciones que solicitan los servicios de niveles inferiores. Se encarga de adecuar la informacion para que 
+sea comprensible desde el punto de vista de un usuario, mediante una interfaz y un formato.
+5.Sesion: Mediante este nivel se podra controlar y mantener activo el enlace entre las maquinas que estan transmitiendo informacion. De esta forma se 
+asegurara que una vez establecida la conexion, esta se mantenga hasta que finalice la transmision.
+Se encargara del mapeo de la direccion de sesion que introduce el usuario para pasarlas a direcciones de transporte con las que trabajan los niveles inferiores.
+6.Presentacion: Como su propio nombre intuye, esta capa se encarga de la representacion de la informacion transmitida. Asegurara que los datos que nos 
+llegan a los usuarios sean entendibles a pesar de los distintos protocolos utilizados tanto en un receptor como en un transmisor. Traducen una cadena 
+de caracteres en algo entendible, por asi decirlo.
+En esta capa no se trabaja con direccionamiento de mensajes ni enlaces, sino que es la encargada de trabajar con el contenido util que nosotros queremos ver.
+7.Aplicacion: Este es el ultimo nivel, y encargado de permitir a los usuarios ejecutar acciones y comandos en sus propias aplicaciones como por ejemplo un boton 
+para enviar un email o un programa para enviar archivos mediante FTP. Permite tambien la comunicacion entre el resto de capas inferiores.
+
+-Encapsulamiento y PDU (unidad minima de informacion) en el Modelo OSI
+El segmento contienen datos con la informacion del protocolo de capa de transporte: puerto origen, puerto destino, numero de paquete y otros datos.
+DATOS (Aplicacion, presentacion y sesion)
+SEGMENTO/PDU (Transporte) Coloca una etiqueta a cada segmento, a este proceso se le denomina encapsulado de la capa de transporte.
+PAQUETE/PDU (Red) El segmento encapsulado es enviado a la capa de red y, es procesado y transformado en un paquete, a este proceso se le denomina encapsulado de la capa de red.
+TRAMA/PDU (Enlace datos) El paquete encapsulado es enviado a la capa de enlaces de datos y, es procesado y transformado un una trama, a este proceso se le denomina encapsulado de la capa de enlaces de datos.
+BIT/PDU (Fisica) Por ultimo, la capa fisica codifica la trama en bits y cada bit es procesado y enviado al medio de transmision.
+-Desencapsulamiento de PDU
+Los bits se decodifican en tramapas, las tramas en paquetes, los paquetes en segmentos, los segmentos en datos y estos son entregados a su destino.
+
+En las redes de computadoras, la direccion MAC es un identificador de 48 bits que corresponde de forma unica a una tarjeta o dispositivo de red. Se la conoce 
+tambien como direccion fisica, y es unica para cada dispositivo. Suele escribirse como numero hexadecimal, como, por ejemplo, 08-00-20-ae-fd-7e o 
+08:00:20:ae:fd:7e (tambien 080020aefd7e).
+
+Los medios de transmision son las vias por las cuales se comunican los datos. Dependiendo de la forma de conducir la señal a traves del medio o soporte 
+fisico, se pueden clasificar en dos grandes grupos: medios de transmision guiados o alambricos y medios de transmision no guiados o inalambricos.
+Medios de transmision guiados:
+-cable de par trenzado (8mbps, 2mhz, 2 a 10km)
+-cable coaxial (10mbps, 350mhz, 1 a 10km)
+-fibra optica (2gbps 2ghz, 10 a 100km)
+Medios de transmision no guiados:
+-radiofrecuencia u ondas de radio
+-microondas (hasta 100 mbps)
+.terrestres
+.satelitales
+-luz
+.infrarroja
+.laser
+
+Las antenas reciben una onda electromagnetica y la convierten en una señal electrica, o reciben una señal electrica y la erradian como una onda electromagnetica.
+
+Tu proveedor de servicios de internet pueden administrar el servidor DNS.
+
+RFC son una serie de publicaciones del grupo de trabajo de ingenieria de internet que describen diversos aspectos del funcionamiento de internet y otras redes 
+de computadoras, como protocolos, procedimientos, etc. y comentarios e ideas sobre estos.​ Cada RFC constituye un monografico o memorando que ingenieros o expertos 
+en la materia han hecho llegar al IETF, el consorcio de colaboracion tecnica mas importante en internet, para que este sea valorado por el resto de la 
+comunidad. De hecho, la traduccion literal de RFC al español es "Peticion de comentarios".

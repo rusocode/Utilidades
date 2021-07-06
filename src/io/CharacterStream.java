@@ -36,7 +36,7 @@ public class CharacterStream {
 
 		/* Si el tamaño del archivo es menor al espacio del array, entonces se asignaran espacios en blanco a los lugares
 		 * sobrantes del array. */
-		char[] buffer = new char[BUFFER_SIZE];
+		char[] buffer = new char[DEFAULT_BUFFER_SIZE];
 
 		try {
 
