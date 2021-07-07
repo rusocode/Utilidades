@@ -94,29 +94,41 @@ public class Buffers {
 	private void readText() {
 
 		String linea;
-		int b;
+
+		byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
+		int codepoint;
 
 		try {
 
 			input = new FileInputStream(file);
-			// charset = new InputStreamReader(input);
-			// characterBuffer = new BufferedReader(charset);
-
 			// Megasimplificacion
 			characterBuffer = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 
-			/* El metodo readLine() lee una linea de texto. Una linea se considera terminada por cualquiera de un avance de linea
+			/* Calcula el tiempo en leer el archivo de texto usando un BufferedReader. DIFERENCIA ENORME!
+			 * El metodo readLine() lee una linea de texto. Una linea se considera terminada por cualquiera de un avance de linea
 			 * ('\n'), un retorno de carro ('\r') o un retorno de carro seguido inmediatamente por un salto de linea. */
 			long startTime = System.nanoTime();
 			while ((linea = characterBuffer.readLine()) != null)
 				System.out.println(linea);
 			long endTime = System.nanoTime();
+
+			/* 1e6 significa 1 multiplicado por 10 elevado a 6, que es 1.000.000.
+			 * Para mas informacion: https://docs.oracle.com/javase/specs/jls/se8/html/jls-3.html#jls-3.10.2 */
 			System.out.println("\nDuracion: " + (endTime - startTime) / 1e6 + " ms");
 
-			// https://es.stackoverflow.com/questions/24374/c%C3%B3mo-calcular-el-tiempo-de-ejecuci%C3%B3n-de-un-proceso-en-java/24378#:~:text=El%20m%C3%A9todo%20System.,mide%20con%20precisi%C3%B3n%20de%20nanosegundos.
+			/* Calcula el tiempo en leer el archivo de texto usando un buffer casero. */
 //			long startTime = System.nanoTime();
-//			while ((b = input.read()) != -1)
-//				System.out.print((char) b);
+//			while (input.read(buffer) != -1) {
+//				for (int i = 0; i < buffer.length; i++)
+//					System.out.print((char) buffer[i]);
+//			}
+//			long endTime = System.nanoTime();
+//			System.out.println("\nDuracion: " + (endTime - startTime) / 1e6 + " ms");
+
+			/* Calcula el tiempo en leer el archivo de texto haciendo llamadas nativas. */
+//			long startTime = System.nanoTime();
+//			while ((codepoint = input.read()) != -1)
+//				System.out.print((char) codepoint);
 //			long endTime = System.nanoTime();
 //			System.out.println("\nDuracion: " + (endTime - startTime) / 1e6 + " ms");
 

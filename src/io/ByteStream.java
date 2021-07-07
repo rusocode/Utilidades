@@ -19,6 +19,8 @@ import static util.Constants.*;
  * decimal y finalmente 01010100 en binario, haciendo posible su envio a travez de la red. Esta transformacion en
  * binario la hace el formato UTF-8 para que la maquina lo pueda entender.
  * 
+ * ASCII (ANSI X3.4) es el codigo estandar estadounidense para el intercambio de informacion. Los primeros 128
+ * caracteres de la codificacion Unicode UTF-16 son los caracteres ASCII.
  * El sitema ASCII representa 128 caracteres, los decimales entre 0 y 127, ambos incluidos, que serian los code
  * point usandos por el sitema Unicode. ¿Entonces por que el sistema ASCII representa 128 caracteres y no 256 de los que
  * podria representar con 1 byte? Porque el primer bit del byte se utiliza para controlar si es un numero negativo o
