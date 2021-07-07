@@ -1,39 +1,10 @@
 package nio;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.ByteBuffer;
-import java.nio.channels.AsynchronousCloseException;
-import java.nio.channels.ClosedByInterruptException;
-import java.nio.channels.ClosedChannelException;
-import java.nio.channels.NonReadableChannelException;
-import java.nio.channels.NonWritableChannelException;
-import java.nio.channels.ReadableByteChannel;
-import java.nio.channels.WritableByteChannel;
+import java.nio.channels.*;
 
 public class BasicChannel {
-
-	public static void main(String[] args) throws IOException {
-
-		FileInputStream input = new FileInputStream("C:\\Users\\juand\\Desktop\\Texto origen.txt"); // Ruta del archivo de entrada
-		/* Devuelve el canal del archivo asociado con este flujo de entrada.
-		 * La posición inicial del canal devuelto sera igual al numero de bytes leidos del archivo hasta ahora. La lectura de
-		 * bytes de este flujo incrementara la posicion del canal. Cambiar la posicion del canal, ya sea explicitamente o
-		 * leyendo, cambiara la posicion del archivo de esta secuencia. */
-		ReadableByteChannel source = input.getChannel();
-
-		FileOutputStream output = new FileOutputStream("C:\\Users\\juand\\Desktop\\Texto destino.txt"); // Ruta del archivo de salida
-		WritableByteChannel destination = output.getChannel();
-
-		copyData(source, destination);
-
-		/* Cierra los flujos del archivo y libera cualquier recurso del sistema asociado con el flujo.
-		 * Si esta secuencia tiene un canal asociado, el canal tambien esta cerrado. */
-		input.close();
-		output.close();
-
-	}
 
 	// Copia los datos de un canal a otro canal o de un archivo a otro archivo
 	private static void copyData(ReadableByteChannel src, WritableByteChannel dest) {
@@ -44,7 +15,7 @@ public class BasicChannel {
 			 * La posicion del nuevo buffer sera cero, su limite sera su capacidad (20 * 1024 = 20Mb), su marca sera indefinida y
 			 * cada uno de sus elementos se inicializara a cero. Tendra una matriz de respaldo y su desplazamiento de matriz sera
 			 * cero. */
-			ByteBuffer buf = ByteBuffer.allocate(20 * 1024);
+			ByteBuffer buffer = ByteBuffer.allocate(20 * 1024);
 
 			/**
 			 * Lee una secuencia de bytes de este canal en el buffer dado.
@@ -69,14 +40,14 @@ public class BasicChannel {
 			 * @param buf - El buffer al que se transferiran los bytes.
 			 * @return El numero de bytes leidos, posiblemente cero o -1 si el canal ha alcanzado el final del flujo.
 			 */
-			while (src.read(buf) != -1) {
+			while (src.read(buffer) != -1) {
 
 				/* Voltea el buffer. El limite se establece en la posicion actual y luego la posicion se establece en cero. Si la marca
 				 * esta definida, se descarta. */
-				buf.flip();
+				buffer.flip();
 
 				// Mientras haya elementos en el buffer (indica si hay elementos entre la posicion actual y el limite)
-				while (buf.hasRemaining()) {
+				while (buffer.hasRemaining()) {
 
 					/**
 					 * Escribe una secuencia de bytes en este canal desde el buffer dado.
@@ -99,7 +70,7 @@ public class BasicChannel {
 					 * @param buf - El buffer del que se recuperaran los bytes.
 					 * @return El numero de bytes escritos, posiblemente cero.
 					 */
-					dest.write(buf);
+					dest.write(buffer);
 				}
 
 				/* Borra este buffer. La posicion se establece en cero, el limite se establece en la capacidad y la marca se descarta.
@@ -108,7 +79,7 @@ public class BasicChannel {
 				 * 
 				 * Este metodo en realidad no borra los datos en el buffer, pero se nombra como si lo hiciera porque se usara con mayor
 				 * frecuencia en situaciones en las que ese podria ser el caso. */
-				buf.clear();
+				buffer.clear();
 
 			}
 
@@ -143,4 +114,26 @@ public class BasicChannel {
 		}
 
 	}
+
+	public static void main(String[] args) throws IOException {
+
+		FileInputStream input = new FileInputStream("C:\\Users\\juand\\Desktop\\Texto origen.txt"); // Ruta del archivo de entrada
+		/* Devuelve el canal del archivo asociado con este flujo de entrada.
+		 * La posición inicial del canal devuelto sera igual al numero de bytes leidos del archivo hasta ahora. La lectura de
+		 * bytes de este flujo incrementara la posicion del canal. Cambiar la posicion del canal, ya sea explicitamente o
+		 * leyendo, cambiara la posicion del archivo de esta secuencia. */
+		ReadableByteChannel source = input.getChannel();
+
+		FileOutputStream output = new FileOutputStream("C:\\Users\\juand\\Desktop\\Texto destino.txt"); // Ruta del archivo de salida
+		WritableByteChannel destination = output.getChannel();
+
+		copyData(source, destination);
+
+		/* Cierra los flujos del archivo y libera cualquier recurso del sistema asociado con el flujo.
+		 * Si esta secuencia tiene un canal asociado, el canal tambien esta cerrado. */
+		input.close();
+		output.close();
+
+	}
+
 }
