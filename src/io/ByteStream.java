@@ -182,20 +182,25 @@ public class ByteStream {
 	 */
 	private void readTexture() {
 
-		byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
+		byte[] buffer = null;
 
 		try {
 
 			input = new FileInputStream(file);
 
+			buffer = new byte[input.available()];
+			
 			System.out.println("Archivo: " + file.getName());
 			System.out.println("Ruta: " + file.getPath());
 			System.out.println("Tamaño: " + input.available() + " bytes");
 
+			long startTime = System.nanoTime();
 			while (input.read(buffer) != -1) {
 				for (int i = 0; i < buffer.length; i++)
 					System.out.println("bloque " + i + " > byte = " + buffer[i]);
 			}
+			long endTime = System.nanoTime();
+			System.out.println("\nDuracion: " + (endTime - startTime) / 1e6 + " ms");
 
 		} catch (FileNotFoundException e) {
 			System.err.println("El archivo no existe!\nMas informacion...");
