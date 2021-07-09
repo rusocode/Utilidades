@@ -2,10 +2,8 @@ package multiprocesos;
 
 public class Hilos {
 
-	/*
-	 * Usa sleep para esperar tiempo. Los wait son para otra cosa (sincronización) y
-	 * sufren de despertares espúreos.
-	 */
+	/* Usa sleep para esperar tiempo. Los wait son para otra cosa (sincronizaciï¿½n) y
+	 * sufren de despertares espï¿½reos. */
 
 	private static final int TIEMPO_BLOQUEADO = 1000;
 
@@ -57,16 +55,14 @@ public class Hilos {
 		private boolean pausado;
 		private final int TIEMPO_BLOQUEADO = 250;
 
-		/*
-		 * Crea un nuevo hilo/proceso/tarea y le pasa como parametro al constructor de
+		/* Crea un nuevo hilo/proceso/tarea y le pasa como parametro al constructor de
 		 * la clase Thread el objeto Runnable (this) que contiene el metodo run() y lo
-		 * alamacena en una instancia de la clase Thread.
-		 */
+		 * alamacena en una instancia de la clase Thread. */
 		public Hilo(String nombre) {
 			hilo = new Thread(this, nombre);
 		}
 
-		// El metodo run() contiene el codigo a ser ejecutado “asincronicamente”
+		// El metodo run() contiene el codigo a ser ejecutado ï¿½asincronicamenteï¿½
 		@Override
 		public void run() {
 
@@ -77,8 +73,7 @@ public class Hilos {
 			try {
 				for (int i = 1; i < 100; i++) {
 
-					if (i == 99)
-						bandera = true;
+					if (i == 99) bandera = true;
 
 					System.out.print(i + " ");
 
@@ -95,8 +90,7 @@ public class Hilos {
 						while (suspendido)
 							wait();
 
-						if (pausado)
-							break;
+						if (pausado) break;
 					}
 
 				}
@@ -104,8 +98,7 @@ public class Hilos {
 				System.out.println(hilo.getName() + " interrumpido.");
 			}
 
-			if (bandera)
-				System.out.println();
+			if (bandera) System.out.println();
 			System.out.println("[" + hilo.getName() + "] finalizado.");
 
 		}
@@ -116,11 +109,9 @@ public class Hilos {
 		}
 
 		// Finaliza un hilo
-		/*
-		 * El metodo join() que se llamamo al final, hace que el programa principal
-		 * espere (synchronized) hasta que el hilo este “muerto” (finalize su
-		 * ejecucion).
-		 */
+		/* El metodo join() que se llamamo al final, hace que el programa principal
+		 * espere (synchronized) hasta que el hilo este ï¿½muertoï¿½ (finalize su
+		 * ejecucion). */
 		private void matar() {
 			try {
 				hilo.join();
