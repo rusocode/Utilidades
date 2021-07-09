@@ -54,9 +54,9 @@ public class PrototipoCalculadora extends JFrame {
 		panelServidor.add(new JToggleButton("RPG"), "growx");
 		panelAjustes.add(panelServidor, "spanx, growx");
 
-		panelAjustes.add(new JToggleButton("�Est�s en grupo?"), "sg 1");
-		panelAjustes.add(new JToggleButton("�Sos renegado?"), "sg 1");
-		panelAjustes.add(new JLabel("�Cu�ntos son?"));
+		panelAjustes.add(new JToggleButton("¿Estas en grupo?"), "sg 1");
+		panelAjustes.add(new JToggleButton("¿Sos renegado?"), "sg 1");
+		panelAjustes.add(new JLabel("¿Cuantos son?"));
 		cbGrupo = new JComboBox<String>();
 		cbGrupo.setModel(new DefaultComboBoxModel<String>(new String[] { "2", "3", "4", "5" }));
 		panelAjustes.add(cbGrupo, "growx, wrap");
@@ -96,8 +96,8 @@ public class PrototipoCalculadora extends JFrame {
 		JPanel panelRadio = new JPanel();
 		panelRadio.setLayout(new MigLayout("insets 0"));
 		ButtonGroup grupo = new ButtonGroup();
-		//JRadioButton mayorExp = new JRadioButton("+exp");
-		//mayorExp.setFont(new Font("Consolas", Font.PLAIN, 11));
+		// JRadioButton mayorExp = new JRadioButton("+exp");
+		// mayorExp.setFont(new Font("Consolas", Font.PLAIN, 11));
 		JRadioButton mayorExp = new JRadioButton("+exp");
 		mayorExp.setFont(new Font("Consolas", Font.PLAIN, 11));
 		JRadioButton menorExp = new JRadioButton("-exp");
@@ -118,7 +118,7 @@ public class PrototipoCalculadora extends JFrame {
 
 		panelNPC.add(new JLabel("Nombre:"));
 		cbNPC = new JComboBox<String>();
-		cbNPC.setModel(new DefaultComboBoxModel<String>(new String[] { "Cr�a de Drag�n Legendario" }));
+		cbNPC.setModel(new DefaultComboBoxModel<String>(new String[] { "Cría de Dragón Legendario" }));
 		panelNPC.add(cbNPC, "wrap");
 		panelNPC.add(new JLabel("Experiencia:"));
 		panelNPC.add(new JTextField(), "spanx");
@@ -144,7 +144,6 @@ public class PrototipoCalculadora extends JFrame {
 		panelCalculadora.add(new JLabel("Total de oro a conseguir:"));
 		panelCalculadora.add(new JTextField());
 		panelCalculadora.add(new JButton("CALCULAR EXPERIENCIA Y ORO"), "spanx, growx");
-		
 
 		getContentPane().add(panelCalculadora, "spanx, growx");
 
@@ -169,11 +168,11 @@ public class PrototipoCalculadora extends JFrame {
 
 			}
 		});
-		
+
 		btnNuevo = new JButton("Boton");
 		btnNuevo.requestFocusInWindow();
 		panel.add(btnNuevo);
-		
+
 		panel.add(btnActualizar, "split 2,alignx right");
 
 		btnAcerca = new JButton("Acerca de...");
