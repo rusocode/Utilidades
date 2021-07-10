@@ -24,20 +24,6 @@ public class CharacterStream {
 	 */
 	public CharacterStream(String path) {
 		this.path = path;
-		
-		new InputStreamProcessor() {
-			
-			@Override
-			public void process(InputStream input) throws IOException {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-	}
-
-	private void read2() {
-		InputStreamProcessingTemplate.process(path, );
-		
 	}
 
 	/**
@@ -45,52 +31,38 @@ public class CharacterStream {
 	 * utilizando el formato predetermiando de la plataforma.
 	 *
 	 * Para leer flujos de bytes sin procesar use un FileInputStream (ver {@link ByteStream#readText}).
-	 * 
-	 * @throws MyException
 	 */
-	private void read() throws MyException {
+	private void read() {
 
-		InputStreamProcessingTemplate.process(path, new InputStreamProcessor() {
+		/* Si el tamaño del archivo es menor al espacio del array, entonces se asignaran espacios en blanco a los lugares
+		 * sobrantes del array. */
+		char[] buffer = new char[DEFAULT_BUFFER_SIZE];
 
-			/* Si el tamaño del archivo es menor al espacio del array, entonces se asignaran espacios en blanco a los lugares
-			 * sobrantes del array. */
-			byte[] buffer = new byte[BUFFER_SIZE];
+		try {
 
-			@Override
-			public void process(InputStream input) throws IOException {
+			input = new FileReader(path);
 
-				while (input.read(buffer) != -1)
-					System.out.println(new String(buffer));
+			/* Lee los "code points" almacenados en el array de bytes (buffer) aumentando significativamente el rendimiento de
+			 * lectura. */
+			while (input.read(buffer) != -1)
+				System.out.print(buffer);
 
+			// Caracter leido como un numero entero en el rango de 0 a 65535 (0x00-0xffff)
+
+		} catch (FileNotFoundException e) {
+			System.err.println("El archivo no existe!\nMas informacion...");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.err.println("Error de I/O!\nMas informacion...");
+			e.printStackTrace();
+		} finally {
+			try {
+				if (input != null) input.close();
+			} catch (IOException e) {
+				System.err.println("No se pudo cerrar el flujo de entrada!\nMas informacion...");
+				e.printStackTrace();
 			}
-
-		});
-
-//		try {
-//
-//			input = new FileReader(path);
-//
-//			/* Lee los "code points" almacenados en el array de bytes (buffer) aumentando significativamente el rendimiento de
-//			 * lectura. */
-//			while (input.read(buffer) != -1)
-//				System.out.print(buffer);
-//
-//			// Caracter leido, como un numero entero en el rango de 0 a 65535 (0x00-0xffff)
-//
-//		} catch (FileNotFoundException e) {
-//			System.err.println("El archivo no existe!\nMas informacion...");
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			System.err.println("Error de I/O!\nMas informacion...");
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				if (input != null) input.close();
-//			} catch (IOException e) {
-//				System.err.println("No se pudo cerrar el flujo de entrada!\nMas informacion...");
-//				e.printStackTrace();
-//			}
-//		}
+		}
 	}
 
 	/**
@@ -118,7 +90,7 @@ public class CharacterStream {
 
 	}
 
-	public static void main(String[] args) throws MyException {
+	public static void main(String[] args) {
 		CharacterStream flujo = new CharacterStream(TEXT);
 		flujo.read();
 		// flujo.write("Rulo quemado", false);

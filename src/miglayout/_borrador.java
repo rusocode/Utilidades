@@ -106,10 +106,10 @@ public class _borrador extends JFrame {
 		// FIXME Brechas
 		// Brechas de rejilla
 		panel4 = new JPanel();
-		/* Los tamaños de las brechas se pueden establecer en las restricciones de columnas y filas al crear el administrador de
-		 * diseño, pj: . */
+		/* Los tamaÃ±os de las brechas se pueden establecer en las restricciones de columnas y filas al crear el administrador de
+		 * diseÃ±o, pj: . */
 		// panel4.setLayout(new MigLayout("", "[][]20[]", "[]20[]"));
-		/* donde la fila y columna de mayor espacio es de 20 pixeles. El espacio entre corchetes [(aquí ...)] es el lugar donde
+		/* donde la fila y columna de mayor espacio es de 20 pixeles. El espacio entre corchetes [(aqui ...)] es el lugar donde
 		 * especifica la fila y el componente. */
 
 //		panel4.add(btn1);
@@ -129,29 +129,29 @@ public class _borrador extends JFrame {
 
 		// add(panel4);
 
-		// FIXME Tamaño de componentes
+		// FIXME TamaÃ±o de componentes
 		panel5 = new JPanel();
 		// panel5.setLayout(new MigLayout());
 
-		/* Los componentes tienen tamaños proporcionados por el marco GUI de alguna manera. Swing incluso tiene soporte para
-		 * tamaño minimo/preferido/maximo, mientras que SWT solo tiene un tamaño preferido. Puede anular estos tamaños y para
-		 * SWT incluso extiende la funcionalidad al proporcionar los tamaños en las restricciones. Los tamaños se especifican en
-		 * el forma: "min:preferido:max" (ej, "10:20:40"). Un tamaño no especificado sera predeterminado para el tamaño del
-		 * componente correspondiente (ej, "10::40" establecera el tamaño minimo y maximo pero conservara el tamaño preferido
-		 * original). Hay muchas formas cortas de establecer los tamaños, por ejemplo, "40!" significa que los tres tamaños se
-		 * establecerán en 40. Ejemplos: */
+		/* Los componentes tienen tamaÃ±os proporcionados por el marco GUI de alguna manera. Swing incluso tiene soporte para
+		 * tamaÃ±o minimo/preferido/maximo, mientras que SWT solo tiene un tamaÃ±o preferido. Puede anular estos tamaÃ±os y para
+		 * SWT incluso extiende la funcionalidad al proporcionar los tamaÃ±os en las restricciones. Los tamaÃ±os se especifican en
+		 * el forma: "min:preferido:max" (ej, "10:20:40"). Un tamaÃ±o no especificado sera predeterminado para el tamaÃ±o del
+		 * componente correspondiente (ej, "10::40" establecera el tamaÃ±o minimo y maximo pero conservara el tamaÃ±o preferido
+		 * original). Hay muchas formas cortas de establecer los tamaÃ±os, por ejemplo, "40!" significa que los tres tamaÃ±os se
+		 * estableceran en 40. Ejemplos: */
 
-//		panel5.add(btn1, "width 10:20:40"); // 10 = tamaño minimo | 20 = tamaño preferido | 40 = tamaño maximo
+//		panel5.add(btn1, "width 10:20:40"); // 10 = tamaÃ±o minimo | 20 = tamaÃ±o preferido | 40 = tamaÃ±o maximo
 //		panel5.add(btn2, "height ::40"); // Lo mismo que "hmax 40"
-//		panel5.add(btn3, "w 40!"); // w = width | 40! = los 3 tamaños se estableceran en 40
+//		panel5.add(btn3, "w 40!"); // w = width | 40! = los 3 tamaÃ±os se estableceran en 40
 //		panel5.add(btn4, "w 100!");
 
 		// add(panel5);
 
-		// FIXME Tamaño de filas y columnas
+		// FIXME Tamaï¿½o de filas y columnas
 		/* Por defecto las filas y columnas (por ejemplo de un JPanel) toman los valores mas grandes de la columa/fila de un
-		 * componente, pero tambien se puede especificar el tamaño de la columna/fila en la restriccion correspondiente,
-		 * normalmente al crear el administrador de diseña. EJ: */
+		 * componente, pero tambien se puede especificar el tamaï¿½o de la columna/fila en la restriccion correspondiente,
+		 * normalmente al crear el administrador de diseï¿½a. EJ: */
 
 //		MigLayout layout = new MigLayout("", // Layout restriccion
 //				"[10][20:30:40][40!][::40]", // Columna restriccion
@@ -167,9 +167,9 @@ public class _borrador extends JFrame {
 //		add(panel5);
 
 		// FIXME Componentes de acoplamiento
-		/* Puede acoplar componentes de forma muy similar a cómo funciona BorderLayout en Swing, excepto que no está limitado a
+		/* Puede acoplar componentes de forma muy similar a cï¿½mo funciona BorderLayout en Swing, excepto que no estï¿½ limitado a
 		 * usar solo un componente por lado y un uso predefinido de las esquinas. Los componentes de acoplamiento son siempre
-		 * colocado fuera del diseño normal. Puede mezclar componentes de rejilla y acoplamiento en el mismo diseño. */
+		 * colocado fuera del diseï¿½o normal. Puede mezclar componentes de rejilla y acoplamiento en el mismo diseï¿½o. */
 		panel8 = new JPanel();
 		panel8.setLayout(new MigLayout());
 
@@ -185,7 +185,7 @@ public class _borrador extends JFrame {
 		/* Tenga en cuenta que un componente acoplado "corta" esa parte, lo que significa que el orden de los componentes
 		 * acoplados es importante para como se usan las esquinas.
 		 * 
-		 * El acoplamiento de componentes es una forma muy buena y facil de diseñar paneles, pero sus usos son muchos. Puedes
+		 * El acoplamiento de componentes es una forma muy buena y facil de diseï¿½ar paneles, pero sus usos son muchos. Puedes
 		 * obtener espaciado alrededor de los componentes de acoplamiento mediante el uso de espacios de componentes normales
 		 * como se describe anteriormente. */
 
@@ -194,11 +194,11 @@ public class _borrador extends JFrame {
 		// FIXME Componentes que crecen y se reducen dependiendo del espacio disponible
 		/* El comportamiento de crecimiento y reduccion tanto para columnas/filas como para componentes son extremadamente
 		 * personalizables con MigLayout. Puede dividirlos en grupos de prioridad de crecimiento/reduccion, de modo que uno o un
-		 * grupo de grupos de crecimiento/reduccion a su tamaño maximo/minimo antes de que se consideren los siguientes grupos.
+		 * grupo de grupos de crecimiento/reduccion a su tamaï¿½o maximo/minimo antes de que se consideren los siguientes grupos.
 		 * Tambien es posible establecer el peso de lo interesado deberian ser crecer/reducirse dentro de ese grupo prioritario.
 		 * Consulte la documentacion para obtener una explicacion detallada, pero es seguro decir que no se quedara sin
-		 * opciones. Los componentes y las filas/columnas se reduciran por defecto a sus tamaños minimos si el espacio es
-		 * escaso. El tamaño minimo de la columna/fila es, por defecto, el tamaño minimo mas grande de sus componentes. Lo que
+		 * opciones. Los componentes y las filas/columnas se reduciran por defecto a sus tamaï¿½os minimos si el espacio es
+		 * escaso. El tamaï¿½o minimo de la columna/fila es, por defecto, el tamaï¿½o minimo mas grande de sus componentes. Lo que
 		 * normalmente es suficiente para saber es como hacer que un componente o fila/columna crezca y/o no permitir que
 		 * encoga. Ejemplos: */
 		panel9 = new JPanel();
@@ -277,7 +277,7 @@ public class _borrador extends JFrame {
 
 		add(panelPrincipal);
 
-		/* Comprime la ventana al tamaño de los componentes, dandole un tamaño a la ventana por asi decirlo sin tener que
+		/* Comprime la ventana al tamaï¿½o de los componentes, dandole un tamaï¿½o a la ventana por asi decirlo sin tener que
 		 * especificar setSize() y setBounds(). */
 		pack();
 

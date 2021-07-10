@@ -10,20 +10,20 @@ import javax.swing.UIManager;
 import net.miginfocom.swing.MigLayout;
 
 /**
- * ¿Que es MigLayout?
+ * Â¿Que es MigLayout?
  * 
- * MigLayout es un administrador de diseño extremadamente flexible que se puede usar de muchas maneras diferentes para
- * diseñar componentes usando una API unica y consistente. Es el motor de diseño mas flexible hasta la fecha, capaz de
- * hacer todo lo que todos los principales administradores de diseño pueden hacer, con una API. Las restricciones
- * basadas en cadenas hacen que el codigo de diseño sea portatil, corto, legible y facil de implementar para los
- * constructores XUL y GUI. Cuenta con unidades extensibles que se pueden usar para diseñar componentes con todo, desde
+ * MigLayout es un administrador de diseï¿½o extremadamente flexible que se puede usar de muchas maneras diferentes para
+ * diseï¿½ar componentes usando una API unica y consistente. Es el motor de diseï¿½o mas flexible hasta la fecha, capaz de
+ * hacer todo lo que todos los principales administradores de diseï¿½o pueden hacer, con una API. Las restricciones
+ * basadas en cadenas hacen que el codigo de diseï¿½o sea portatil, corto, legible y facil de implementar para los
+ * constructores XUL y GUI. Cuenta con unidades extensibles que se pueden usar para diseï¿½ar componentes con todo, desde
  * porcentaje de pantalla hasta milimetros. Acoplamiento, posicionamiento absoluto con enlaces de componentes y potente
- * diseño de cuadricula, son otras de las grandes caracteristicas de este administrador.
+ * diseï¿½o de cuadricula, son otras de las grandes caracteristicas de este administrador.
  * 
  * 
  * Introduccion
  * 
- * Hay tres formas principales de diseñar componentes con MigLayout:
+ * Hay tres formas principales de diseï¿½ar componentes con MigLayout:
  * 
  * -Basado en cuadricula . Este es el modo predeterminado y lo que sucede si solo agrega componentes y no especifica
  * ninguna de las otras formas. Es mas flexible que GridBagLayout y JGoodies 'FormLayout.
@@ -35,11 +35,11 @@ import net.miginfocom.swing.MigLayout;
  * los limites de otros componentes, al contenedor, a los limites de los grupos de componentes o a cualquier combinacion
  * de estos utilizando expresiones Java normales.
  * 
- * MigLayout usa una cuadricula (filas y columnas) con manejo automatico de huecos para el diseño de componentes basicos
+ * MigLayout usa una cuadricula (filas y columnas) con manejo automatico de huecos para el diseï¿½o de componentes basicos
  * predeterminado. La cuadricula es muy flexible y, por ejemplo, se puede ajustar mas que una tabla HTML. Por ejemplo,
  * cada celda se puede dividir para contener mas de un componente, y varias celdas se pueden dividir (fusionar) para que
  * funcionen como una sola celda grande. Las celdas pueden incluso dividirse y dividirse al mismo tiempo, haciendo
- * posible casi cualquier diseño concebible, sin recurrir a "trucos".
+ * posible casi cualquier diseï¿½o concebible, sin recurrir a "trucos".
  * 
  * Los componentes en una celda, si hay mas de uno, fluiran de manera muy similar a FlowLayout, pero con mas control
  * sobre como se hace y sin envoltura involuntaria. El flujo puede ser vertical (y) u horizontal (x) y tanto la
@@ -49,22 +49,22 @@ import net.miginfocom.swing.MigLayout;
  * 
  * Conceptos basicos
  * 
- * Hay tres tipos de restricciones que se pueden establecer en la instancia del administrador de diseño y los
+ * Hay tres tipos de restricciones que se pueden establecer en la instancia del administrador de diseï¿½o y los
  * componentes manejados:
  * 
- * -Restricciones de diseño . Estas restricciones especifican como deberia funcionar la instancia del administrador de
- * diseño en general. Por ejemplo, como todos los componentes dispuestos deben alinearse como un grupo, en caso de que
+ * -Restricciones de diseï¿½o . Estas restricciones especifican como deberia funcionar la instancia del administrador de
+ * diseï¿½o en general. Por ejemplo, como todos los componentes dispuestos deben alinearse como un grupo, en caso de que
  * haya espacio disponible en el contenedor. Esta restriccion se establece directamente en la instancia del
- * administrador de diseño, ya sea en el constructor o utilizando una propiedad get/set estandar. Por ejemplo, "align
+ * administrador de diseï¿½o, ya sea en el constructor o utilizando una propiedad get/set estandar. Por ejemplo, "align
  * center, fill".
  * 
  * -Restricciones de fila/columna . Especifica las propiedades de las filas y columnas de la cuadricula. Se pueden
- * especificar restricciones como los tamaños y las alineaciones predeterminadas. Esta restriccion se establece
- * directamente en la instancia del administrador de diseño, ya sea en el constructor o utilizando una propiedad get/set
+ * especificar restricciones como los tamaï¿½os y las alineaciones predeterminadas. Esta restriccion se establece
+ * directamente en la instancia del administrador de diseï¿½o, ya sea en el constructor o utilizando una propiedad get/set
  * estandar. Por ejemplo, "[35px]10px[50:pref]".
  * 
  * -Restricciones de componentes . Se utilizan para especificar las propiedades y limites de componentes individuales.
- * Esto puede ser, por ejemplo, anular los tamaños verticales y/u horizontales minimos, preferidos o maximos para el
+ * Esto puede ser, por ejemplo, anular los tamaï¿½os verticales y/u horizontales minimos, preferidos o maximos para el
  * componente. Puede establecer la alineacion y si una celda se debe dividir y/o abarcar, y mucho mas. Esta restriccion
  * normalmente se establece como un argumento al agregar el componente al contenedor o al usar las propiedades estandar
  * get/set. Por ejemplo, "width 100px, left".
@@ -90,22 +90,22 @@ public class _1 extends JFrame {
 
 	private void initialize() {
 
-		// Restriccion de diseño para la ventana
+		// Restriccion de diseÃ±o para la ventana
 		// - Flujo horizontal (predeterminado)
 		// - Borde de 10px
-		/* - Establece cada 2 componentes, el modo de ajuste automatico para el diseño. Esto significa que la cuadricula se
+		/* - Establece cada 2 componentes, el modo de ajuste automatico para el diseÃ±o. Esto significa que la cuadricula se
 		 * ajustara a una nueva columna / fila despues de un cierto numero de columnas (para flujo horizontal) o filas (para
 		 * flujo vertical). */
 		MigLayout layout = new MigLayout("insets 10, wrap 2");
 		getContentPane().setLayout(layout);
 
 		panel1 = new JPanel();
-		// Restriccion de diseño
+		// Restriccion de diseÃ±o
 		// - Flujo horizontal ("flowx" predeterminado)
 		panel1.setLayout(new MigLayout());
 		panel1.setBorder(BorderFactory.createTitledBorder("flowx"));
 
-		/* Las restricciones predeterminadas, de diseño o columna/fila, se pueden anular especificando una restriccion dentro
+		/* Las restricciones predeterminadas, de diseÃ±o o columna/fila, se pueden anular especificando una restriccion dentro
 		 * del metodo add() (restriccion de componente). */
 		panel1.add(new JButton("btn1"));
 		panel1.add(new JButton("btn2"), "wrap"); // Salta a la siguiente fila
@@ -120,7 +120,7 @@ public class _1 extends JFrame {
 		add(panel1);
 
 		panel2 = new JPanel();
-		// Restriccion de diseño
+		// Restriccion de diseÃ±o
 		// - Flujo vertical (en este caso cada wrap salta a la siguiente columna)
 		panel2.setLayout(new MigLayout("flowy"));
 		panel2.setBorder(BorderFactory.createTitledBorder("flowy"));
@@ -134,11 +134,11 @@ public class _1 extends JFrame {
 		getContentPane().add(panel2, "grow");
 
 		panel3 = new JPanel();
-		// Restriccion de diseño
+		// Restriccion de diseÃ±o
 		/* Reclama todo el espacio disponible en el contenedor para las columnas/filas. Al menos un componente debe tener un
 		 * "grow" constante para llenar el contenedor. */
 		panel3.setLayout(new MigLayout("fill"));
-		panel3.setBorder(BorderFactory.createTitledBorder("grow de diseño"));
+		panel3.setBorder(BorderFactory.createTitledBorder("grow de diseÃ±o"));
 		panel3.add(new JButton("A"), "grow"); // Llena el componente sobre todo el espacio libre
 		panel3.add(new JButton("B")); // Componente con espacio libre sin llenar
 
@@ -147,7 +147,7 @@ public class _1 extends JFrame {
 		panel4 = new JPanel();
 		// Restriccion de columnas/filas
 		/* Establece un valor predeterminado fill en la primera columna, para que todos los componentes de esa columna se llenen
-		 * (grow) automaticamente. Esta propiedad no afecta el tamaño de la fila, sino el tamaño de los componentes en la
+		 * (grow) automaticamente. Esta propiedad no afecta el tamaÃ±o de la fila, sino el tamaÃ±o de los componentes en la
 		 * fila. */
 		panel4.setLayout(new MigLayout("", "[fill]"));
 		panel4.setBorder(BorderFactory.createTitledBorder("grow de columna"));
@@ -164,7 +164,7 @@ public class _1 extends JFrame {
 
 		panel5.add(new JTextField(15), "wrap");
 		panel5.add(new JTextField(), "growx, wrap"); /* El grow de cada componente se especifica dentro del metodo add() y, se llena hasta el
-														 * componente con mayor tamaño. */
+														 * componente con mayor tamaÃ±o. */
 		panel5.add(new JTextField());
 
 		getContentPane().add(panel5, "wrap");
@@ -181,8 +181,8 @@ public class _1 extends JFrame {
 //
 //		add(panel6);
 
-		/* Es importante comprender que fill, grow y push trabajan en conjunto con el componente para definir el diseño. Tenga
-		 * en cuenta que el relleno (fill) o el crecimiento (grow) es la tendencia de ocupar espacio vacio en el diseño. El area
+		/* Es importante comprender que fill, grow y push trabajan en conjunto con el componente para definir el diseï¿½o. Tenga
+		 * en cuenta que el relleno (fill) o el crecimiento (grow) es la tendencia de ocupar espacio vacio en el diseï¿½o. El area
 		 * de la ventana que no esta ocupada por columnas, filas o componentes se llena con un espacio vacio.
 		 * 
 		 * El push y el grow toman el ancho como parametro opcional. Define qua tan entusiasta deberia crecer la columna o fila
