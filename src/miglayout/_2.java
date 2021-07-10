@@ -32,9 +32,9 @@ public class _2 extends JFrame {
 		panel1.setLayout(new MigLayout());
 		panel1.setBorder(BorderFactory.createTitledBorder("sizegroup"));
 
-		/* sg/sizegroup [nombre]: Da a la fila un nombre de grupo de tamaño. Todas las filas que comparten un nombre de grupo de
-		 * tamaño obtendran el mismo tamaño que la fila con el tamaño minimo/preferido mas grande. Esto es mas util cuando el
-		 * tamaño de la fila no se establece explicitamente y, por lo tanto, esta determinado por el componente mas grande que
+		/* sg/sizegroup [nombre]: Da a la fila un nombre de grupo de tamaÃ±o. Todas las filas que comparten un nombre de grupo de
+		 * tamaÃ±o obtendran el mismo tamaÃ±o que la fila con el tamaÃ±o minimo/preferido mas grande. Esto es mas util cuando el
+		 * tamaÃ±o de la fila no se establece explicitamente y, por lo tanto, esta determinado por el componente mas grande que
 		 * es la fila (s). Se puede usar un nombre vacio "" a menos que haya mas de un grupo. Ejemplo: "sg" o "sg grp1" o
 		 * "sizegroup props".
 		 * 
@@ -43,13 +43,13 @@ public class _2 extends JFrame {
 		 * puede establecer la division, se ignoraran las palabras clave de division posteriores en la celda. El conteo
 		 * predeterminado es infinito si no se especifica, lo que significa que dividir solo colocara todos los componentes que
 		 * vienen en la misma celda. "split", "wrap" o "newline" saldran de la celda dividida. Los dos ultimos se moveran a una
-		 * nueva fila/columna como de costumbre. ¡Nota! "skip" se omitira si se divide y continuara en la siguiente celda.
+		 * nueva fila/columna como de costumbre. Nota! "skip" se omitira si se divide y continuara en la siguiente celda.
 		 * Ejemplo: "split" o "split 4".
 		 * 
-		 * flowy: Pone el diseño en modo de flujo vertical. Esto significa que la siguiente celda esta normalmente debajo y el
+		 * flowy: Pone el diseÃ±o en modo de flujo vertical. Esto significa que la siguiente celda esta normalmente debajo y el
 		 * siguiente componente se colocara alli en lugar de a la derecha. El valor predeterminado es flujo horizontal.
 		 * 
-		 * flowx: Pone el diseño en modo de flujo horizontal.
+		 * flowx: Pone el diseÃ±o en modo de flujo horizontal.
 		 * 
 		 * skip: Omite varias celdas en el flujo. Esto se utiliza para saltar varias celdas antes de buscar la siguiente celda
 		 * libre. El salto se realiza antes de que este componente se coloque en una celda y, por lo tanto, esta celda se ve
@@ -59,9 +59,9 @@ public class _2 extends JFrame {
 
 		panel1.add(new JButton("Boton - sg 1"), "sg 1, split 3, flowy");
 		panel1.add(new JButton("sg 1"), "sg 1");
-		panel1.add(new JButton("sg 1"), "sg 1"); // Obtiene el tamaño del componente mas grande que se encuentre en el mismo grupo (sizegroup)
+		panel1.add(new JButton("sg 1"), "sg 1"); // Obtiene el tamaÃ±o del componente mas grande que se encuentre en el mismo grupo (sizegroup)
 		panel1.add(new JButton("ASD"), "sg 1, skip 1");
-		panel1.add(new JButton("btn4"), "growy"); // Este componente no pertenece al grupo "sg 1" por lo tanto su tamaño es por defecto
+		panel1.add(new JButton("btn4"), "growy"); // Este componente no pertenece al grupo "sg 1" por lo tanto su tamaÃ±o es por defecto
 
 		add(panel1);
 

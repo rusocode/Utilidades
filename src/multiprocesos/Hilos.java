@@ -2,7 +2,7 @@ package multiprocesos;
 
 public class Hilos {
 
-	/* Usa sleep para esperar tiempo. Los wait son para otra cosa (sincronizaci�n) y
+	/* Usa sleep para esperar tiempo. Los wait son para otra cosa (sincronizacion) y
 	 * sufren de despertares esp�reos. */
 
 	private static final int TIEMPO_BLOQUEADO = 1000;

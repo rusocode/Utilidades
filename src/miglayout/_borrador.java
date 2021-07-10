@@ -141,9 +141,9 @@ public class _borrador extends JFrame {
 		 * original). Hay muchas formas cortas de establecer los tamaños, por ejemplo, "40!" significa que los tres tamaños se
 		 * estableceran en 40. Ejemplos: */
 
-//		panel5.add(btn1, "width 10:20:40"); // 10 = tama�o minimo | 20 = tama�o preferido | 40 = tama�o maximo
+//		panel5.add(btn1, "width 10:20:40"); // 10 = tamaño minimo | 20 = tamaño preferido | 40 = tamaño maximo
 //		panel5.add(btn2, "height ::40"); // Lo mismo que "hmax 40"
-//		panel5.add(btn3, "w 40!"); // w = width | 40! = los 3 tama�os se estableceran en 40
+//		panel5.add(btn3, "w 40!"); // w = width | 40! = los 3 tamaños se estableceran en 40
 //		panel5.add(btn4, "w 100!");
 
 		// add(panel5);

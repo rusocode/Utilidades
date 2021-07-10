@@ -138,7 +138,7 @@ public class _1 extends JFrame {
 		/* Reclama todo el espacio disponible en el contenedor para las columnas/filas. Al menos un componente debe tener un
 		 * "grow" constante para llenar el contenedor. */
 		panel3.setLayout(new MigLayout("fill"));
-		panel3.setBorder(BorderFactory.createTitledBorder("grow de dise�o"));
+		panel3.setBorder(BorderFactory.createTitledBorder("grow de diseño"));
 		panel3.add(new JButton("A"), "grow"); // Llena el componente sobre todo el espacio libre
 		panel3.add(new JButton("B")); // Componente con espacio libre sin llenar
 
