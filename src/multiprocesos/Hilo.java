@@ -17,6 +17,8 @@ package multiprocesos;
  * 3. Por sincronizacion estatica.
  * -Cooperacion (comunicacion entre subprocesos en java)
  * 
+ * https://stackoverflow.com/questions/13264726/java-syntax-synchronized-this
+ * 
  */
 public class Hilo implements Runnable {
 
