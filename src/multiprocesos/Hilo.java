@@ -17,7 +17,21 @@ package multiprocesos;
  * 3. Por sincronizacion estatica.
  * -Cooperacion (comunicacion entre subprocesos en java)
  * 
- * https://stackoverflow.com/questions/13264726/java-syntax-synchronized-this
+ * Cita de Sun:
+ * synchronized "Los metodos permiten una estrategia simple para prevenir la interferencia del hilo y los errores de
+ * consistencia de la memoria: si un objeto es visible para mas de un hilo, todas las lecturas o escrituras en las
+ * variables de ese objeto se realizan a traves de metodos sincronizados."
+ * 
+ * En pocas palabras: cuando tiene dos subprocesos que leen y escriben en el mismo 'recurso', digamos una variable
+ * nombrada foo, debe asegurarse de que estos subprocesos accedan a la variable de forma atomica. Sin la palabra clave
+ * synchronized, es posible que el hilo 1 no vea el cambio que se hizo en el hilo 2 foo o, lo que es peor,
+ * puede que solo se haya cambiado a la mitad. Esto no seria lo que logicamente esperas.
+ * 
+ * Tener una comprension basica del modelo de memoria de Java es realmente importante para obtener una concurrencia
+ * correcta.
+ * https://en.wikipedia.org/wiki/Java_memory_model
+ * 
+ * @author Juan Debenedetti aka Ru$o
  * 
  */
 public class Hilo implements Runnable {
