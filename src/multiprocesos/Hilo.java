@@ -37,8 +37,7 @@ package multiprocesos;
 public class Hilo implements Runnable {
 
 	private Thread hilo;
-	private boolean suspendido;
-	private boolean pausado;
+	private boolean suspendido, pausado;
 	private static final int TIEMPO_BLOQUEADO = 250;
 
 	/* Usa sleep para esperar tiempo. Los wait son para otra cosa (sincronizacion) y
@@ -69,21 +68,23 @@ public class Hilo implements Runnable {
 				if ((i % 10) == 0) {
 					System.out.println();
 					// Suspende el hilo temporalmente por una cantidad determinada en milisegundos
-					Thread.sleep(TIEMPO_BLOQUEADO);
+					Thread.sleep(500);
 				}
 
-				/* Con synchronized(this) el bloque esta custodiado por la instancia. En cada caso, solo un hilo puede entrar en el
-				 * bloque. */
-				// Sincroniza los hilos y los deja a la espera mientras esten suspendidos
+				// Sincroniza el bloque para que no mas de un hilo pueda acceder a este bloque
 				synchronized (this) {
 
+					/* Mientras el hilo actual este suspendido, entonces hace que espere hasta que se despierte, normalmente al ser
+					 * notificado o interrumpido. */
 					while (suspendido)
 						wait();
 
+					// Si esta pausado libera el bloqueo
 					if (pausado) break;
 				}
 
 			}
+
 		} catch (InterruptedException e) {
 			System.out.println(hilo.getName() + " interrumpido.");
 		}
@@ -94,7 +95,7 @@ public class Hilo implements Runnable {
 	}
 
 	private void iniciar() {
-		hilo.start(); // Ejecuta el metodo run()
+		hilo.start();
 	}
 
 	private void suspender() {
@@ -102,13 +103,6 @@ public class Hilo implements Runnable {
 		System.out.println("[" + hilo.getName() + "] suspendido.");
 	}
 
-	/**
-	 * Si declara algun metodo como sincronizado, se conoce como metodo sincronizado. El metodo sincronizado se utiliza para
-	 * bloquear un objeto para cualquier recurso compartido. Cuando un hilo invoca un metodo sincronizado, adquiere
-	 * automaticamente el bloqueo para ese objeto y lo libera cuando el hilo completa su tarea.
-	 * 
-	 * Si los metodos no se sincronizan lanza un IllegalMonitorStateException.
-	 */
 	private synchronized void reanudar() {
 		suspendido = false;
 		notify(); // A diferencia de notifyAll(), este despierta uno de los hilos en espera
