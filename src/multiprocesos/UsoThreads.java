@@ -16,63 +16,78 @@ public class UsoThreads {
 
 }
 
-class Pelota {
+class Rectangle {
 
-	// Tamaño de la pelota
-	private static final int TAMX = 15;
-	private static final int TAMY = 15;
+	static int time = 6;
 
-	// Coordenadas xy de la pelota
-	private double x = 250, y = 250;
-	// ?
-	private double dx = 1, dy = 1;
+	// Tamaño del rectangulo
+	private static final int RECTANGLE_WIDTH = 15;
+	private static final int RECTANGLE_HEIGHT = 15;
+	// Coordenadas xy del rectangulo
+	private double x = 0, y = 0;
+	private double dx = 1, dy = 1; // ?
 
-	// Mueve la pelota invirtiendo posicion si choca con limites
+	// Mueve el rectangulo invirtiendo posicion si choca con los limites
 	public void mover(Rectangle2D limites) {
+
+		// FIXME Por que el ancho de la lamina es de 284? Si cree una ventana de 300 de ancho
 
 		x += dx;
 		y += dy;
 
-		// Min X = 0
-		// Max X = 284
-		// System.out.println(limites.getMaxX());
-		if (x < limites.getMinX()) {
-			// System.out.println("asdd");
-			x = limites.getMinX();
-			dx = -dx;
-		}
-
-		if (x >= limites.getMaxX() - TAMX) {
-			x = limites.getMaxX() - TAMX;
-			dx = -dx;
-		}
-
-		if (y < limites.getMinY()) {
-			y = limites.getMinY();
-			dy = -dy;
-		}
-
-		if (y + TAMY >= limites.getMaxY()) {
-			y = limites.getMaxY() - TAMY;
-			dy = -dy;
-		}
+		if (x <= 0) dx = -dx;
+		if (x >= limites.getMaxX() - RECTANGLE_WIDTH) dx = -dx; //
+		if (y <= 0) dy = -dy;
+		if (y > limites.getMaxY() - RECTANGLE_HEIGHT) dy = -dy;
 
 	}
 
 	// Crea e inicializa un Rectangle2D a partir de las coordenadas y el tamaño especificado
 	public Rectangle2D getShape() {
-		return new Rectangle2D.Double(x, y, TAMX, TAMY);
+		return new Rectangle2D.Double(x, y, RECTANGLE_WIDTH, RECTANGLE_HEIGHT);
+	}
+
+}
+
+class RectangleHile implements Runnable {
+
+	private Rectangle rectangle;
+	private Component component;
+
+	public RectangleHile(Rectangle rectangle, Component component) {
+		this.rectangle = rectangle;
+		this.component = component;
+	}
+
+	@Override
+	public void run() {
+		for (int i = 1; i <= 1000; i++) {
+
+			// Dibuja el cuadrado llamando al metodo paintComponent() de la clase Lamina
+			component.paint(component.getGraphics());
+
+			// Mueve el cuadrado
+			rectangle.mover(component.getBounds());
+
+			try {
+				Thread.sleep(Rectangle.time);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
 
 class Lamina extends JPanel {
 
-	private ArrayList<Pelota> pelotas = new ArrayList<Pelota>();
+	private static final long serialVersionUID = -7436842110508511195L;
+
+	private ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
 
 	// Agrega una pelota al ArrayList
-	public void add(Pelota pelota) {
-		pelotas.add(pelota);
+	public void add(Rectangle rectangle) {
+		rectangles.add(rectangle);
 	}
 
 	public void paintComponent(Graphics g) {
@@ -81,11 +96,14 @@ class Lamina extends JPanel {
 
 		Graphics2D g2 = (Graphics2D) g;
 
-		// Controla cada pelota del ArrayList
-		for (Pelota pelota : pelotas)
+		// Controla cada rectangulo del ArrayList
+		for (Rectangle rectangle : rectangles)
 			/* Rellena el interior de una forma utilizando la configuracion del contexto Graphics2D. Los atributos de renderizado
 			 * aplicados incluyen Clip, Transform, Paint y Composite. */
-			g2.fill(pelota.getShape());
+			g2.fill(rectangle.getShape());
+
+		// Asegura que la pantalla este actualizada siendo util para las animaciones
+		Toolkit.getDefaultToolkit().sync();
 
 	}
 
@@ -99,7 +117,7 @@ class Marco extends JFrame {
 
 	public Marco() {
 
-		setTitle("Test");
+		setTitle("Blocks");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(300, 300);
@@ -112,20 +130,30 @@ class Marco extends JFrame {
 	private void initialize() {
 
 		lamina = new Lamina();
+
 		add(lamina, BorderLayout.CENTER);
 
 		JPanel panelBotones = new JPanel();
+
 		crearBoton(panelBotones, "Dale!", new ActionListener() {
-			public void actionPerformed(ActionEvent evento) {
+			public void actionPerformed(ActionEvent evt) {
 				start();
 			}
 		});
+
 		crearBoton(panelBotones, "Salir", new ActionListener() {
-			public void actionPerformed(ActionEvent evento) {
+			public void actionPerformed(ActionEvent evt) {
 				System.exit(0);
 			}
-
 		});
+
+		crearBoton(panelBotones, "Relentizar", new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				Rectangle.time = 1000;
+			}
+		});
+
 		add(panelBotones, BorderLayout.SOUTH);
 	}
 
@@ -137,24 +165,11 @@ class Marco extends JFrame {
 
 	public void start() {
 
-		Pelota pelota = new Pelota();
+		Rectangle rectangle = new Rectangle();
 
-		lamina.add(pelota);
+		lamina.add(rectangle);
 
-		for (int i = 1; i <= 1000; i++) {
-
-			// Dibuja el cuadrado llamando al metodo paintComponent() de la clase Lamina
-			lamina.paint(lamina.getGraphics());
-
-			// Mueve el cuadrado
-			pelota.mover(lamina.getBounds());
-
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		new Thread(new RectangleHile(rectangle, lamina)).start();
 
 	}
 
