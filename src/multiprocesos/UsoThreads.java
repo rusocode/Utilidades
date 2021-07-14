@@ -11,21 +11,21 @@ import java.awt.event.*;
 public class UsoThreads {
 
 	public static void main(String[] args) {
-		JFrame marco = new Marco();
-		marco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		marco.setVisible(true);
+		new Marco().setVisible(true);
 	}
 
 }
 
 class Pelota {
 
+	// Tamaño de la pelota
 	private static final int TAMX = 15;
 	private static final int TAMY = 15;
-	private double x = 0;
-	private double y = 0;
-	private double dx = 1;
-	private double dy = 1;
+
+	// Coordenadas xy de la pelota
+	private double x = 250, y = 250;
+	// ?
+	private double dx = 1, dy = 1;
 
 	// Mueve la pelota invirtiendo posicion si choca con limites
 	public void mover(Rectangle2D limites) {
@@ -33,12 +33,16 @@ class Pelota {
 		x += dx;
 		y += dy;
 
+		// Min X = 0
+		// Max X = 284
+		// System.out.println(limites.getMaxX());
 		if (x < limites.getMinX()) {
+			// System.out.println("asdd");
 			x = limites.getMinX();
 			dx = -dx;
 		}
 
-		if (x + TAMX >= limites.getMaxX()) {
+		if (x >= limites.getMaxX() - TAMX) {
 			x = limites.getMaxX() - TAMX;
 			dx = -dx;
 		}
@@ -55,9 +59,9 @@ class Pelota {
 
 	}
 
-	// Forma de la pelota en su posicion inicial
-	public Ellipse2D getShape() {
-		return new Ellipse2D.Double(x, y, TAMX, TAMY);
+	// Crea e inicializa un Rectangle2D a partir de las coordenadas y el tamaño especificado
+	public Rectangle2D getShape() {
+		return new Rectangle2D.Double(x, y, TAMX, TAMY);
 	}
 
 }
@@ -66,9 +70,9 @@ class Lamina extends JPanel {
 
 	private ArrayList<Pelota> pelotas = new ArrayList<Pelota>();
 
-	// Añadimos pelota a la lamina
-	public void add(Pelota b) {
-		pelotas.add(b);
+	// Agrega una pelota al ArrayList
+	public void add(Pelota pelota) {
+		pelotas.add(pelota);
 	}
 
 	public void paintComponent(Graphics g) {
@@ -77,62 +81,79 @@ class Lamina extends JPanel {
 
 		Graphics2D g2 = (Graphics2D) g;
 
-		for (Pelota b : pelotas)
-			g2.fill(b.getShape());
+		// Controla cada pelota del ArrayList
+		for (Pelota pelota : pelotas)
+			/* Rellena el interior de una forma utilizando la configuracion del contexto Graphics2D. Los atributos de renderizado
+			 * aplicados incluyen Clip, Transform, Paint y Composite. */
+			g2.fill(pelota.getShape());
 
 	}
+
 }
 
 // Marco con lamina y botones
 class Marco extends JFrame {
 
 	private Lamina lamina;
+	private JButton boton;
 
 	public Marco() {
 
-		setBounds(600, 300, 400, 350);
-		setTitle("Rebotes");
+		setTitle("Test");
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(300, 300);
+		setLocationRelativeTo(null);
+
+		initialize();
+
+	}
+
+	private void initialize() {
+
 		lamina = new Lamina();
 		add(lamina, BorderLayout.CENTER);
-		JPanel laminaBotones = new JPanel();
 
-		ponerBoton(laminaBotones, "Dale!", new ActionListener() {
+		JPanel panelBotones = new JPanel();
+		crearBoton(panelBotones, "Dale!", new ActionListener() {
 			public void actionPerformed(ActionEvent evento) {
 				start();
 			}
 		});
-		ponerBoton(laminaBotones, "Salir", new ActionListener() {
+		crearBoton(panelBotones, "Salir", new ActionListener() {
 			public void actionPerformed(ActionEvent evento) {
 				System.exit(0);
 			}
 
 		});
-
-		add(laminaBotones, BorderLayout.SOUTH);
+		add(panelBotones, BorderLayout.SOUTH);
 	}
 
-	// Ponemos botones
-	public void ponerBoton(Container c, String titulo, ActionListener oyente) {
-		JButton boton = new JButton(titulo);
+	private void crearBoton(Container c, String titulo, ActionListener oyente) {
+		boton = new JButton(titulo);
 		c.add(boton);
 		boton.addActionListener(oyente);
 	}
 
-	// Añade pelota y la bota 1000 veces
 	public void start() {
 
 		Pelota pelota = new Pelota();
 
 		lamina.add(pelota);
 
-		for (int i = 1; i <= 3000; i++) {
+		for (int i = 1; i <= 1000; i++) {
+
+			// Dibuja el cuadrado llamando al metodo paintComponent() de la clase Lamina
+			lamina.paint(lamina.getGraphics());
+
+			// Mueve el cuadrado
+			pelota.mover(lamina.getBounds());
+
 			try {
-				Thread.sleep(4);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			pelota.mover(lamina.getBounds());
-			lamina.paint(lamina.getGraphics());
 		}
 
 	}
